@@ -25,7 +25,7 @@ public class Band extends Actor {
     private Fixture fixture;
 
     public Band(World world, TextureAtlas shipAtlas,float x, float y,  float radius){
-        /*  Calculate the angle of separation.*/
+        /*  Calculate the angle of separation between docks. */
         angleOfSeparation= 360/docks.length;
 
         /*Create body and fixture*/

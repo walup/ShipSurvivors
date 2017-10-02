@@ -3,6 +3,7 @@ package com.shipsurvivors.Entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -15,6 +16,10 @@ public class Dock extends Actor {
     private Boolean available;
     private float angle;
 
+    /*Since i don't want to create a lot of bodies, to detect if a weapon is being attached we are going to use rectangles. */
+    private Rectangle dockRect;
+
+
     public Dock(TextureRegion dockTexture,float x, float y , float width, float height, float angle){
         this.dockTexture = dockTexture;
         setBounds(x,y,width,height);
@@ -26,6 +31,7 @@ public class Dock extends Actor {
     public void rotate(float angleDelta,float radius){
         angle = angle+angleDelta;
         setPosition(radius*(float)Math.cos(Math.toRadians(angle)),radius*(float)Math.sin(Math.toRadians(angle)));
+        updateDockRect();
     }
 
     @Override
@@ -40,6 +46,10 @@ public class Dock extends Actor {
 
     public boolean isAvailable(){
         return available;
+    }
+
+    private void updateDockRect(){
+        dockRect.set(getX(),getY(),getWidth(),getHeight());
     }
 
 
