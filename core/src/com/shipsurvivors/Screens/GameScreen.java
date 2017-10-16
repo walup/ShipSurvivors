@@ -5,29 +5,27 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.shipsurvivors.Entities.Ship;
 import com.shipsurvivors.UI.ShipControls;
+import com.shipsurvivors.Utilities.ScrollingBackground;
 
 /**
  * Created by SEO on 25/09/2017.
  */
 
-/*This will be the */
 public class GameScreen extends BaseScreen {
     Stage stage;
-    TiledMap tiledMap;
-    OrthogonalTiledMapRenderer tiledMapRenderer;
     OrthographicCamera camera;
     World world;
     Sound rotatingSound;
     Music gameMusic;
     ShipControls shipControls;
+    Ship ship;
+    ScrollingBackground background;
 
 
 
@@ -37,18 +35,22 @@ public class GameScreen extends BaseScreen {
         //initialize the stage
         stage = new Stage();
         stage.setViewport(new FitViewport(640,360));
+
         //initialize the world
         world = new World(new Vector2(0,0),true);
+
         //initialize the camera
         camera = new OrthographicCamera();
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         camera.setToOrtho(false,w,h);
-        //Initialize the tiled map
+
+        //Initialize the scrolling background
+
 
         //Initialize the controls
-
         shipControls = new ShipControls();
+
         //Initialize the sounds and music
 
 
@@ -70,5 +72,10 @@ public class GameScreen extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
+    }
+
+    private void updateCamera(){
+        /*Follow the ship with the camera.*/
+        camera.position.set(ship.getX(),ship.getY(),0);
     }
 }

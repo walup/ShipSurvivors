@@ -9,4 +9,7 @@ public class Constantes {
     public final static float CARD_HEIGHT = 80;
     public final static float SCREEN_WIDTH = 640;
     public final static float SCREEN_HEIGHT = 360;
+    public final static float MAX_SCROLLING_SPEED = 50;
+    public final static float SCROLL_ACCELERATION = 10;
+
 }

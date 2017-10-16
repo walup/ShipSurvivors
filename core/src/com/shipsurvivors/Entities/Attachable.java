@@ -16,7 +16,6 @@ public class Attachable extends Actor{
     private boolean grabbed;
     private Icon card;
 
-
     public Icon getCard() {
         return card;
     }

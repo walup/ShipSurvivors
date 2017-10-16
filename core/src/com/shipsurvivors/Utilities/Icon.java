@@ -16,17 +16,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
         TextureRegion iconTexture;
         float width,height;
 
-    public Icon(TextureRegion iconTexture, int width, int height){
+    public Icon(TextureRegion iconTexture, float width, float height){
             this.iconTexture = iconTexture;
             this.width = width;
             this.height = height;
         }
 
-    public Icon(Texture texture, int width, int height){
+    public Icon(Texture texture, float width, float height){
             iconTexture = new TextureRegion();
             iconTexture.setTexture(texture);
-            iconTexture.setRegionWidth(width);
-            iconTexture.setRegionHeight(height);
+            iconTexture.setRegionWidth((int)width);
+            iconTexture.setRegionHeight((int)height);
         }
 
     public float getHeight() {

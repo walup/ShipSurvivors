@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.shipsurvivors.Utilities.Constantes;
@@ -18,31 +19,34 @@ import com.shipsurvivors.Utilities.Constantes;
  * Created by SEO on 25/09/2017.
  */
 
-/*This is the ship, it basically is a round thing, which will have a band on its perimeter, where you can attach weapons*/
+/*This is the ship, it will have a band on its perimeter, where you can attach weapons*/
 public class Ship extends Actor {
     private Body body;
     private Fixture fixture;
     private TextureRegion shipTexture;
+    private Band band;
 
 
 
-    public Ship(World world, TextureAtlas shipTextures, float x, float y, float radius){
-        this.shipTexture = shipTextures.findRegion("ship");
+    public Ship(World world, TextureAtlas shipTextures, float x, float y,float width, float height ){
+        /*Extract the ship texture*/
+        shipTexture = shipTextures.findRegion("ship_texture");
 
         /*Set the bounds of the thing*/
-        setBounds(x,y,radius,radius);
+        setBounds(x,y,width,height);
 
+        /*Set the band, it has to have a radius equal to the width of the ship*/
+        band = new Band(world,shipTextures,getX(),getY(),getWidth());
 
         /*Create the body*/
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         world.createBody(bodyDef);
 
-        /*Create the fixture, it is circular*/
+        /*Create the fixture*/
 
-        CircleShape shape = new CircleShape();
-        shape.setRadius(radius/Constantes.PIXELS_IN_METER);
-        shape.setPosition(new Vector2(x/Constantes.PIXELS_IN_METER,y/Constantes.PIXELS_IN_METER));
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width/(2*Constantes.PIXELS_IN_METER),height/(2*Constantes.PIXELS_IN_METER));
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.density = 5;
         fixtureDef.shape = shape;
@@ -53,6 +57,7 @@ public class Ship extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(shipTexture,getX(),getY(),getWidth(),getHeight());
     }
+
 
     public void dispose(){
     }

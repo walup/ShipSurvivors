@@ -3,6 +3,7 @@ package com.shipsurvivors.Entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.shipsurvivors.Utilities.Constantes;
 import com.shipsurvivors.Utilities.Icon;
 
 /**
@@ -17,6 +18,6 @@ public class Weapon extends Attachable {
     public Weapon(TextureAtlas weaponAtlas){
         weaponShootingAnimation = new Animation(1/50f,weaponAtlas.findRegions("shooting"));
         timeElapsed = 0;
-        setCard(new Icon(weaponShootingAnimation.getKeyFrame(0).getTexture(),80,80));
+        setCard(new Icon(weaponShootingAnimation.getKeyFrame(0).getTexture(), (float) Constantes.CARD_WIDTH,(float)Constantes.CARD_HEIGHT));
     }
 }
