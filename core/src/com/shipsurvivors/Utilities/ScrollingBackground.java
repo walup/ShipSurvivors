@@ -17,7 +17,7 @@ public class ScrollingBackground extends Actor {
         setSize(background.getWidth(),Constantes.SCREEN_HEIGHT);
         x1= 0;
         x2 =getWidth();
-        speed = 0;
+        speed = 50;
     }
 
 

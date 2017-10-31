@@ -29,7 +29,7 @@ public class Dock extends Actor {
     /*So all of our angles, will be handled in degrees, which means we have to do the proper conversions when calculating
     * the new position of them when the docks rotate*/
     public void rotate(float angleDelta,float radius){
-        angle = angle+angleDelta;
+        angle = (angle+angleDelta)%360;
         setPosition(radius*(float)Math.cos(Math.toRadians(angle)),radius*(float)Math.sin(Math.toRadians(angle)));
         updateDockRect();
     }
