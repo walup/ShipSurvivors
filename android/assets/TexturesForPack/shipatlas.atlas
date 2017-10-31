@@ -1,0 +1,27 @@
+
+shipatlas.png
+size: 512,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+band_texture
+  rotate: false
+  xy: 317, 52
+  size: 191, 175
+  orig: 191, 175
+  offset: 0, 0
+  index: -1
+crappy_dock
+  rotate: false
+  xy: 2, 2
+  size: 37, 39
+  orig: 37, 39
+  offset: 0, 0
+  index: -1
+ship_texture
+  rotate: false
+  xy: 2, 43
+  size: 313, 184
+  orig: 313, 184
+  offset: 0, 0
+  index: -1
