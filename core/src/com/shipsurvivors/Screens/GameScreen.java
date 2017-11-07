@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.shipsurvivors.Entities.CardContainer;
 import com.shipsurvivors.Entities.Ship;
 import com.shipsurvivors.UI.ShipControls;
 import com.shipsurvivors.Utilities.Constantes;
@@ -28,8 +29,9 @@ public class GameScreen extends BaseScreen {
     private World world;
     private Sound rotatingSound;
     private Music gameMusic;
-    private ShipControls shipControls;
+    public static  ShipControls shipControls;
     private Ship ship;
+    private CardContainer cardContainer;
     private ScrollingBackground background;
 
 
@@ -57,8 +59,10 @@ public class GameScreen extends BaseScreen {
         stage.addActor(background);
         stage.addActor(ship);
 
+        //Initialize the card container
+
         //Initialize the controls
-        shipControls = new ShipControls(ship);
+        shipControls = new ShipControls(ship,cardContainer);
         Gdx.input.setInputProcessor(new GestureDetector(shipControls));
     }
 

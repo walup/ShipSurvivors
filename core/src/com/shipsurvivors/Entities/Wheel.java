@@ -85,7 +85,7 @@ public class Wheel extends Actor {
     }
 
     public void rotate(float impulse){
-        this.body.applyAngularImpulse(impulse*4,true);
+        this.body.applyAngularImpulse(-impulse*4,true);
         setRotating(true);
     }
 

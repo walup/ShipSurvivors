@@ -6,9 +6,9 @@ filter: Nearest,Nearest
 repeat: none
 band_texture
   rotate: false
-  xy: 317, 52
-  size: 191, 175
-  orig: 191, 175
+  xy: 317, 83
+  size: 144, 144
+  orig: 144, 144
   offset: 0, 0
   index: -1
 crappy_dock

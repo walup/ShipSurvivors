@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.shipsurvivors.Entities.CardContainer;
 import com.shipsurvivors.Entities.Ship;
 import com.shipsurvivors.Utilities.Constantes;
 
@@ -14,24 +15,27 @@ import com.shipsurvivors.Utilities.Constantes;
  */
 public class ShipControls implements GestureDetector.GestureListener{
 
-    Ship ship;
-    Vector2 mouseScreenPosition;
-    Vector2 mouseStagePosition;
+    private Ship ship;
+    private CardContainer cardContainer;
+    private Vector2 mouseScreenPosition;
+    private Vector2 mouseStagePosition;
 
-    public ShipControls(Ship ship){
+
+
+    public ShipControls(Ship ship, CardContainer cardContainer){
         this.ship = ship;
+        this.cardContainer = cardContainer;
         mouseScreenPosition = new Vector2();
         mouseStagePosition = new Vector2();
+
     }
+
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
-
         //We want to see where it touched
         mouseScreenPosition.x = x;
         mouseScreenPosition.y = y;
         mouseStagePosition = ship.getStage().screenToStageCoordinates(mouseScreenPosition);
-
-
         return false;
     }
 
@@ -56,11 +60,28 @@ public class ShipControls implements GestureDetector.GestureListener{
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
+
+        if(cardContainer.getStage().hit(mouseStagePosition.x,mouseStagePosition.y,false) == cardContainer){
+            cardContainer.grabCard(mouseStagePosition);
+        }
+
+
         return false;
     }
 
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
+        /*Here when the pan stops we will check first if a card was being grabbed
+        * and also if the final position is that of a dock.*/
+       if(cardContainer.isCardTaken()){
+          //Here goes the condiction that the final position is a dock
+
+
+           //Here we reset the card taken to its original position
+           cardContainer.setCardTaken(false);
+       }
+
+
         return false;
     }
 
