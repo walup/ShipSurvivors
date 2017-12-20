@@ -13,7 +13,9 @@ public class ScrollingBackground extends Actor {
     private float speed;
 
     public ScrollingBackground(Texture background){
+        /*Always apply a filter to the background so it doesn't look crappy*/
         this.background = background;
+        background.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         setSize(background.getWidth(),Constantes.SCREEN_HEIGHT);
         x1= 0;
         x2 =getWidth();

@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created by SEO on 25/09/2017.
  */
 public class Wheel extends Actor {
-    private Dock[] docks = new Dock[3];
+    private Dock[] docks = new Dock[4];
     private boolean rotating;
     private float angleOfSeparation;
     private float angle;
@@ -67,6 +67,7 @@ public class Wheel extends Actor {
         if(rotating){
             angle = (float) Math.toDegrees(body.getAngle());
 
+
             /*Here we check if the thing is still rotating, this is going to be given by a
             * lower angular velocity if the velocity is less than that we will  consider it has stopped*/
             setRotating(Math.abs(body.getAngularVelocity())>LOWEST_ANGULAR_VELOCITY);
@@ -76,7 +77,6 @@ public class Wheel extends Actor {
                 body.setAngularVelocity(0);
             }
         }
-        System.out.println(body.getAngularVelocity());
     }
 
     @Override

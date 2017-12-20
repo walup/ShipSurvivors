@@ -3,6 +3,7 @@ package com.shipsurvivors.Entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.shipsurvivors.Utilities.Constantes;
 import com.shipsurvivors.Utilities.TowerShelve;
@@ -16,13 +17,13 @@ import java.util.Random;
 
 /*The raining tube is where the cards will drop so that you can select them it will only be able to hold five of them at a
  * time */
-public class CardContainer extends Table {
+public class CardContainer extends Actor {
 
     private Attachable[] attachables;
     private final float RAINING_FREQUENCY = 5;
     private float clock;
     private Random random;
-    private Attachable dummyAttachable;
+    private Attachable dummyAttachable = new Attachable();
     private Texture background;
     private boolean cardTaken;
     private Attachable grabbedCard;
@@ -43,9 +44,13 @@ public class CardContainer extends Table {
 
         // Fill the cardIndexedPositions
         for (int i = 0;i<Constantes.CONTAINER_CAPACITY;i++){
+            cardIndexedPositions[i] = new Vector2();
             cardIndexedPositions[i].x = getX() +(Constantes.CARD_CONTAINER_WIDTH-Constantes.CARD_WIDTH)/ 2;
             cardIndexedPositions[i].y = getY() + i*Constantes.CARD_HEIGHT;
         }
+
+        //Initialize other stuff
+        random = new Random();
 
 
     }
@@ -53,19 +58,21 @@ public class CardContainer extends Table {
     @Override
     public void act(float delta) {
         clock+=delta;
+
         if(clock>RAINING_FREQUENCY && container.size()<Constantes.CONTAINER_CAPACITY){
+            clock = 0;
                 dummyAttachable = attachables[random.nextInt(attachables.length)];
 
                 if(dummyAttachable.isFree()) {
                     dummyAttachable.setInContainer(true);
-                    dummyAttachable.setPosition(cardIndexedPositions[container.getTopIndex()+1].x,cardIndexedPositions[container.getTopIndex()+1].y);
+                    dummyAttachable.setPosition(cardIndexedPositions[container.getTopIndex()].x,cardIndexedPositions[container.getTopIndex()].y);
+                    System.out.println(container.size());
                     try {
                         container.push(dummyAttachable);
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    clock = 0;
                 }
         }
 
@@ -91,32 +98,47 @@ public class CardContainer extends Table {
     public void draw(Batch batch, float parentAlpha) {
         //First draw the background
         batch.draw(background,getX(),getY(),getWidth(),getHeight());
-
         //Then draw the cards at its respective positions.
-        for(Attachable attachable:container.getArray()){
-            attachable.draw(batch,parentAlpha);
+        if(container.size()>0) {
+            for (int i = 0;i<container.size();i++) {
+                container.getArray()[i].draw(batch, parentAlpha);
+            }
         }
     }
 
     public void grabCard(Vector2 touchCoordinates){
-        for (Attachable card: container.getArray()){
-            if(card.getStage().hit(touchCoordinates.x,touchCoordinates.y,false) == card ){
-                setCardTaken(true);
-                setGrabbedCard(card);
-                container.grabItem(card);
+        if(container.size()>0) {
+            for (int i = 0;i<container.size();i++) {
+                if (touchedCard(container.getArray()[i], touchCoordinates)) {;
+                    setCardTaken(true);
+                    setGrabbedCard(container.getArray()[i]);
+                    container.grabItem(container.getArray()[i]);
+                    container.getArray()[i].setGrabbed(true);
+
 
                 /*Now assign the new positions to the cards, remember that we have reindexed when we do container.grabItem
                 * this looks kind of bad, but it wont execute too much during the run of the program, plus it is O(n), it could
                 * be worse*/
 
-
-
-                for (int i = 0;i<cardIndexedPositions.length;i++){
-                    container.getArray()[i].setPosition(cardIndexedPositions[i].x,cardIndexedPositions[i].y);
+                    for (int j = 0; j < container.size(); j++) {
+                        container.getArray()[j].setPosition(cardIndexedPositions[j].x, cardIndexedPositions[j].y);
+                    }
                 }
             }
         }
 
     }
+    public void returnCardToDeck(){
+        grabbedCard.setPosition(cardIndexedPositions[container.getIndex(grabbedCard)].x,cardIndexedPositions[container.getIndex(grabbedCard)].y);
+        setCardTaken(false);
+    }
+
+    public Attachable getGrabbedCard() {
+        return grabbedCard;
+    }
+
+    public boolean touchedCard(Attachable attachable,Vector2 coordinates){
+        return coordinates.x>attachable.getX() && coordinates.x<attachable.getX()+attachable.getCard().getWidth() && coordinates.y>attachable.getY() && coordinates.y<attachable.getY()+attachable.getCard().getHeight();
+ }
 
 }

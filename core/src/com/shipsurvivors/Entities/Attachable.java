@@ -1,6 +1,7 @@
 package com.shipsurvivors.Entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.shipsurvivors.Utilities.Icon;
 
@@ -16,6 +17,10 @@ public class Attachable extends Actor{
     private boolean inContainer;
     private boolean grabbed;
     private Icon card;
+    /*This pointer, is one which we will be modifying while the plyer is panning*/
+    private Vector2 pointer = new Vector2();
+
+
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -23,6 +28,7 @@ public class Attachable extends Actor{
         * drawAttachable*/
         if(inContainer || grabbed){
             batch.draw(card.getIconTexture(),getX(),getY(),card.getWidth(),card.getHeight());
+
         }
         else if(attached){
             drawAttachable(batch,parentAlpha);
@@ -33,7 +39,16 @@ public class Attachable extends Actor{
     public void act(float delta) {
         if(isGrabbed()){
             //Then follow the mouse of the player.
+            setPosition(pointer.x,pointer.y);
         }
+    }
+
+    public void setPointer(Vector2 pointer){
+        this.pointer = pointer;
+    }
+
+    public Vector2 getPointer() {
+        return pointer;
     }
 
     public Icon getCard() {
@@ -56,6 +71,10 @@ public class Attachable extends Actor{
         return inContainer;
     }
 
+    public void setGrabbed(boolean grabbed){
+        this.grabbed = grabbed;
+    }
+
     public void setInContainer(boolean inHand) {
         this.inContainer = inHand;
     }
@@ -70,10 +89,11 @@ public class Attachable extends Actor{
 
 
 
-    public void drawAttachable(Batch batch, float parentAlpha){
+    public void drawAttachable(Batch batch, float parentAlpha) {
         /*This is a method that you should fill to draw your particular attachable. */
 
     }
+
 
 
 }

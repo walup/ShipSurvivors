@@ -1,7 +1,6 @@
 package com.shipsurvivors.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -15,7 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.shipsurvivors.Entities.CardContainer;
 import com.shipsurvivors.Entities.Ship;
+import com.shipsurvivors.Entities.Weapons.ArduinoPistol;
 import com.shipsurvivors.UI.ShipControls;
+import com.shipsurvivors.Utilities.Armory;
 import com.shipsurvivors.Utilities.Constantes;
 import com.shipsurvivors.Utilities.ScrollingBackground;
 
@@ -33,7 +34,7 @@ public class GameScreen extends BaseScreen {
     private Ship ship;
     private CardContainer cardContainer;
     private ScrollingBackground background;
-
+    private Armory armory;
 
 
     public GameScreen(MainGame game) {
@@ -45,7 +46,7 @@ public class GameScreen extends BaseScreen {
         world = new World(new Vector2(0,0),true);
 
         //Initialize the scrolling background
-       background = new ScrollingBackground(new Texture(Gdx.files.internal("crappy_background.png")));
+       background = new ScrollingBackground(new Texture(Gdx.files.internal("background.png")));
 
 
         //Initialize the sounds and music
@@ -55,14 +56,23 @@ public class GameScreen extends BaseScreen {
     public void show() {
         //We initialize the ship
         ship = new Ship(world,new TextureAtlas(Gdx.files.internal("shipatlas.atlas")),20,20, Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
-        //Add everything to the stage
-        stage.addActor(background);
-        stage.addActor(ship);
 
+
+        //Create samples of the weapons for cloning
+        ArduinoPistol arduinoPistol = new ArduinoPistol(new TextureAtlas(Gdx.files.internal("Guns/arduinogunatlas.atlas")),new Texture(Gdx.files.internal("Cards/arduino_pistol_card.png")));
         //Initialize the card container
+        armory = new Armory(Gdx.files.internal("weapons.json"));
+
+        cardContainer = new CardContainer(armory.weaponsRequest("arduino_gun",5),new Texture(Gdx.files.internal("card_container_background.png")));
+
 
         //Initialize the controls
         shipControls = new ShipControls(ship,cardContainer);
+
+        //Add everything to the stage
+        stage.addActor(background);
+        stage.addActor(ship);
+        stage.addActor(cardContainer);
         Gdx.input.setInputProcessor(new GestureDetector(shipControls));
     }
 

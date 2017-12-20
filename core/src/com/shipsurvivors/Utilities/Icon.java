@@ -29,6 +29,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
             iconTexture.setRegionWidth((int)width);
             iconTexture.setRegionHeight((int)height);
             iconTexture.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            this.height = height;
+            this.width = width;
         }
 
     public float getHeight() {

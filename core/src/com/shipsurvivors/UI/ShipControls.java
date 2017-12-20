@@ -60,9 +60,15 @@ public class ShipControls implements GestureDetector.GestureListener{
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-
-        if(cardContainer.getStage().hit(mouseStagePosition.x,mouseStagePosition.y,false) == cardContainer){
+        if(cardContainer.getStage().hit(mouseStagePosition.x,mouseStagePosition.y,false) == cardContainer && !cardContainer.isCardTaken()){
             cardContainer.grabCard(mouseStagePosition);
+        }
+        else if(cardContainer.isCardTaken()){
+            /*If a card is taken then we will update its pointer so that it goes where we are dragging our finger*/
+            mouseScreenPosition.x = x;
+            mouseScreenPosition.y = y;
+            mouseStagePosition = cardContainer.getStage().screenToStageCoordinates(mouseScreenPosition);
+            cardContainer.getGrabbedCard().setPointer(mouseStagePosition);
         }
 
 
@@ -71,14 +77,16 @@ public class ShipControls implements GestureDetector.GestureListener{
 
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
+        System.out.println("hey");
         /*Here when the pan stops we will check first if a card was being grabbed
         * and also if the final position is that of a dock.*/
        if(cardContainer.isCardTaken()){
           //Here goes the condiction that the final position is a dock
 
 
-           //Here we reset the card taken to its original position
-           cardContainer.setCardTaken(false);
+
+           //For now we are just going to return the card to the deck
+          cardContainer.returnCardToDeck();
        }
 
 
