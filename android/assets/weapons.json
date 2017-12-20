@@ -1,0 +1,15 @@
+{
+
+
+  "weapon":{
+    "arduino_gun":{
+      "card":"Cards/arduino_pistol_card.png",
+      "atlas":"Guns/arduinogunatlas.atlas"
+    }
+  }
+
+
+
+
+
+}
