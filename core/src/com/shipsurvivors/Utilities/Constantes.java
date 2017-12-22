@@ -21,6 +21,10 @@ public class Constantes {
     public final static float WHEEL_HEIGHT = 144;
     public final static float MAX_ROTATION_IMPULSE = 1;
     public final static int CONTAINER_CAPACITY = 5;
+    public final static float DOCK_WIDTH = 50;
+    public final static float DOCK_HEIGHT = 50;
+    public final static float WEAPON_WIDTH = 60;
+    public final static float WEAPON_HEIGHT = 40;
 
 
 }

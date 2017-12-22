@@ -1,6 +1,7 @@
 package com.shipsurvivors.Screens;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
@@ -13,8 +14,10 @@ public class MainMenuScreen extends BaseScreen {
     Skin skin;
     TextButton startGameButton;
     TextButton settingsButton;
+    TextButton sotryButton;
     TextureAtlas menuAtlas;
     Table menuLayout;
+    Stage stage;
 
 
     public MainMenuScreen(MainGame game) {
@@ -29,5 +32,10 @@ public class MainMenuScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
     }
 }

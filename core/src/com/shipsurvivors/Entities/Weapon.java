@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Json;
@@ -18,15 +19,20 @@ import com.shipsurvivors.Utilities.Icon;
  */
 public class Weapon extends Attachable {
     Animation weaponShootingAnimation;
+    TextureRegion standingTexture;
     boolean shooting;
-    boolean inActiveDock;
     float elapsedTime;
 
 
     public Weapon(TextureAtlas weaponAtlas, Texture cardTexture){
         weaponShootingAnimation = new Animation(1/50f,weaponAtlas.findRegions("shooting"));
+        System.out.println("numb of frames" +weaponShootingAnimation.getKeyFrames().length);
+
         setCard(new Icon(cardTexture,Constantes.CARD_WIDTH,Constantes.CARD_HEIGHT));
+        setSize(Constantes.WEAPON_WIDTH,Constantes.WEAPON_HEIGHT);
         elapsedTime= 0;
+
+        standingTexture = weaponShootingAnimation.getKeyFrame(0);
 
     }
 
@@ -38,17 +44,16 @@ public class Weapon extends Attachable {
         /*Aqui distinguiremos tres casos cuando esta disparando, cuando no esta en ´posición de disparo y cuando si lo esta, en el primer caso corremos la animacion
         * en el segundo no vamos a dibujar nada y en el tercero vamos a dibujar solo el primer cuadro de la animacion (cuando aun no esta dis
         * parando)*/
-        if(shooting) {
+        if(isActivated()) {
             batch.draw(weaponShootingAnimation.getKeyFrame(elapsedTime), getX(), getY(), getWidth(), getHeight());
             elapsedTime = elapsedTime + Gdx.graphics.getDeltaTime();
             if(elapsedTime>weaponShootingAnimation.getAnimationDuration()){
                 elapsedTime = 0;
-                shooting = false;
+                setActivated(false);
             }
         }
-
-        else if(inActiveDock){
-            batch.draw(weaponShootingAnimation.getKeyFrame(0),getX(),getY(),getWidth(),getHeight());
+        else{
+            batch.draw(standingTexture,getX(),getY(),getWidth(),getHeight());
         }
     }
 
@@ -60,12 +65,5 @@ public class Weapon extends Attachable {
         this.shooting = shooting;
     }
 
-    public boolean isInActiveDock() {
-        return inActiveDock;
-    }
-
-    public void setInActiveDock(boolean inActiveDock) {
-        this.inActiveDock = inActiveDock;
-    }
 
 }

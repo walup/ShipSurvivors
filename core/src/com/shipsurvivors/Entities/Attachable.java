@@ -1,6 +1,7 @@
 package com.shipsurvivors.Entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.shipsurvivors.Utilities.Icon;
@@ -16,9 +17,13 @@ public class Attachable extends Actor{
     private boolean attached;
     private boolean inContainer;
     private boolean grabbed;
+    private boolean activated;
     private Icon card;
     /*This pointer, is one which we will be modifying while the plyer is panning*/
     private Vector2 pointer = new Vector2();
+
+    /*We'll handle colissions between cards and docks using rectangles*/
+    private Rectangle cardRectangle = new Rectangle(0,0,0,0);
 
 
 
@@ -40,11 +45,22 @@ public class Attachable extends Actor{
         if(isGrabbed()){
             //Then follow the mouse of the player.
             setPosition(pointer.x,pointer.y);
+            /*This rect thing requires better implementation, like maybe putting the card and the rect in the same kind of object
+            * Card. for now, we'll just combine the two modes*/
+            updateRect();
         }
+        if(activated){
+            activeAct();
+        }
+
     }
 
     public void setPointer(Vector2 pointer){
         this.pointer = pointer;
+    }
+
+    public void activeAct(){
+
     }
 
     public Vector2 getPointer() {
@@ -87,13 +103,29 @@ public class Attachable extends Actor{
         return !isAttached() && !isGrabbed() && !isInContainer();
     }
 
-
-
     public void drawAttachable(Batch batch, float parentAlpha) {
         /*This is a method that you should fill to draw your particular attachable. */
 
     }
 
+    public void updateRect(){
+        cardRectangle.set(getX(),getY(),card.getWidth(),card.getHeight());
+    }
 
+    public void setCardRectangle(Rectangle cardRectangle) {
+        this.cardRectangle = cardRectangle;
+    }
+
+    public Rectangle getCardRectangle() {
+        return cardRectangle;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
 
 }

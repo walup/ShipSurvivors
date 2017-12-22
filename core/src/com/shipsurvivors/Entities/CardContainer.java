@@ -66,6 +66,7 @@ public class CardContainer extends Actor {
                 if(dummyAttachable.isFree()) {
                     dummyAttachable.setInContainer(true);
                     dummyAttachable.setPosition(cardIndexedPositions[container.getTopIndex()].x,cardIndexedPositions[container.getTopIndex()].y);
+                    dummyAttachable.updateRect();
                     System.out.println(container.size());
                     try {
                         container.push(dummyAttachable);
@@ -122,6 +123,7 @@ public class CardContainer extends Actor {
 
                     for (int j = 0; j < container.size(); j++) {
                         container.getArray()[j].setPosition(cardIndexedPositions[j].x, cardIndexedPositions[j].y);
+                        container.getArray()[j].updateRect();
                     }
                 }
             }
@@ -138,7 +140,13 @@ public class CardContainer extends Actor {
     }
 
     public boolean touchedCard(Attachable attachable,Vector2 coordinates){
-        return coordinates.x>attachable.getX() && coordinates.x<attachable.getX()+attachable.getCard().getWidth() && coordinates.y>attachable.getY() && coordinates.y<attachable.getY()+attachable.getCard().getHeight();
+        return attachable.getCardRectangle().contains(coordinates.x,coordinates.y);
  }
+
+    public void cardAttached() throws Exception {
+        //By this time the card is already in mode attached so no need to modidy its booleans.
+        setCardTaken(false);
+        container.pop();
+    }
 
 }
