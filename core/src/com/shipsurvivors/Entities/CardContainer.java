@@ -110,7 +110,7 @@ public class CardContainer extends Actor {
     public void grabCard(Vector2 touchCoordinates){
         if(container.size()>0) {
             for (int i = 0;i<container.size();i++) {
-                if (touchedCard(container.getArray()[i], touchCoordinates)) {;
+                if (touchedCard(container.getArray()[i], touchCoordinates)) {
                     setCardTaken(true);
                     setGrabbedCard(container.getArray()[i]);
                     container.grabItem(container.getArray()[i]);
