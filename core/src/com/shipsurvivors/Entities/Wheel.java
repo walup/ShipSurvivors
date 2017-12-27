@@ -149,6 +149,7 @@ public class Wheel extends Actor {
         attachable.setAttached(true);
         attachable.setGrabbed(false);
         attachable.setInContainer(false);
+        attachable.setActivated(false);
 
         dockToAttach.setAttachable(attachable);
         dockToAttach.setAvailable(false);
@@ -169,6 +170,15 @@ public class Wheel extends Actor {
 
     public void triggerDock() {
         dockToAttach.trigger();
+    }
 
+    public Boolean bulletTouched(Fixture fixture){
+        for(Dock dock:docks){
+            if(dock.bulletStrike(fixture)){
+                dock.detach();
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,8 +1,10 @@
 package com.shipsurvivors.Entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.shipsurvivors.Utilities.Icon;
 
@@ -18,6 +20,10 @@ public class Attachable extends Actor{
     private boolean inContainer;
     private boolean grabbed;
     private boolean activated;
+    private Fixture accesoryFixture;
+    /*The name is specific, but shooting basically means that the thing has been activated and it might be doing things
+    * with whatever accesories it has, like moving the bullet or whatever*/
+    private boolean shooting;
     private Icon card;
     /*This pointer, is one which we will be modifying while the plyer is panning*/
     private Vector2 pointer = new Vector2();
@@ -33,7 +39,6 @@ public class Attachable extends Actor{
         * drawAttachable*/
         if(inContainer || grabbed){
             batch.draw(card.getIconTexture(),getX(),getY(),card.getWidth(),card.getHeight());
-
         }
         else if(attached){
             drawAttachable(batch,parentAlpha);
@@ -50,16 +55,18 @@ public class Attachable extends Actor{
             updateRect();
         }
         if(activated){
-            activeAct();
+            activeAct(delta);
         }
-
+        if(shooting){
+            actAccesory(delta);
+        }
     }
 
     public void setPointer(Vector2 pointer){
         this.pointer = pointer;
     }
 
-    public void activeAct(){
+    public void activeAct(float delta){
 
     }
 
@@ -128,4 +135,35 @@ public class Attachable extends Actor{
         this.activated = activated;
     }
 
+    public boolean isShooting() {
+        return shooting;
+    }
+
+    public void setShooting(boolean shooting) {
+        this.shooting = shooting;
+    }
+       /*This method will be filled for a particular class of gun too, and it tells you how tu update the state
+    * of the accesory (bullet or whatever)*/
+
+    public void actAccesory(float delta){
+
+    }
+    /*This method will be filled for a particular class of gun, and it will say how to draw the bullet
+    * or whatever accesory is used when the gun is fired*/
+
+    public void drawAccesory(Batch batch, float parentAlpha){
+
+    }
+
+    public void startAccesory(){
+
+    }
+
+    public void setAccesoryFixture(Fixture accesoryFixture) {
+        this.accesoryFixture = accesoryFixture;
+    }
+
+    public Fixture getAccesoryFixture() {
+        return accesoryFixture;
+    }
 }

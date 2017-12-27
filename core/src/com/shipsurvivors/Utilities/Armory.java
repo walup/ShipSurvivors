@@ -6,20 +6,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.SerializationException;
 import com.shipsurvivors.Entities.Weapon;
+import com.shipsurvivors.Entities.Weapons.ArduinoPistol;
 
 /**
  * Created by SEO on 19/12/2017.
  */
 public class Armory {
     FileHandle jsonFile;
-    public Armory(FileHandle jsonFile){
+    World world;
+    public Armory(FileHandle jsonFile,World world){
         this.jsonFile = jsonFile;
+        this.world = world;
     }
 
     public Weapon[] weaponsRequest(String type, int numberOfWeapons){
@@ -45,8 +49,10 @@ public class Armory {
                 Texture texture = new Texture(urlTexture);
                 String urlAtlas = jsonValue.get("weapon").get(type).getString("atlas");
                 TextureAtlas atlas = new TextureAtlas(urlAtlas);
+                String urlBulletTexture = jsonValue.get("weapon").get(type).getString("bullet");
+                Texture bulletTexture = new Texture(urlBulletTexture);
 
-                return new Weapon(atlas,texture);
+                return new ArduinoPistol(atlas,texture,bulletTexture,world);
             }
         }catch(Exception e){
             e.printStackTrace();

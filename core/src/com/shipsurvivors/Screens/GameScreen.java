@@ -9,13 +9,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.shipsurvivors.Entities.CardContainer;
+import com.shipsurvivors.Entities.RockSpawner;
 import com.shipsurvivors.Entities.Ship;
-import com.shipsurvivors.Entities.Weapons.ArduinoPistol;
 import com.shipsurvivors.UI.ShipControls;
+import com.shipsurvivors.UI.WorldCollisions;
 import com.shipsurvivors.Utilities.Armory;
 import com.shipsurvivors.Utilities.Constantes;
 import com.shipsurvivors.Utilities.ScrollingBackground;
@@ -35,6 +37,23 @@ public class GameScreen extends BaseScreen {
     private CardContainer cardContainer;
     private ScrollingBackground background;
     private Armory armory;
+    private RockSpawner rockSpawner;
+    // Variables needed for the rendering
+    private float accu;
+    private static final float TIME_STEP = 1 / 60f;
+    private static int speedIte = 6, posIte = 2;
+    private int count = 0;
+    // The contact handler
+    WorldCollisions worldCollisions;
+
+    //For Debugging
+    Box2DDebugRenderer renderer;
+    OrthographicCamera cameraForDebug;
+
+
+
+
+
 
 
     public GameScreen(MainGame game) {
@@ -50,18 +69,30 @@ public class GameScreen extends BaseScreen {
 
 
         //Initialize the sounds and music
+
+
+        //We initialize the ship
+        ship = new Ship(world,new TextureAtlas(Gdx.files.internal("shipatlas.atlas")),20,20, Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
+
+        //Initialize the rock spawner
+
+        rockSpawner = new RockSpawner(stage.getCamera());
+        //Initilize WorldColissions
+        worldCollisions = new WorldCollisions(rockSpawner,ship);
+
+        //Initialize DebugShit
+
+        cameraForDebug = new OrthographicCamera(16,9);
+        renderer = new Box2DDebugRenderer();
+
+
     }
 
     @Override
     public void show() {
-        //We initialize the ship
-        ship = new Ship(world,new TextureAtlas(Gdx.files.internal("shipatlas.atlas")),20,20, Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
 
-
-        //Create samples of the weapons for cloning
-        ArduinoPistol arduinoPistol = new ArduinoPistol(new TextureAtlas(Gdx.files.internal("Guns/arduinogunatlas.atlas")),new Texture(Gdx.files.internal("Cards/arduino_pistol_card.png")));
         //Initialize the card container
-        armory = new Armory(Gdx.files.internal("weapons.json"));
+        armory = new Armory(Gdx.files.internal("weapons.json"),world);
 
         cardContainer = new CardContainer(armory.weaponsRequest("arduino_gun",5),new Texture(Gdx.files.internal("card_container_background.png")));
 
@@ -74,6 +105,7 @@ public class GameScreen extends BaseScreen {
         stage.addActor(ship);
         stage.addActor(cardContainer);
         Gdx.input.setInputProcessor(new GestureDetector(shipControls));
+        world.setContactListener(worldCollisions);
     }
 
 
@@ -85,10 +117,29 @@ public class GameScreen extends BaseScreen {
 
         //Update the world and the stage.
         stage.act(delta);
-        world.step(delta,6,2);
+        rockSpawner.updateRockManagement(delta);
+        box2DTimeStep(delta);
+
+        //Destroy bodies which need destroying
+
+        rockSpawner.destroyOldBodies(world);
+
+
+        //if needed build the new bodies
+
+        if(rockSpawner.isRockOrder()){
+            rockSpawner.buildRock(world,500/Constantes.PIXELS_IN_METER,100/Constantes.PIXELS_IN_METER);
+        }
+
+
 
         //Render the stage.
         stage.draw();
+        //Draw the rocks
+        rockSpawner.drawRocks();
+
+        renderer.render(world,cameraForDebug.combined);
+
 
     }
 
@@ -96,4 +147,17 @@ public class GameScreen extends BaseScreen {
     public void dispose() {
         super.dispose();
     }
+
+
+    private void box2DTimeStep(float deltaTime) {
+        float delta = Math.min(deltaTime, 0.25f);
+        accu += delta;
+        while (accu >= TIME_STEP) {
+            world.step(TIME_STEP, speedIte, posIte);
+            accu -= TIME_STEP;
+        }
+    }
+
+
+
 }

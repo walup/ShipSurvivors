@@ -38,7 +38,6 @@ public class ShipControls implements GestureDetector.GestureListener{
         mouseStagePosition = ship.getStage().screenToStageCoordinates(mouseScreenPosition);
 
         if(ship.getWheel().touchedDockToTrigger(mouseStagePosition)){
-            System.out.println("uiiiiiiiiiiiiiiiiiiiiiiiiiiuiiiiiiiiuuuwiombombowe");
             ship.getWheel().triggerDock();
         }
 

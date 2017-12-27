@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
@@ -17,6 +18,7 @@ public class Dock extends Actor {
     private Boolean triggered;
     private float angle;
 
+
     /*Since i don't want to create a lot of bodies, to detect if a weapon is being attached we are going to use rectangles. */
     private Rectangle dockRect;
 
@@ -28,6 +30,7 @@ public class Dock extends Actor {
         available = true;
         triggered = false;
         dockRect = new Rectangle(x,y,width,height);
+
     }
 
     /*So all of our angles, will be handled in degrees, which means we have to do the proper conversions when calculating
@@ -56,7 +59,7 @@ public class Dock extends Actor {
     public void updateAttachablePosition(){
         if(attachable!=null){
             //We position the attachable in the middle.
-            attachable.setPosition(getX()+(getWidth()-attachable.getWidth())/2,getY()+getWidth());
+            attachable.setPosition(getX()+(getWidth()-attachable.getWidth())/2,getY()+(getHeight()-attachable.getHeight())/2);
         }
 
     }
@@ -66,7 +69,12 @@ public class Dock extends Actor {
     }
 
     private void updateDockRect(){
-        dockRect.set(getX(),getY(),getWidth(),getHeight());
+        if(isAvailable()) {
+            dockRect.set(getX(), getY(), getWidth(), getHeight());
+        }
+        else{
+            dockRect.set(attachable.getX(),attachable.getY(),attachable.getWidth(),attachable.getHeight());
+        }
     }
 
     public Rectangle getDockRect() {
@@ -83,6 +91,8 @@ public class Dock extends Actor {
         attachable.setInContainer(false);
         attachable.setGrabbed(false);
         attachable.setAttached(false);
+        attachable.setShooting(false);
+        setTriggered(false);
         setAttachable(null);
     }
 
@@ -101,10 +111,27 @@ public class Dock extends Actor {
 
     @Override
     public void act(float delta) {
+
         if(isTriggered()){
-            if(!attachable.isActivated()){
+            if(!attachable.isActivated() && !attachable.isShooting()){
                 detach();
+            }
+            else{
+                attachable.act(delta);
             }
         }
     }
+
+    public boolean bulletStrike(Fixture fixture){
+       if(!isAvailable() && isTriggered()){
+           if(fixture.equals(attachable.getAccesoryFixture())){
+               return true;
+           }
+           else{
+               return false;
+           }
+       }
+        return false;
+    }
+
 }

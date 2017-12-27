@@ -67,7 +67,6 @@ public class CardContainer extends Actor {
                     dummyAttachable.setInContainer(true);
                     dummyAttachable.setPosition(cardIndexedPositions[container.getTopIndex()].x,cardIndexedPositions[container.getTopIndex()].y);
                     dummyAttachable.updateRect();
-                    System.out.println(container.size());
                     try {
                         container.push(dummyAttachable);
 
@@ -128,10 +127,10 @@ public class CardContainer extends Actor {
                 }
             }
         }
-
     }
     public void returnCardToDeck(){
         grabbedCard.setPosition(cardIndexedPositions[container.getIndex(grabbedCard)].x,cardIndexedPositions[container.getIndex(grabbedCard)].y);
+        grabbedCard.updateRect();
         setCardTaken(false);
     }
 

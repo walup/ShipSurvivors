@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Json;
@@ -18,20 +21,23 @@ import com.shipsurvivors.Utilities.Icon;
  * Created by SEO on 25/09/2017.
  */
 public class Weapon extends Attachable {
-    Animation weaponShootingAnimation;
-    TextureRegion standingTexture;
-    boolean shooting;
-    float elapsedTime;
+    private Animation weaponShootingAnimation;
+    private TextureRegion standingTexture;
+    private float elapsedTime;
+
+
 
 
     public Weapon(TextureAtlas weaponAtlas, Texture cardTexture){
+        //Set the animation
         weaponShootingAnimation = new Animation(1/50f,weaponAtlas.findRegions("shooting"));
-        System.out.println("numb of frames" +weaponShootingAnimation.getKeyFrames().length);
-
+        for (int i = 0;i<weaponShootingAnimation.getKeyFrames().length;i++){
+            weaponShootingAnimation.getKeyFrames()[i].getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+        //Set the card and standing texture
         setCard(new Icon(cardTexture,Constantes.CARD_WIDTH,Constantes.CARD_HEIGHT));
         setSize(Constantes.WEAPON_WIDTH,Constantes.WEAPON_HEIGHT);
         elapsedTime= 0;
-
         standingTexture = weaponShootingAnimation.getKeyFrame(0);
 
     }
@@ -50,20 +56,19 @@ public class Weapon extends Attachable {
             if(elapsedTime>weaponShootingAnimation.getAnimationDuration()){
                 elapsedTime = 0;
                 setActivated(false);
+                setShooting(true);
+                startAccesory();
             }
+        }
+        else if(isShooting()){
+            batch.draw(standingTexture,getX(),getY(),getWidth(),getHeight());
+            drawAccesory(batch,parentAlpha);
         }
         else{
             batch.draw(standingTexture,getX(),getY(),getWidth(),getHeight());
         }
     }
 
-    public boolean isShooting() {
-        return shooting;
-    }
-
-    public void setShooting(boolean shooting) {
-        this.shooting = shooting;
-    }
 
 
 }
