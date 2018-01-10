@@ -8,12 +8,27 @@ import com.badlogic.gdx.assets.AssetManager;
  */
 public class MainGame extends Game {
     public AssetManager manager;
-    public float soundEffectsLevel = 0.5f;
-    public float musicVolumeLevel=0.5f;
+    private float soundEffectsLevel = 0.5f;
+    private float musicVolumeLevel=0.5f;
 
     @Override
     public void create() {
-        setScreen(new GameScreen(this));
+        setScreen(new MainMenuScreen(this));
     }
 
+    public void setSoundEffectsLevel(float soundEffectsLevel) {
+        this.soundEffectsLevel = soundEffectsLevel;
+    }
+
+    public void setMusicVolumeLevel(float musicVolumeLevel) {
+        this.musicVolumeLevel = musicVolumeLevel;
+    }
+
+    public float getSoundEffectsLevel() {
+        return soundEffectsLevel;
+    }
+
+    public float getMusicVolumeLevel() {
+        return musicVolumeLevel;
+    }
 }

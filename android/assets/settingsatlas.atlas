@@ -1,0 +1,48 @@
+
+settingsatlas.png
+size: 256,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 2, 2
+  size: 134, 14
+  orig: 134, 14
+  offset: 0, 0
+  index: -1
+knob
+  rotate: false
+  xy: 236, 80
+  size: 12, 32
+  orig: 12, 32
+  offset: 0, 0
+  index: -1
+musicicon
+  rotate: false
+  xy: 181, 7
+  size: 51, 52
+  orig: 51, 52
+  offset: 0, 0
+  index: -1
+pressedtextbutton
+  rotate: false
+  xy: 2, 66
+  size: 178, 46
+  orig: 178, 46
+  offset: 0, 0
+  index: -1
+soundeffectsicon
+  rotate: false
+  xy: 182, 61
+  size: 52, 51
+  orig: 52, 51
+  offset: 0, 0
+  index: -1
+unpressedtextbutton
+  rotate: false
+  xy: 2, 18
+  size: 177, 46
+  orig: 177, 46
+  offset: 0, 0
+  index: -1

@@ -42,6 +42,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
     public Texture getIconTexture() {
         return iconTexture.getTexture();
     }
+
+    public TextureRegion getTextureRegion(){
+        return iconTexture;
+    }
+
 }
 
 

@@ -42,6 +42,12 @@ public class Constantes {
     public final static short CATEGORY_BULLET = 4;
     public final static short CATEGORY_ROCK = 8;
 
+    /*Constants for the spacing in the menu */
+    public final static float STANDARD_BUTTON_PADDING = 20;
+    public final static float SETTINGS_ICON_WIDTH = 50;
+    public final static float SETTINGS_ICON_HEIGHT = 50;
+    public final static float STANDARD_ICON_PADDING = 10;
+
 
 
 

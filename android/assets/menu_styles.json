@@ -1,0 +1,29 @@
+{
+  "com.badlogic.gdx.graphics.Color":{
+    "golden":{"r":255,"g":215,"b":0,"a":1},
+    "black":{"r":0,"g":0,"b":0,"a":1}
+
+  },
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "neuro":{"file":"neuro.fnt"}
+
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    "menu_text_button_style": {
+      "up": "pressedtextbutton2",
+      "down": "unpressedtextbutton2",
+      "font": "neuro",
+      "fontColor": "black"
+    }
+  },
+
+  "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+
+    "label_style_heading":{
+      "font": "neuro",
+      "fontColor":"black"
+    }
+  }
+
+
+}

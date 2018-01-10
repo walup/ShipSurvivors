@@ -1,0 +1,167 @@
+
+uistuff.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+abuttonnotpressed
+  rotate: false
+  xy: 659, 273
+  size: 96, 93
+  orig: 96, 93
+  offset: 0, 0
+  index: -1
+abuttonpressed
+  rotate: false
+  xy: 378, 164
+  size: 96, 93
+  orig: 96, 93
+  offset: 0, 0
+  index: -1
+background_stick
+  rotate: false
+  xy: 404, 259
+  size: 253, 244
+  orig: 253, 244
+  offset: 0, 0
+  index: -1
+bbuttonnotpressed
+  rotate: false
+  xy: 476, 166
+  size: 93, 91
+  orig: 93, 91
+  offset: 0, 0
+  index: -1
+bbuttonpressed
+  rotate: false
+  xy: 378, 68
+  size: 93, 94
+  orig: 93, 94
+  offset: 0, 0
+  index: -1
+exhibitionbackground
+  rotate: false
+  xy: 2, 50
+  size: 349, 220
+  orig: 349, 220
+  offset: 0, 0
+  index: -1
+knobdown
+  rotate: false
+  xy: 223, 33
+  size: 35, 15
+  orig: 35, 15
+  offset: 0, 0
+  index: -1
+knobhpressed
+  rotate: false
+  xy: 420, 31
+  size: 15, 35
+  orig: 15, 35
+  offset: 0, 0
+  index: -1
+knobhun
+  rotate: false
+  xy: 757, 312
+  size: 20, 54
+  orig: 20, 54
+  offset: 0, 0
+  index: -1
+knobhunpressed
+  rotate: false
+  xy: 613, 232
+  size: 12, 25
+  orig: 12, 25
+  offset: 0, 0
+  index: -1
+knobover
+  rotate: false
+  xy: 378, 9
+  size: 35, 15
+  orig: 35, 15
+  offset: 0, 0
+  index: -1
+levelselectionbackground
+  rotate: false
+  xy: 2, 272
+  size: 400, 231
+  orig: 400, 231
+  offset: 0, 0
+  index: -1
+pausebutton
+  rotate: false
+  xy: 974, 463
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+pausebuttonpressed
+  rotate: false
+  xy: 181, 8
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+pointer
+  rotate: false
+  xy: 571, 191
+  size: 23, 24
+  orig: 23, 24
+  offset: 0, 0
+  index: -1
+pressedtextbutton
+  rotate: false
+  xy: 794, 457
+  size: 178, 46
+  orig: 178, 46
+  offset: 0, 0
+  index: -1
+pressedtextbutton2
+  rotate: false
+  xy: 2, 2
+  size: 177, 46
+  orig: 177, 46
+  offset: 0, 0
+  index: -1
+sliderbackground
+  rotate: false
+  xy: 353, 4
+  size: 23, 266
+  orig: 23, 266
+  offset: 0, 0
+  index: -1
+stick
+  rotate: false
+  xy: 659, 368
+  size: 133, 135
+  orig: 133, 135
+  offset: 0, 0
+  index: -1
+swordsicon
+  rotate: false
+  xy: 378, 26
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+swordsiconpressed
+  rotate: false
+  xy: 571, 217
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+unpressedtextbutton
+  rotate: false
+  xy: 794, 409
+  size: 177, 46
+  orig: 177, 46
+  offset: 0, 0
+  index: -1
+unpressedtextbutton2
+  rotate: false
+  xy: 794, 361
+  size: 176, 46
+  orig: 176, 46
+  offset: 0, 0
+  index: -1
