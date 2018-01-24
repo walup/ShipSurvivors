@@ -44,7 +44,7 @@ public class MainMenuScreen extends BaseScreen {
         //Set the Skin
         skin = new Skin(Gdx.files.internal("menu_styles.json"),new TextureAtlas(Gdx.files.internal("uistuff.atlas")));
         //Initialize the buttons
-        
+
         startGameButton = new TextButton("Start",skin,"menu_text_button_style");
         settingsButton = new TextButton("Settings",skin,"menu_text_button_style");
         storyButton = new TextButton("Story",skin,"menu_text_button_style");
