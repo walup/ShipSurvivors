@@ -128,7 +128,7 @@ public class GameScreen extends BaseScreen {
         //if needed build the new bodies
 
         if(rockSpawner.isRockOrder()){
-            rockSpawner.buildRock(world,500/Constantes.PIXELS_IN_METER,100/Constantes.PIXELS_IN_METER);
+            rockSpawner.buildRock(world);
         }
 
 
@@ -136,7 +136,7 @@ public class GameScreen extends BaseScreen {
         //Render the stage.
         stage.draw();
         //Draw the rocks
-        rockSpawner.drawRocks();
+        rockSpawner.drawRocks(stage.getBatch(),1);
 
         renderer.render(world,cameraForDebug.combined);
 

@@ -87,17 +87,20 @@ public class ArduinoPistol extends Weapon {
         setInRange(bulletX<Constantes.SCREEN_WIDTH);
 
 
-        if(!inRange || collided){
+
+        if(!inRange){
             bulletBody.setActive(false);
             setShooting(false);
         }
-
     }
 
     public void setBulletPosition(float x, float y){
         bulletX = x;
         bulletY = y;
     }
+
+    //This is the method where we shut down the accesories, in this case the bullet
+
 
     public void setInRange(boolean inRange) {
         this.inRange = inRange;

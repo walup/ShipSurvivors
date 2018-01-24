@@ -159,6 +159,7 @@ public class Attachable extends Actor{
 
     }
 
+
     public void setAccesoryFixture(Fixture accesoryFixture) {
         this.accesoryFixture = accesoryFixture;
     }

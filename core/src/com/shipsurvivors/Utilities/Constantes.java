@@ -48,6 +48,18 @@ public class Constantes {
     public final static float SETTINGS_ICON_HEIGHT = 50;
     public final static float STANDARD_ICON_PADDING = 10;
 
+    public final static float ROCK_VELOCITY = 0.2f;
+    public final static float ROCK_INITIAL_POSITION_X = 800;
+    public final static float CARRIER_WIDTH = 70;
+    public final static float CARRIER_HEIGHT = 100;
+    public final static float ROCK_CARRIER_VELOCITY = (float) 0.5;
+    public final static float ROCK_FINAL_POSITION_X = SCREEN_WIDTH-LITTLE_ROCK_SIZE-CARRIER_WIDTH;
+
+    public final static float FLAME_VELOCITY = 200;
+    public final static float FLAME_RADIUS = 10;
+
+
+
 
 
 

@@ -2,6 +2,7 @@ package com.shipsurvivors.Screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 
 /**
  * Created by SEO on 03/04/2017.
@@ -13,6 +14,11 @@ public class MainGame extends Game {
 
     @Override
     public void create() {
+        manager = new AssetManager();
+        //Load the game song
+        manager.load("game_song.wav",Music.class);
+
+        manager.finishLoading();
         setScreen(new MainMenuScreen(this));
     }
 
@@ -30,5 +36,9 @@ public class MainGame extends Game {
 
     public float getMusicVolumeLevel() {
         return musicVolumeLevel;
+    }
+
+    public AssetManager getManager() {
+        return manager;
     }
 }

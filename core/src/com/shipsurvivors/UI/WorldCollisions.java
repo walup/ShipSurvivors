@@ -76,11 +76,9 @@ public class WorldCollisions implements ContactListener {
 
             clippingRock(a, b, dataB);
         }else if(dataB instanceof UserData && dataB.getType() == UserData.ROCK && dataA instanceof UserData && dataA.getType() == UserData.BULLET){
-            clippingRock(b, a, dataA);
+            clippingRock(b, a,dataA);
         }
         clipped = false;
-
-
     }
 
     /**
@@ -88,45 +86,45 @@ public class WorldCollisions implements ContactListener {
      * a clipper (say a bomb or a bullet). And it basically gets the difference between one and the other, and gives it too
      * the method switch ground (see what it does on Game Screen )
      * **/
-    private void clippingRock(Body a, Body b, UserData dataA) {
-
-        List<PolygonBox2DShape> totalRS = new ArrayList<PolygonBox2DShape>();
-
-        System.out.println("Splash Radius "+dataA.getSplashRadius());
-
-        float[] circleVertices = CollisionGeometry.approxCircle(b.getPosition().x, b.getPosition().y, dataA.getSplashRadius(), Constantes.ROCK_NUM_SEGMENTS);
-        ChainShape shape = new ChainShape();
-        shape.createLoop(circleVertices);
-
-        PolygonBox2DShape circlePoly = new PolygonBox2DShape(shape);
-        Body body = a;
-
-        Array<Fixture> fixtureList = body.getFixtureList();
-        int fixCount = fixtureList.size;
-
-        for(int i = 0; i < fixCount; i++){
-
-            PolygonBox2DShape polyClip = null;
-            if(fixtureList.get(i).getShape() instanceof PolygonShape){
-                polyClip = new PolygonBox2DShape((PolygonShape)fixtureList.get(i).getShape());
-            }
-            else if(fixtureList.get(i).getShape() instanceof ChainShape){
-                polyClip = new PolygonBox2DShape((ChainShape)fixtureList.get(i).getShape());
-            }
-
-            List<PolygonBox2DShape> rs = polyClip.differenceCS(circlePoly);
-            for(int y = 0; y < rs.size(); y++){
-                rs.get(y).circleContact(b.getPosition(), circRadius);
-                totalRS.add(rs.get(y));
-            }
+    private void clippingRock(Body a, Body b, UserData dataB) {
+        if(((UserData)a.getUserData()).mustDestroy){
         }
+        Body body = a;
+        if (!((UserData)body.getUserData()).mustDestroy) {
+            List<PolygonBox2DShape> totalRS = new ArrayList<PolygonBox2DShape>();
+            float[] circleVertices = CollisionGeometry.approxCircle(b.getPosition().x, b.getPosition().y, dataB.getSplashRadius(), Constantes.ROCK_NUM_SEGMENTS);
+            ChainShape shape = new ChainShape();
+            shape.createLoop(circleVertices);
+
+            PolygonBox2DShape circlePoly = new PolygonBox2DShape(shape);
+
+            Array<Fixture> fixtureList = body.getFixtureList();
+            int fixCount = fixtureList.size;
+
+            for (int i = 0; i < fixCount; i++) {
+
+                PolygonBox2DShape polyClip = null;
+                if (fixtureList.get(i).getShape() instanceof PolygonShape) {
+                    polyClip = new PolygonBox2DShape((PolygonShape) fixtureList.get(i).getShape());
+                } else if (fixtureList.get(i).getShape() instanceof ChainShape) {
+                    polyClip = new PolygonBox2DShape((ChainShape) fixtureList.get(i).getShape());
+                }
+
+                List<PolygonBox2DShape> rs = polyClip.differenceCS(circlePoly);
+                for (int y = 0; y < rs.size(); y++) {
+                    rs.get(y).circleContact(b.getPosition(), circRadius);
+                    totalRS.add(rs.get(y));
+                }
+            }
 
         /*Here you give the clipped rock to the RockSpawner, so it will change the damn rock you also
         * set the mustDestroy boolean within the rock to true, so that the act method will know it has
         * to reconstruct it. */
-        rockSpawner.changeRock(totalRS);
-        ((UserData)body.getUserData()).mustDestroy = true;
+            rockSpawner.changeRock(totalRS,a.getPosition().x,a.getPosition().y);
+            ((UserData) body.getUserData()).mustDestroy = true;
+        }
     }
+
 
     private float[] getVerts(Shape shape) {
         float [] verts = new float[0];

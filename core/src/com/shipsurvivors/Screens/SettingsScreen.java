@@ -1,6 +1,7 @@
 package com.shipsurvivors.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -44,6 +45,8 @@ public class SettingsScreen extends BaseScreen {
         //Initialize the sliders
         musicVolumeSlider = new Slider(0,1,(float)0.01,false,skin,"slider_style");
         specialEffectsSlider = new Slider(0,1,(float)0.01,false,skin,"slider_style");
+        musicVolumeSlider.setValue(game.getMusicVolumeLevel());
+        specialEffectsSlider.setValue(game.getSoundEffectsLevel());
         //Initialize the labels
         musicVolumeLabel = new Label("Music Volume",skin,"label_style");
         specialEffectsLabel = new Label("Sfx Volume",skin,"label_style");
@@ -128,6 +131,7 @@ public class SettingsScreen extends BaseScreen {
     public void renderVolumes(){
         game.setMusicVolumeLevel(musicVolumeSlider.getValue());
         game.setSoundEffectsLevel(specialEffectsSlider.getValue());
+        game.getManager().get("game_song.wav",Music.class).setVolume(game.getMusicVolumeLevel());
     }
 
 

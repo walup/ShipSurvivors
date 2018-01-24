@@ -20,6 +20,7 @@ public class RockFixture {
     private Body body;
     private List<Fixture> fixtures;
     private List<float[]> vertices;
+    private float x,y;
 
     public RockFixture(List<float[]> vertices){
         this.vertices = vertices;
@@ -57,4 +58,19 @@ public class RockFixture {
         return body;
     }
 
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
 }

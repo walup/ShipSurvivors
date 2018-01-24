@@ -1,7 +1,8 @@
 {
   "com.badlogic.gdx.graphics.Color":{
     "golden":{"r":255,"g":215,"b":0,"a":1},
-    "black":{"r":0,"g":0,"b":0,"a":1}
+    "black":{"r":0,"g":0,"b":0,"a":1},
+    "orange":{"r":255,"g":165,"b":0,"a":1}
 
   },
   "com.badlogic.gdx.graphics.g2d.BitmapFont": {
@@ -22,6 +23,10 @@
     "label_style_heading":{
       "font": "neuro",
       "fontColor":"black"
+    },
+    "label_style_title":{
+      "font":"neuro",
+      "fontColor":"orange"
     }
   }
 

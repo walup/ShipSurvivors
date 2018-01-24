@@ -1,8 +1,14 @@
 package com.shipsurvivors.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -13,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.shipsurvivors.Utilities.Constantes;
+
+import java.util.Random;
 
 
 /**
@@ -25,11 +33,12 @@ public class MainMenuScreen extends BaseScreen {
     TextButton storyButton;
     Table menuLayout;
     Stage stage;
+    FlameDance flameDance;
+    Label title;
 
 
     public MainMenuScreen(MainGame game) {
         super(game);
-
         //Set the stage
         stage = new Stage(new FitViewport(Constantes.SCREEN_WIDTH,Constantes.SCREEN_HEIGHT));
         //Set the Skin
@@ -38,10 +47,15 @@ public class MainMenuScreen extends BaseScreen {
         startGameButton = new TextButton("Start",skin,"menu_text_button_style");
         settingsButton = new TextButton("Settings",skin,"menu_text_button_style");
         storyButton = new TextButton("Story",skin,"menu_text_button_style");
+        //THe title
+        title = new Label("Ship Survivors",skin,"label_style_title");
+
         //Initilalize the table
         menuLayout = new Table();
         menuLayout.setSize(Constantes.SCREEN_WIDTH,Constantes.SCREEN_HEIGHT);
         menuLayout.align(Align.center);
+        //set the flame dance
+        flameDance = new FlameDance();
 
 
     }
@@ -49,17 +63,25 @@ public class MainMenuScreen extends BaseScreen {
     @Override
     public void show() {
         //Now put everything where it is supposed to go on the table
+        menuLayout.add(title).pad(Constantes.STANDARD_BUTTON_PADDING);
+        menuLayout.row();
         menuLayout.add(startGameButton).padTop(Constantes.STANDARD_BUTTON_PADDING).padBottom(Constantes.STANDARD_BUTTON_PADDING);
         menuLayout.row();
         menuLayout.add(settingsButton).padTop(Constantes.STANDARD_BUTTON_PADDING).padBottom(Constantes.STANDARD_BUTTON_PADDING);
         menuLayout.row();
         menuLayout.add(storyButton).padTop(Constantes.STANDARD_BUTTON_PADDING).padBottom(Constantes.STANDARD_BUTTON_PADDING);
         //Add the layout to the stage
+        stage.addActor(flameDance);
         stage.addActor(menuLayout);
+
         //Activate the buttons
         activateButtons();
         //Set the input proccesor
         Gdx.input.setInputProcessor(stage);
+        //Start the music
+        game.getManager().get("game_song.wav",Music.class).setVolume(game.getMusicVolumeLevel());
+        game.getManager().get("game_song.wav",Music.class).setLooping(true);
+        game.getManager().get("game_song.wav",Music.class).play();
     }
 
     @Override
@@ -82,6 +104,7 @@ public class MainMenuScreen extends BaseScreen {
         startGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.getManager().get("game_song.wav",Music.class).stop();
                 game.setScreen(new GameScreen(game));
             }
         });
@@ -99,5 +122,105 @@ public class MainMenuScreen extends BaseScreen {
                 super.clicked(event, x, y);
             }
         });
+    }
+
+    public class FlameDance extends Actor {
+        Flame greenFlame;
+        Flame redFlame;
+        Random random = new Random();
+        ParticleEffect greenFlameEffect;
+        ParticleEffect redFlameEffect;
+
+        public FlameDance(){
+            //Initiate the flames
+            greenFlame = new Flame(Constantes.SCREEN_WIDTH*random.nextFloat(),Constantes.SCREEN_HEIGHT*random.nextFloat(),Constantes.FLAME_VELOCITY*random.nextFloat(),Constantes.FLAME_VELOCITY*random.nextFloat(),Constantes.FLAME_RADIUS*random.nextFloat());
+            redFlame = new Flame(Constantes.SCREEN_WIDTH*random.nextFloat(),Constantes.SCREEN_HEIGHT*random.nextFloat(),Constantes.FLAME_VELOCITY*random.nextFloat(),Constantes.FLAME_VELOCITY*random.nextFloat(),Constantes.FLAME_RADIUS*random.nextFloat());
+            //Set the particles effects
+            greenFlameEffect = new ParticleEffect();
+            greenFlameEffect.load(Gdx.files.internal("green_flame"),Gdx.files.internal(""));
+            greenFlameEffect.getEmitters().first().setPosition(greenFlame.getX(),greenFlame.getY());
+            greenFlameEffect.start();
+            redFlameEffect = new ParticleEffect();
+            redFlameEffect.load(Gdx.files.internal("red_flame"),Gdx.files.internal(""));
+            redFlameEffect.getEmitters().first().setPosition(redFlame.getX(),redFlame.getY());
+            redFlameEffect.start();
+        }
+
+        @Override
+        public void act(float delta) {
+            //Update the position of the flames
+            redFlame.updateCircle(delta);
+            greenFlame.updateCircle(delta);
+            //Check if the flame touched the edge of screen and correct velocity
+            checkBoundaries(redFlame);
+            checkBoundaries(greenFlame);
+            //Adjust positions of the flame effects
+            redFlameEffect.setPosition(redFlame.getX(),redFlame.getY());
+            greenFlameEffect.setPosition(greenFlame.getX(),greenFlame.getY());
+            redFlameEffect.update(delta);
+            greenFlameEffect.update(delta);
+
+        }
+
+        @Override
+        public void draw(Batch batch, float parentAlpha) {
+            redFlameEffect.draw(batch);
+            greenFlameEffect.draw(batch);
+        }
+
+        public void checkBoundaries(Flame flame){
+            //Right boundary
+            if(flame.getX()>Constantes.SCREEN_WIDTH){
+                flame.setVelocityX(-Constantes.FLAME_VELOCITY);
+            }
+            //Left boundary
+            else if(flame.getX()<0){
+                flame.setVelocityX(Constantes.FLAME_VELOCITY);
+            }
+            //Upper boundary
+            if(flame.getY()>Constantes.SCREEN_HEIGHT){
+                flame.setVelocityY(-Constantes.FLAME_VELOCITY);
+            }
+            if(flame.getY()<0){
+                flame.setVelocityY(Constantes.FLAME_VELOCITY);
+            }
+        }
+    }
+
+    public class Flame{
+        private Circle circle;
+        private float velocityX;
+        private float velocityY;
+
+        public Flame(float centerX, float centerY,float velocityX,float velocityY,float radius){
+            this.velocityX = velocityX;
+            this.velocityY = velocityY;
+            circle = new Circle();
+            circle.set(centerX,centerY,radius);
+        }
+
+        public void updateCircle(float delta){
+            circle.set(circle.x +delta*velocityX,circle.y +delta*velocityY,circle.radius);
+        }
+
+        public Circle getCircle() {
+            return circle;
+        }
+
+        public void setVelocityX(float velocityX) {
+            this.velocityX = velocityX;
+        }
+
+        public void setVelocityY(float velocityY) {
+            this.velocityY = velocityY;
+        }
+
+        public float getX(){
+            return circle.x;
+        }
+
+        public float getY(){
+            return circle.y;
+        }
     }
 }

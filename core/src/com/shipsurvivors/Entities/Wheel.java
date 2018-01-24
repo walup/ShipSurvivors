@@ -30,7 +30,7 @@ public class Wheel extends Actor {
     private float radius;
     private Body body;
     private Fixture fixture;
-    private final float LOWEST_ANGULAR_VELOCITY = (float) 0.01;
+    private final float LOWEST_ANGULAR_VELOCITY = (float) 1;
     private TextureRegion bandTexture;
     private Vector2 center;
 

@@ -3,10 +3,12 @@ package com.shipsurvivors.Entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.EarClippingTriangulator;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
@@ -22,6 +24,7 @@ import com.shipsurvivors.Utilities.SandBox.RockFixture;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by SEO on 22/12/2017.
@@ -42,53 +45,76 @@ import java.util.List;
 * (by 3 the old one is already gone), and also create the new fixtures, after we've done this we can clear the polyVerts
 * array, which was only a temporary allocation for the data of the modified rock.
 * */
-public class RockSpawner  {
 
-    private Texture rockSpawnerRight;
-    private Texture rockSpawnerLeft;
+
+
+
+/*
+* A few things must be said about how we are drawing the rocks. We created a PolygonPack class, which basically can
+* store a Body and an array of PolygonRegion's. What we do is the following, we create a fixed size array of polygon
+* packs, then every, every determined ammount of time we call the method buildNewRock which basically scans the whole
+* polygon pack array, until it gets one which doesnt have a body or has been destroyed, and tags it as destroyed so that
+* the method buildRock will add a new body to it. Ok, now what happens when something collides to the rock? following
+* the scheme described before, the body is goind to be destroyed, and when that happens,in the method destroyBody
+* we'll tag the corresponding body in our PolygonPack array, so that when the new rock is built, we can also update our
+* PolygonPack's. The Polygon Regions inside the PolygonPack is what we'll be drawing.
+* */
+
+public class RockSpawner  {
     /*The polyVerts will contain the info of a rock , the intention is to be able to create many but fordbugging onee will suffice*/
     private List<RockFixture> polyVerts = new ArrayList<RockFixture>();
     private PolygonPack[] polygonPacks = new PolygonPack[Constantes.MAX_NUM_OF_ROCKS];
     private boolean rockOrder;
     private TextureRegion rockPattern;
     private PolygonSpriteBatch polygonBatch = new PolygonSpriteBatch();
-    private Stage stage;
     private boolean rockFull;
     private float time;
-
+    private RockCarrier rockCarrier;
+    private Random random;
+    private boolean rockNew;
 
     public RockSpawner(){
+        //Initialize the Rock Carrier
+        rockCarrier = new RockCarrier(new Texture(Gdx.files.internal("cowboy_cat.png")));
 
+        //initialize the Rnaodm
+        random = new Random();
     }
-    public RockSpawner(Camera camera){
-        this.stage = stage;
+    public RockSpawner(Camera camera) {
+        //Initialize the rock carrier
+        rockCarrier = new RockCarrier(new Texture(Gdx.files.internal("cowboy_cat.png")));
+
+        //Initialize the Random
+        random = new Random();
+
         polygonBatch.setProjectionMatrix(camera.combined);
 
         //Set the rock texture pattern
         rockPattern = new TextureRegion();
-        rockPattern .setTexture(new Texture(Gdx.files.internal("rock_pattern.png")));
+        rockPattern.setTexture(new Texture(Gdx.files.internal("rock_pattern.png")));
 
         //initialize rocks
         initRocks();
-
-/*
-        polyVerts.add(rockFixture);
-        setRockOrder(true);
-*/
     }
 
+
+
     /*Build Rock at position x, and position y, where these two are given in meters*/
-    public void buildRock(World world,  float x, float y){
+    public void buildRock(World world){
         //Create the body of the rock
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(0,0);
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
 
 
         for (int i = 0;i<polyVerts.size();i++){
             Body rockBody = world.createBody(bodyDef);
             UserData userData = new UserData(UserData.ROCK);
+            userData.mustDestroy = false;
+
+            //Put the rock body where it used to be when teh bullet hit it
             rockBody.setUserData(userData);
+            rockBody.setLinearVelocity(-Constantes.ROCK_VELOCITY,0);
+            rockBody.setTransform(polyVerts.get(i).getX(),polyVerts.get(i).getY(),0);
 
             List<Fixture> fixtures = new ArrayList<Fixture>();
             //Create the fixtures for the rock
@@ -107,43 +133,45 @@ public class RockSpawner  {
                     fixtures.add(rockBody.createFixture(fixtureDef));
                 }
             }
-
-
-                updatePolygonPacks(fixtures, rockBody);
-                polyVerts.get(i).setFixtures(fixtures);
-
+            polyVerts.get(i).setFixtures(fixtures);
+            updatePolygonPacks(fixtures, rockBody);
+            if(isRockNew()){
+                rockCarrier.assignOrder(rockBody,Constantes.ROCK_FINAL_POSITION_X);
+            }
+            System.out.println("number of bodies "+world.getBodyCount());
         }
         setRockOrder(false);
         polyVerts.clear();
     }
 
 
-    public void changeRock(List<PolygonBox2DShape> newRock){
+    public void changeRock(List<PolygonBox2DShape> newRock,float x,float y){
         setRockOrder(true);
         List<float[]> vertices = new ArrayList<float[]>();
         for(int i = 0;i<newRock.size();i++){
             vertices.add(newRock.get(i).verticesToLoop());
         }
         RockFixture rock = new RockFixture(vertices);
+        rock.setX(x);
+        rock.setY(y);
         polyVerts.add(rock);
     }
 
-    public void destroyOldBodies(World world){
-        for (int i = 0; i < world.getBodyCount(); i++) {
-            Array<Body> bodies = new Array<Body>();
-            world.getBodies(bodies);
-            UserData data = ((UserData) bodies.get(i).getUserData());
-            if (data != null && data.getType() == UserData.ROCK) {
-                if ((data.mustDestroy || rockOrder) && !data.destroyed) {
-                    //Tag the PolygonPacks to be destroyed
-                    tagPolygonPacks(bodies.get(i));
-
-
-                    world.destroyBody(bodies.get(i));
-                    bodies.removeIndex(i);
+    public void destroyOldBodies(World world) {
+            for (int i = 0; i < world.getBodyCount(); i++) {
+                Array<Body> bodies = new Array<Body>();
+                world.getBodies(bodies);
+                UserData data = ((UserData) bodies.get(i).getUserData());
+                if (data != null && data.getType() == UserData.ROCK) {
+                    if (data.mustDestroy && !data.destroyed) {
+                        //Tag the PolygonPacks to be destroyed
+                        tagPolygonPacks(bodies.get(i));
+                        world.destroyBody(bodies.get(i));
+                        bodies.removeIndex(i);
+                    }
                 }
             }
-        }
+
     }
 
     public void setRockOrder(boolean rockOrder) {
@@ -189,52 +217,46 @@ public class RockSpawner  {
     }
 
     public void tagPolygonPacks(Body bodyToDestroy){
-        /*We see which of the bodies of the PolygonPacks is going to be destroyed and tag it accordingly
-        * so that we can change the PolygonRegions when we create it again */
 
         for (int i = 0;i<polygonPacks.length;i++){
             if(polygonPacks[i].getBody()!=null && polygonPacks[i].getBody().equals(bodyToDestroy)){
                 polygonPacks[i].setDestroyTagged(true);
             }
         }
-
     }
 
     public void updatePolygonPacks(List<Fixture>fixtures,Body newBody){
-
         for(int i = 0;i<polygonPacks.length;i++){
             if(polygonPacks[i].isDestroyTagged()){
                 polygonPacks[i].setBody(newBody);
                 polygonPacks[i].setPolygonRegions(polygonRegionExtractor(fixtures));
                 polygonPacks[i].setDestroyTagged(false);
-
+                return;
             }
         }
     }
 
+    public void drawRocks(Batch batch,float parentAlpha){
+        if(rockCarrier.isCarrying()){
+            batch.begin();
+            rockCarrier.draw(batch,parentAlpha);
+            batch.end();
+        }
 
-    /*
-    * Something needs to be said about how we are going to render the stones. We use a new kind of Object called
-    * PolygonPack which holds information of the Polygons to render, like its PolygonShape or its Body. whenever the Body
-    * needs to be destroyed we tag the PolygonPacks that need updating, and when the Body is built again we update them using
-    * the method updatePolygonPacks, the PolygonShape can be used to draw all the rocks in the next method
-    * */
-
-    public void drawRocks(){
         polygonBatch.begin();
             for (int i = 0; i < polygonPacks.length; i++) {
                 if(polygonPacks[i].getPolygonRegions()!=null) {
                     for (int j = 0; j < polygonPacks[i].getPolygonRegions().size(); j++) {
+                        //System.out.println(polygonPacks[i].getBody().getPosition().x*Constantes.PIXELS_IN_METER);
                         polygonBatch.draw(polygonPacks[i].getPolygonRegions().get(j), polygonPacks[i].getBody().getPosition().x * Constantes.PIXELS_IN_METER, polygonPacks[i].getBody().getPosition().y * Constantes.PIXELS_IN_METER);
                     }
                 }
             }
 
         polygonBatch.end();
+
     }
 
-    /*Methods to manage Rocks*/
-    /*This method initializes the rocks*/
     public void initRocks(){
         for(int i = 0;i<polygonPacks.length;i++){
             PolygonPack pack = new PolygonPack();
@@ -248,26 +270,29 @@ public class RockSpawner  {
             time+=delta;
 
             if (time > Constantes.TIME_ROCK_SPAWINING) {
-                buildNewRock(Constantes.LITTLE_ROCK_SIZE/Constantes.PIXELS_IN_METER,500/Constantes.PIXELS_IN_METER,100/Constantes.PIXELS_IN_METER);
+                buildNewRock(Constantes.LITTLE_ROCK_SIZE/Constantes.PIXELS_IN_METER,Constantes.ROCK_INITIAL_POSITION_X/Constantes.PIXELS_IN_METER,100/Constantes.PIXELS_IN_METER);
                 time = 0;
-                System.out.println("New Rock created");
-
             }
 
+        }
+        if(rockCarrier.isCarrying()){
+            rockCarrier.act(delta);
         }
     }
 
 
     public void buildNewRock(float rockSize,float x,float y){
+        RockFixture rockFixture = new RockFixture(rockSize,x,y);
+        List<PolygonRegion> polygonRegions = polygonRegionExtractor(rockFixture);
         for (int i = 0;i<polygonPacks.length;i++){
-            RockFixture rockFixture = new RockFixture(rockSize,x,y);
-            List<PolygonRegion> polygonRegions = polygonRegionExtractor(rockFixture);
 
             if(polygonPacks[i].getBody()==null || polygonPacks[i].isDestroyed() ){
                 polygonPacks[i].setPolygonRegions(polygonRegions);
                 polygonPacks[i].setDestroyTagged(true);
                 polyVerts.add(rockFixture);
                 setRockOrder(true);
+                setRockNew(true);
+                System.out.println("Rock created "+i);
                 return;
             }
         }
@@ -282,7 +307,15 @@ public class RockSpawner  {
         return rockFull;
     }
 
+    public float randomHeight(){
+        return 0 + random.nextFloat()*(Constantes.SCREEN_HEIGHT-0);
+    }
 
+    public void setRockNew(boolean rockNew) {
+        this.rockNew = rockNew;
+    }
 
-
+    public boolean isRockNew() {
+        return rockNew;
+    }
 }
