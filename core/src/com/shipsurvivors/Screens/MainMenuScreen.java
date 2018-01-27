@@ -2,9 +2,11 @@ package com.shipsurvivors.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -42,9 +44,8 @@ public class MainMenuScreen extends BaseScreen {
         //Set the stage
         stage = new Stage(new FitViewport(Constantes.SCREEN_WIDTH,Constantes.SCREEN_HEIGHT));
         //Set the Skin
-        skin = new Skin(Gdx.files.internal("menu_styles.json"),new TextureAtlas(Gdx.files.internal("uistuff.atlas")));
+        skin = game.getManager().get("menu_styles.json",Skin.class);
         //Initialize the buttons
-
         startGameButton = new TextButton("Start",skin,"menu_text_button_style");
         settingsButton = new TextButton("Settings",skin,"menu_text_button_style");
         storyButton = new TextButton("Story",skin,"menu_text_button_style");
@@ -57,8 +58,6 @@ public class MainMenuScreen extends BaseScreen {
         menuLayout.align(Align.center);
         //set the flame dance
         flameDance = new FlameDance();
-
-
     }
 
     @Override
@@ -93,7 +92,6 @@ public class MainMenuScreen extends BaseScreen {
 
         stage.act(delta);
         stage.draw();
-
     }
 
     @Override
@@ -137,12 +135,10 @@ public class MainMenuScreen extends BaseScreen {
             greenFlame = new Flame(Constantes.SCREEN_WIDTH*random.nextFloat(),Constantes.SCREEN_HEIGHT*random.nextFloat(),Constantes.FLAME_VELOCITY*random.nextFloat(),Constantes.FLAME_VELOCITY*random.nextFloat(),Constantes.FLAME_RADIUS*random.nextFloat());
             redFlame = new Flame(Constantes.SCREEN_WIDTH*random.nextFloat(),Constantes.SCREEN_HEIGHT*random.nextFloat(),Constantes.FLAME_VELOCITY*random.nextFloat(),Constantes.FLAME_VELOCITY*random.nextFloat(),Constantes.FLAME_RADIUS*random.nextFloat());
             //Set the particles effects
-            greenFlameEffect = new ParticleEffect();
-            greenFlameEffect.load(Gdx.files.internal("green_flame"),Gdx.files.internal(""));
+            greenFlameEffect = game.getManager().get("green_flame",ParticleEffect.class);
             greenFlameEffect.getEmitters().first().setPosition(greenFlame.getX(),greenFlame.getY());
             greenFlameEffect.start();
-            redFlameEffect = new ParticleEffect();
-            redFlameEffect.load(Gdx.files.internal("red_flame"),Gdx.files.internal(""));
+            redFlameEffect = game.getManager().get("red_flame", ParticleEffect.class);
             redFlameEffect.getEmitters().first().setPosition(redFlame.getX(),redFlame.getY());
             redFlameEffect.start();
         }

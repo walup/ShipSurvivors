@@ -25,9 +25,6 @@ public class Weapon extends Attachable {
     private TextureRegion standingTexture;
     private float elapsedTime;
 
-
-
-
     public Weapon(TextureAtlas weaponAtlas, Texture cardTexture){
         //Set the animation
         weaponShootingAnimation = new Animation(1/50f,weaponAtlas.findRegions("shooting"));

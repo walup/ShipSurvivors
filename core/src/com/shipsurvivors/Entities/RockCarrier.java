@@ -19,6 +19,8 @@ public class RockCarrier  extends Actor {
     private Body rockBody;
     private float destinationX;
     private float startX = Constantes.ROCK_INITIAL_POSITION_X;
+    private boolean reachTurnPoint,reachStopPoint;
+    private float velocityX;
 
     public RockCarrier(Texture texture){
         this.texture  = texture;
@@ -27,15 +29,31 @@ public class RockCarrier  extends Actor {
 
     @Override
     public void act(float delta) {
-        super.act(delta);
         if(isCarrying()){
-            updatePosition();
+            updateCarryingPosition();
+            setReachTurnPoint(getX()<destinationX);
+            if(isReachTurnPoint()){
+                getRockBody().setLinearVelocity(-Constantes.ROCK_VELOCITY,0);
+                setVelocityX(Constantes.ROCK_CARRIER_VELOCITY);
+                setCarrying(false);
+                setRightDirection(true);
+            }
+        }
+        else if (reachTurnPoint){
+            updatePosition(delta);
+            System.out.println(getX());
+            setReachStopPoint(getX()>Constantes.ROCK_INITIAL_POSITION_X);
+            if(isReachStopPoint()){
+                setReachTurnPoint(false);
+                setVelocityX(0);
+                setReachStopPoint(false);
+            }
         }
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if(carrying) {
+        if(isCarrying() || isReachTurnPoint()) {
             batch.draw(texture, getX(), getY(), getWidth(), getHeight(), 0, 0, texture.getWidth(), texture.getHeight(), rightDirection, false);
         }
     }
@@ -49,10 +67,13 @@ public class RockCarrier  extends Actor {
     }
 
     public void assignOrder(Body body,float destinationX){
+        body.setLinearVelocity(-Constantes.ROCK_TRANSPORTATION_VELOCITY,0);
         setRockBody(body);
         setDestinationX(destinationX);
         setCarrying(true);
         setRightDirection(false);
+        setVelocityX(Constantes.ROCK_CARRIER_VELOCITY);
+        setPosition(startX + getRockBody().getPosition().x * Constantes.PIXELS_IN_METER + getWidth(), getRockBody().getPosition().y * Constantes.PIXELS_IN_METER);
     }
 
     public float getDestinationX() {
@@ -71,11 +92,39 @@ public class RockCarrier  extends Actor {
         return carrying;
     }
 
-    private void updatePosition(){
-        setPosition(startX+getRockBody().getPosition().x* Constantes.PIXELS_IN_METER + getWidth(),getRockBody().getPosition().y*Constantes.PIXELS_IN_METER);
+    private void updateCarryingPosition(){
+        setPosition(startX + getRockBody().getPosition().x * Constantes.PIXELS_IN_METER + getWidth(), getRockBody().getPosition().y * Constantes.PIXELS_IN_METER);
+    }
+
+    private void updatePosition(float delta){
+        setPosition(getX()+velocityX*delta,getY());
     }
 
     public void setRightDirection(Boolean rightDirection) {
         this.rightDirection = rightDirection;
+    }
+
+    public boolean isReachStopPoint() {
+        return reachStopPoint;
+    }
+
+    public void setReachStopPoint(boolean reachStopPoint) {
+        this.reachStopPoint = reachStopPoint;
+    }
+
+    public void setVelocityX(float velocityX) {
+        this.velocityX = velocityX;
+    }
+
+    public float getVelocityX() {
+        return velocityX;
+    }
+
+    public boolean isReachTurnPoint() {
+        return reachTurnPoint;
+    }
+
+    public void setReachTurnPoint(boolean reachTurnPoint) {
+        this.reachTurnPoint = reachTurnPoint;
     }
 }

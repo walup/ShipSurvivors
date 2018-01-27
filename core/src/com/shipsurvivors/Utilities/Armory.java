@@ -3,6 +3,7 @@ package com.shipsurvivors.Utilities;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -26,16 +27,16 @@ public class Armory {
         this.world = world;
     }
 
-    public Weapon[] weaponsRequest(String type, int numberOfWeapons){
+    public Weapon[] weaponsRequest(String type, AssetManager manager,int numberOfWeapons){
         Weapon[] weapons = new Weapon[numberOfWeapons];
         for (int i = 0;i<weapons.length;i++){
-            Weapon wep = weaponRequest(type);
+            Weapon wep = weaponRequest(type,manager);
             weapons[i] = wep;
         }
         return weapons;
     }
 
-    public Weapon weaponRequest(String type){
+    public Weapon weaponRequest(String type, AssetManager manager){
         Weapon weapon;
         JsonReader jsonReader = new JsonReader();
         String rawString = jsonFile.readString();
@@ -46,11 +47,11 @@ public class Armory {
             if (type.equals("arduino_gun")) {
             /*We need two things, an atlas, and a Texture for the card*/
                 String urlTexture = jsonValue.get("weapon").get(type).getString("card");
-                Texture texture = new Texture(urlTexture);
+                Texture texture = manager.get(urlTexture,Texture.class);
                 String urlAtlas = jsonValue.get("weapon").get(type).getString("atlas");
-                TextureAtlas atlas = new TextureAtlas(urlAtlas);
+                TextureAtlas atlas =manager.get(urlAtlas,TextureAtlas.class);
                 String urlBulletTexture = jsonValue.get("weapon").get(type).getString("bullet");
-                Texture bulletTexture = new Texture(urlBulletTexture);
+                Texture bulletTexture = manager.get(urlBulletTexture);
 
                 return new ArduinoPistol(atlas,texture,bulletTexture,world);
             }

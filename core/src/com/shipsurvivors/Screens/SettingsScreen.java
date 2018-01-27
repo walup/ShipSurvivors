@@ -32,16 +32,14 @@ public class SettingsScreen extends BaseScreen {
     IconActor musicVolumeIcon,specialEffectsIcon;
     Stage stage;
     TextButton returnButton;
-    TextureAtlas textureAtlas;
 
     public SettingsScreen(MainGame game) {
         super(game);
         //Initialize the stage
         stage = new Stage(new FitViewport(Constantes.SCREEN_WIDTH,Constantes.SCREEN_HEIGHT));
         //Initialize the atlas
-        textureAtlas = new TextureAtlas(Gdx.files.internal("settingsatlas.atlas"));
         //Initialize the skin
-        skin = new Skin(Gdx.files.internal("settings.json"),new TextureAtlas(Gdx.files.internal("settingsatlas.atlas")));
+        skin =game.getManager().get("settings.json");
         //Initialize the sliders
         musicVolumeSlider = new Slider(0,1,(float)0.01,false,skin,"slider_style");
         specialEffectsSlider = new Slider(0,1,(float)0.01,false,skin,"slider_style");
@@ -54,8 +52,8 @@ public class SettingsScreen extends BaseScreen {
         returnButton = new TextButton("Return",skin,"text_button_style");
         //Initialize the Icons
 
-        musicVolumeIcon = new IconActor(textureAtlas.findRegion("musicicon"),Constantes.SETTINGS_ICON_WIDTH,Constantes.SETTINGS_ICON_HEIGHT);
-        specialEffectsIcon = new IconActor(textureAtlas.findRegion("soundeffectsicon"),Constantes.SETTINGS_ICON_WIDTH, Constantes.SETTINGS_ICON_HEIGHT);
+        musicVolumeIcon = new IconActor(game.getManager().get("settingsatlas.atlas",TextureAtlas.class).findRegion("musicicon"),Constantes.SETTINGS_ICON_WIDTH,Constantes.SETTINGS_ICON_HEIGHT);
+        specialEffectsIcon = new IconActor(game.getManager().get("settingsatlas.atlas",TextureAtlas.class).findRegion("soundeffectsicon"),Constantes.SETTINGS_ICON_WIDTH, Constantes.SETTINGS_ICON_HEIGHT);
         settingsLayout = new Table();
     }
 

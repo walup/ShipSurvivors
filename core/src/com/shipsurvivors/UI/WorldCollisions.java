@@ -87,8 +87,6 @@ public class WorldCollisions implements ContactListener {
      * the method switch ground (see what it does on Game Screen )
      * **/
     private void clippingRock(Body a, Body b, UserData dataB) {
-        if(((UserData)a.getUserData()).mustDestroy){
-        }
         Body body = a;
         if (!((UserData)body.getUserData()).mustDestroy) {
             List<PolygonBox2DShape> totalRS = new ArrayList<PolygonBox2DShape>();
@@ -161,8 +159,6 @@ public class WorldCollisions implements ContactListener {
         }
         return verts;
     }
-
-
 
 
 

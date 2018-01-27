@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.shipsurvivors.Entities.CardContainer;
+import com.shipsurvivors.Entities.HeartContainer.HeartContainer;
 import com.shipsurvivors.Entities.RockSpawner;
 import com.shipsurvivors.Entities.Ship;
 import com.shipsurvivors.UI.ShipControls;
@@ -38,6 +39,7 @@ public class GameScreen extends BaseScreen {
     private ScrollingBackground background;
     private Armory armory;
     private RockSpawner rockSpawner;
+    private HeartContainer heartContainer;
     // Variables needed for the rendering
     private float accu;
     private static final float TIME_STEP = 1 / 60f;
@@ -65,18 +67,18 @@ public class GameScreen extends BaseScreen {
         world = new World(new Vector2(0,0),true);
 
         //Initialize the scrolling background
-       background = new ScrollingBackground(new Texture(Gdx.files.internal("background.png")));
+       background = new ScrollingBackground(game.getManager().get("background.png",Texture.class));
 
 
         //Initialize the sounds and music
 
 
         //We initialize the ship
-        ship = new Ship(world,new TextureAtlas(Gdx.files.internal("shipatlas.atlas")),20,20, Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
+        ship = new Ship(world,game.getManager().get("shipatlas.atlas",TextureAtlas.class),20,20, Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
 
         //Initialize the rock spawner
 
-        rockSpawner = new RockSpawner(stage.getCamera());
+        rockSpawner = new RockSpawner(stage.getCamera(),game.getManager());
         //Initilize WorldColissions
         worldCollisions = new WorldCollisions(rockSpawner,ship);
 
@@ -84,6 +86,9 @@ public class GameScreen extends BaseScreen {
 
         cameraForDebug = new OrthographicCamera(16,9);
         renderer = new Box2DDebugRenderer();
+
+        //Initialize the heart container
+        heartContainer = new HeartContainer(game.getManager().get("hearts.atlas",TextureAtlas.class),Constantes.HEART_CONTAINER_X,Constantes.HEART_CONTAINER_Y);
 
 
     }
@@ -94,16 +99,17 @@ public class GameScreen extends BaseScreen {
         //Initialize the card container
         armory = new Armory(Gdx.files.internal("weapons.json"),world);
 
-        cardContainer = new CardContainer(armory.weaponsRequest("arduino_gun",5),new Texture(Gdx.files.internal("card_container_background.png")));
-
+        cardContainer = new CardContainer(armory.weaponsRequest("arduino_gun",game.getManager(),5),game.getManager().get("card_container_background.png",Texture.class));
 
         //Initialize the controls
         shipControls = new ShipControls(ship,cardContainer);
 
         //Add everything to the stage
         stage.addActor(background);
+
         stage.addActor(ship);
         stage.addActor(cardContainer);
+        stage.addActor(heartContainer);
         Gdx.input.setInputProcessor(new GestureDetector(shipControls));
         world.setContactListener(worldCollisions);
     }
@@ -123,7 +129,6 @@ public class GameScreen extends BaseScreen {
         //Destroy bodies which need destroying
 
         rockSpawner.destroyOldBodies(world);
-
 
         //if needed build the new bodies
 

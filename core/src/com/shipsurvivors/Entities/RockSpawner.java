@@ -1,6 +1,7 @@
 package com.shipsurvivors.Entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -52,7 +53,7 @@ import java.util.Random;
 /*
 * A few things must be said about how we are drawing the rocks. We created a PolygonPack class, which basically can
 * store a Body and an array of PolygonRegion's. What we do is the following, we create a fixed size array of polygon
-* packs, then every, every determined ammount of time we call the method buildNewRock which basically scans the whole
+* packs, then every determined ammount of time we call the method buildNewRock which basically scans the whole
 * polygon pack array, until it gets one which doesnt have a body or has been destroyed, and tags it as destroyed so that
 * the method buildRock will add a new body to it. Ok, now what happens when something collides to the rock? following
 * the scheme described before, the body is goind to be destroyed, and when that happens,in the method destroyBody
@@ -80,9 +81,9 @@ public class RockSpawner  {
         //initialize the Rnaodm
         random = new Random();
     }
-    public RockSpawner(Camera camera) {
+    public RockSpawner(Camera camera, AssetManager manager) {
         //Initialize the rock carrier
-        rockCarrier = new RockCarrier(new Texture(Gdx.files.internal("cowboy_cat.png")));
+        rockCarrier = new RockCarrier(manager.get("cowboy_cat.png",Texture.class));
 
         //Initialize the Random
         random = new Random();
@@ -91,7 +92,7 @@ public class RockSpawner  {
 
         //Set the rock texture pattern
         rockPattern = new TextureRegion();
-        rockPattern.setTexture(new Texture(Gdx.files.internal("rock_pattern.png")));
+        rockPattern.setTexture(manager.get("rock_pattern.png",Texture.class));
 
         //initialize rocks
         initRocks();
@@ -137,6 +138,7 @@ public class RockSpawner  {
             updatePolygonPacks(fixtures, rockBody);
             if(isRockNew()){
                 rockCarrier.assignOrder(rockBody,Constantes.ROCK_FINAL_POSITION_X);
+                setRockNew(false);
             }
             System.out.println("number of bodies "+world.getBodyCount());
         }
@@ -237,7 +239,7 @@ public class RockSpawner  {
     }
 
     public void drawRocks(Batch batch,float parentAlpha){
-        if(rockCarrier.isCarrying()){
+        if(rockCarrier.isCarrying() || rockCarrier.isReachTurnPoint()){
             batch.begin();
             rockCarrier.draw(batch,parentAlpha);
             batch.end();
@@ -254,7 +256,6 @@ public class RockSpawner  {
             }
 
         polygonBatch.end();
-
     }
 
     public void initRocks(){
@@ -275,9 +276,8 @@ public class RockSpawner  {
             }
 
         }
-        if(rockCarrier.isCarrying()){
             rockCarrier.act(delta);
-        }
+
     }
 
 

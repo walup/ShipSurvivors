@@ -52,11 +52,24 @@ public class Constantes {
     public final static float ROCK_INITIAL_POSITION_X = 800;
     public final static float CARRIER_WIDTH = 70;
     public final static float CARRIER_HEIGHT = 100;
-    public final static float ROCK_CARRIER_VELOCITY = (float) 0.5;
+    public final static float ROCK_CARRIER_VELOCITY = (float) 200;
     public final static float ROCK_FINAL_POSITION_X = SCREEN_WIDTH-LITTLE_ROCK_SIZE-CARRIER_WIDTH;
+    public final static float ROCK_TRANSPORTATION_VELOCITY = 0.5f;
 
-    public final static float FLAME_VELOCITY = 200;
+
+    public final static float FLAME_VELOCITY = 20;
     public final static float FLAME_RADIUS = 10;
+
+
+    public final static int HEART_PIECES = 4;
+    public final static int NUMBER_OF_HEARTS = 3;
+    public final static float HEART_WIDTH = 60;
+    public final static float HEART_HEIGHT = 40;
+    public final static float HEART_CONTAINER_X = 0;
+    public final static float HEART_CONTAINER_Y = SCREEN_HEIGHT-HEART_HEIGHT;
+
+
+
 
 
 
