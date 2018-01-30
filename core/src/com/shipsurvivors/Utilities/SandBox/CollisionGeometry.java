@@ -91,6 +91,9 @@ public class CollisionGeometry {
 
 
 
+
+
+
     /*This checks if a polygon of vertices verts is contained  within a circle*/
     public static boolean isPolygonInCircle(float[] verts, Vector2 center, float radius) {
         for(int i = 0; i < verts.length; i+=2){

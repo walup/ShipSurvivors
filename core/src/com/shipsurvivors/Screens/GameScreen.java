@@ -137,20 +137,18 @@ public class GameScreen extends BaseScreen {
         }
 
 
-
         //Render the stage.
         stage.draw();
         //Draw the rocks
         rockSpawner.drawRocks(stage.getBatch(),1);
-
         renderer.render(world,cameraForDebug.combined);
-
 
     }
 
     @Override
     public void dispose() {
-        super.dispose();
+        heartContainer.dispose();
+
     }
 
 

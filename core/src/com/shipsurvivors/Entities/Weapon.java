@@ -21,7 +21,7 @@ import com.shipsurvivors.Utilities.Icon;
  * Created by SEO on 25/09/2017.
  */
 public class Weapon extends Attachable {
-    private Animation weaponShootingAnimation;
+    private Animation<TextureRegion> weaponShootingAnimation;
     private TextureRegion standingTexture;
     private float elapsedTime;
 

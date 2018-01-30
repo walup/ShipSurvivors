@@ -313,6 +313,7 @@ public class Polygon {
                                 s, this.getNext(s.next), c, clip.getNext(c.next)
                         );
                         if (i.test()) {
+
                             Vertex iS = Vertex.intersection(i.x, i.y, i.us);
                             Vertex iC = Vertex.intersection(i.x, i.y, i.uc);
 

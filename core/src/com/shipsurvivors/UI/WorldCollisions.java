@@ -26,10 +26,11 @@ import java.util.List;
  */
 public class WorldCollisions implements ContactListener {
     public float circRadius = 1f;
-    public int segments = (int) 10;
+    public int segments = (int) 20;
     private RockSpawner rockSpawner;
     private boolean clipped;
     private Ship ship;
+    private final float CORRECTION_X = Constantes.SCREEN_WIDTH/Constantes.PIXELS_IN_METER;
 
 
 
@@ -84,13 +85,16 @@ public class WorldCollisions implements ContactListener {
     /**
      * clippingGround basically receives two bodies a: which is going to be clipped (say the ground) and b: whieh is
      * a clipper (say a bomb or a bullet). And it basically gets the difference between one and the other, and gives it too
-     * the method switch ground (see what it does on Game Screen )
+     * the method switch ground (see what it does on Game Screen), something that is quite important is that some adjustment
+     * needs to be make to the position of the bullet so that it clips the rock properly. that's the reason we always take out
+     * CORRECTION_X when clipping the body
      * **/
     private void clippingRock(Body a, Body b, UserData dataB) {
         Body body = a;
         if (!((UserData)body.getUserData()).mustDestroy) {
             List<PolygonBox2DShape> totalRS = new ArrayList<PolygonBox2DShape>();
-            float[] circleVertices = CollisionGeometry.approxCircle(b.getPosition().x, b.getPosition().y, dataB.getSplashRadius(), Constantes.ROCK_NUM_SEGMENTS);
+
+            float[] circleVertices = CollisionGeometry.approxCircle(b.getPosition().x-CORRECTION_X, b.getPosition().y, dataB.getSplashRadius(), Constantes.ROCK_NUM_SEGMENTS);
             ChainShape shape = new ChainShape();
             shape.createLoop(circleVertices);
 
@@ -112,6 +116,7 @@ public class WorldCollisions implements ContactListener {
                 for (int y = 0; y < rs.size(); y++) {
                     rs.get(y).circleContact(b.getPosition(), circRadius);
                     totalRS.add(rs.get(y));
+                    System.out.println(rs.get(y).toString());
                 }
             }
 

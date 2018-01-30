@@ -121,6 +121,7 @@ public class RockSpawner  {
             //Create the fixtures for the rock
 
             for (int j = 0;j<polyVerts.get(i).getVertices().size();j++) {
+                //If we have at least a square then we create a new fixture with it
                 if (this.polyVerts.get(i).getVertices().get(j).length >= 6) {
                     ChainShape chainShape = new ChainShape();
                     chainShape.createLoop(polyVerts.get(i).getVertices().get(j));
@@ -130,7 +131,6 @@ public class RockSpawner  {
                     fixtureDef.friction = 0.8f;
                     fixtureDef.filter.categoryBits = Constantes.CATEGORY_ROCK;
                     fixtureDef.filter.maskBits = Constantes.CATEGORY_BULLET;
-
                     fixtures.add(rockBody.createFixture(fixtureDef));
                 }
             }
@@ -292,7 +292,6 @@ public class RockSpawner  {
                 polyVerts.add(rockFixture);
                 setRockOrder(true);
                 setRockNew(true);
-                System.out.println("Rock created "+i);
                 return;
             }
         }

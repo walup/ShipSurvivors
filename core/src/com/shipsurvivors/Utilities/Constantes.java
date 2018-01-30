@@ -57,7 +57,7 @@ public class Constantes {
     public final static float ROCK_TRANSPORTATION_VELOCITY = 0.5f;
 
 
-    public final static float FLAME_VELOCITY = 20;
+    public final static float FLAME_VELOCITY = 200;
     public final static float FLAME_RADIUS = 10;
 
 

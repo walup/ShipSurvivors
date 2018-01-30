@@ -41,7 +41,6 @@ public class RockCarrier  extends Actor {
         }
         else if (reachTurnPoint){
             updatePosition(delta);
-            System.out.println(getX());
             setReachStopPoint(getX()>Constantes.ROCK_INITIAL_POSITION_X);
             if(isReachStopPoint()){
                 setReachTurnPoint(false);

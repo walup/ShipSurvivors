@@ -38,7 +38,7 @@ public class ArduinoPistol extends Weapon {
         bulletBody = world.createBody(bodyDef);
         //Set the appropriate user data
         UserData userData = new UserData(UserData.BULLET);
-        userData.setSplashRadius(0.4f);
+        userData.setSplashRadius(1.5f);
         bulletBody.setUserData(userData);
 
         /*Set the bullet fixture*/
