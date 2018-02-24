@@ -6,8 +6,15 @@
       "card":"Cards/arduino_pistol_card.png",
       "atlas":"Guns/arduinogunatlas.atlas",
       "bullet":"Guns/arduino_bullet.png"
+    },
+
+    "football_cat":{
+      "card": "Cards/football_card.png",
+      "atlas": "Guns/football_cat.atlas",
+      "bullet": "Guns/football.png"
     }
   }
+
 
 
 

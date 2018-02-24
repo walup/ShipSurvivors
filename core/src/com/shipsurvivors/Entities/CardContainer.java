@@ -9,6 +9,7 @@ import com.shipsurvivors.Utilities.Constantes;
 import com.shipsurvivors.Utilities.TowerShelve;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -19,7 +20,7 @@ import java.util.Random;
  * time */
 public class CardContainer extends Actor {
 
-    private Attachable[] attachables;
+    private List<Attachable> attachables;
     private final float RAINING_FREQUENCY = 5;
     private float clock;
     private Random random;
@@ -31,7 +32,7 @@ public class CardContainer extends Actor {
     TowerShelve container  = new TowerShelve(Constantes.CONTAINER_CAPACITY);
 
 
-    public CardContainer(Attachable[] attachables,Texture background){
+    public CardContainer(List<Attachable> attachables,Texture background){
         this.attachables = attachables;
         this.background = background;
 
@@ -61,7 +62,7 @@ public class CardContainer extends Actor {
 
         if(clock>RAINING_FREQUENCY && container.size()<Constantes.CONTAINER_CAPACITY){
             clock = 0;
-                dummyAttachable = attachables[random.nextInt(attachables.length)];
+                dummyAttachable = attachables.get(random.nextInt(attachables.size()));
 
                 if(dummyAttachable.isFree()) {
                     dummyAttachable.setInContainer(true);

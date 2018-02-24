@@ -167,4 +167,8 @@ public class Attachable extends Actor{
     public Fixture getAccesoryFixture() {
         return accesoryFixture;
     }
+
+    public void detach(){
+
+    };
 }

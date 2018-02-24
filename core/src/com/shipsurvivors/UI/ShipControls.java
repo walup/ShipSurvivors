@@ -18,7 +18,10 @@ public class ShipControls implements GestureDetector.GestureListener{
     private Ship ship;
     private CardContainer cardContainer;
     private Vector2 mouseScreenPosition;
-    private Vector2 mouseStagePosition;
+    private static Vector2 mouseStagePosition;
+    private static Boolean flingIntent = false;
+    private static float flingVelocityX, flingVelocityY;
+
 
 
 
@@ -61,6 +64,11 @@ public class ShipControls implements GestureDetector.GestureListener{
         if(ship.getStage().hit(mouseStagePosition.x,mouseStagePosition.y,false) ==ship){
             ship.getWheel().rotate((velocityX+velocityY)/(2* Constantes.PIXELS_IN_METER));
         }
+        else{
+            flingIntent = true;
+            flingVelocityX = velocityX;
+            flingVelocityY = velocityY;
+        }
         return true;
     }
 
@@ -76,8 +84,6 @@ public class ShipControls implements GestureDetector.GestureListener{
             mouseStagePosition = cardContainer.getStage().screenToStageCoordinates(mouseScreenPosition);
             cardContainer.getGrabbedCard().setPointer(mouseStagePosition);
         }
-
-
         return false;
     }
 
@@ -121,5 +127,31 @@ public class ShipControls implements GestureDetector.GestureListener{
     @Override
     public void pinchStop() {
 
+    }
+
+    public static Boolean getFlingIntent() {
+        return flingIntent;
+    }
+
+    public static Vector2 getMouseStagePosition() {
+        return mouseStagePosition;
+    }
+
+    public static float getFlingVelocityX() {
+        return flingVelocityX;
+    }
+
+    public static float getFlingVelocityY() {
+        return flingVelocityY;
+    }
+
+    public static void setFlingIntent(Boolean flingIntent) {
+        ShipControls.flingIntent = flingIntent;
+    }
+
+    public void renderShipControls(){
+        if(flingIntent = true){
+            flingIntent = false;
+        }
     }
 }

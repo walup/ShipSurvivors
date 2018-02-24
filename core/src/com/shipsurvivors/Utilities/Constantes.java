@@ -28,6 +28,13 @@ public class Constantes {
     public final static float BULLET_WIDTH = 10;
     public final static float BULLET_HEIGHT = 10;
     public final static float BULLET_VELOCITY = 500;
+    public final static float FOOTBALL_CAT_WIDTH = 120;
+    public final static float FOOTBALL_CAT_HEIGHT = 100;
+    public final static float FOOTBALL_HEIGHT  = 40;
+    public final static float FOOTBALL_WIDHT = 60;
+    public final static float FOOTBALL_CAT_VELOCITY = 100;
+    public final static float FOOTBALL_VELOCITY = 150;
+
 
     //Rock managing things
     public final static int ROCK_NUM_SEGMENTS = 10;
@@ -67,6 +74,7 @@ public class Constantes {
     public final static float HEART_HEIGHT = 40;
     public final static float HEART_CONTAINER_X = 0;
     public final static float HEART_CONTAINER_Y = SCREEN_HEIGHT-HEART_HEIGHT;
+
 
 
 

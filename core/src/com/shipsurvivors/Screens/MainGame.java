@@ -44,6 +44,9 @@ public class MainGame extends Game {
         manager.load("rock_pattern.png",Texture.class);
         manager.load("cowboy_cat.png",Texture.class);
         manager.load("hearts.atlas",TextureAtlas.class);
+        manager.load("Guns/football_cat.atlas",TextureAtlas.class);
+        manager.load("Guns/football.png",Texture.class);
+        manager.load("Cards/football_card.png",Texture.class);
 
         manager.finishLoading();
         setScreen(new GameScreen(this));

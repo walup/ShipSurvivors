@@ -15,6 +15,10 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.SerializationException;
 import com.shipsurvivors.Entities.Weapon;
 import com.shipsurvivors.Entities.Weapons.ArduinoPistol;
+import com.shipsurvivors.Entities.Weapons.FootballCat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SEO on 19/12/2017.
@@ -27,11 +31,11 @@ public class Armory {
         this.world = world;
     }
 
-    public Weapon[] weaponsRequest(String type, AssetManager manager,int numberOfWeapons){
-        Weapon[] weapons = new Weapon[numberOfWeapons];
-        for (int i = 0;i<weapons.length;i++){
+    public List<Weapon> weaponsRequest(String type, AssetManager manager, int numberOfWeapons){
+        List<Weapon> weapons = new ArrayList<Weapon>();
+        for (int i = 0;i<numberOfWeapons;i++){
             Weapon wep = weaponRequest(type,manager);
-            weapons[i] = wep;
+            weapons.add(wep);
         }
         return weapons;
     }
@@ -54,6 +58,16 @@ public class Armory {
                 Texture bulletTexture = manager.get(urlBulletTexture);
 
                 return new ArduinoPistol(atlas,texture,bulletTexture,world);
+            }
+            else if(type.equals("football_cat")){
+                String urlTexture = jsonValue.get("weapon").get(type).getString("card");
+                Texture cardTexture = manager.get(urlTexture,Texture.class);
+                String urlAtlas = jsonValue.get("weapon").get(type).getString("atlas");
+                TextureAtlas atlas = manager.get(urlAtlas,TextureAtlas.class);
+                String urlBulletTexture = jsonValue.get("weapon").get(type).getString("bullet");
+                Texture bulletTexture = manager.get(urlBulletTexture,Texture.class);
+
+                return new FootballCat(atlas,cardTexture,bulletTexture,world);
             }
         }catch(Exception e){
             e.printStackTrace();

@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.shipsurvivors.Entities.Attachable;
 import com.shipsurvivors.Entities.CardContainer;
 import com.shipsurvivors.Entities.HeartContainer.HeartContainer;
 import com.shipsurvivors.Entities.RockSpawner;
@@ -22,6 +23,9 @@ import com.shipsurvivors.UI.WorldCollisions;
 import com.shipsurvivors.Utilities.Armory;
 import com.shipsurvivors.Utilities.Constantes;
 import com.shipsurvivors.Utilities.ScrollingBackground;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SEO on 25/09/2017.
@@ -99,7 +103,11 @@ public class GameScreen extends BaseScreen {
         //Initialize the card container
         armory = new Armory(Gdx.files.internal("weapons.json"),world);
 
-        cardContainer = new CardContainer(armory.weaponsRequest("arduino_gun",game.getManager(),5),game.getManager().get("card_container_background.png",Texture.class));
+        List<Attachable> attachables = new ArrayList<Attachable>();
+        attachables.addAll(armory.weaponsRequest("arduino_gun",game.getManager(),3));
+        attachables.addAll(armory.weaponsRequest("football_cat",game.getManager(),3));
+
+        cardContainer = new CardContainer(attachables,game.getManager().get("card_container_background.png",Texture.class));
 
         //Initialize the controls
         shipControls = new ShipControls(ship,cardContainer);
@@ -142,6 +150,8 @@ public class GameScreen extends BaseScreen {
         //Draw the rocks
         rockSpawner.drawRocks(stage.getBatch(),1);
         renderer.render(world,cameraForDebug.combined);
+
+        shipControls.renderShipControls();
 
     }
 

@@ -114,6 +114,7 @@ public class Dock extends Actor {
 
         if(isTriggered()){
             if(!attachable.isActivated() && !attachable.isShooting()){
+                attachable.detach();
                 detach();
             }
             else{

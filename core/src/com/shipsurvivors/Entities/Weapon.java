@@ -36,7 +36,6 @@ public class Weapon extends Attachable {
         setSize(Constantes.WEAPON_WIDTH,Constantes.WEAPON_HEIGHT);
         elapsedTime= 0;
         standingTexture = weaponShootingAnimation.getKeyFrame(0);
-
     }
 
 
@@ -58,7 +57,7 @@ public class Weapon extends Attachable {
             }
         }
         else if(isShooting()){
-            batch.draw(standingTexture,getX(),getY(),getWidth(),getHeight());
+            drawStandingTexture(batch,parentAlpha);
             drawAccesory(batch,parentAlpha);
         }
         else{
@@ -67,5 +66,20 @@ public class Weapon extends Attachable {
     }
 
 
+    public void drawStandingTexture(Batch batch,float parentAlpha){
+        batch.draw(standingTexture,getX(),getY(),getWidth(),getHeight());
+    }
+
+    public Animation<TextureRegion> getWeaponShootingAnimation() {
+        return weaponShootingAnimation;
+    }
+
+    public float getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public void setElapsedTime(float elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
 
 }
