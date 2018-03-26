@@ -106,6 +106,7 @@ public class GameScreen extends BaseScreen {
         List<Attachable> attachables = new ArrayList<Attachable>();
         attachables.addAll(armory.weaponsRequest("arduino_gun",game.getManager(),3));
         attachables.addAll(armory.weaponsRequest("football_cat",game.getManager(),3));
+        attachables.addAll(armory.weaponsRequest("heartbreaker",game.getManager(),3));
 
         cardContainer = new CardContainer(attachables,game.getManager().get("card_container_background.png",Texture.class));
 

@@ -47,6 +47,10 @@ public class MainGame extends Game {
         manager.load("Guns/football_cat.atlas",TextureAtlas.class);
         manager.load("Guns/football.png",Texture.class);
         manager.load("Cards/football_card.png",Texture.class);
+        manager.load("Cards/halfheart_card.png",Texture.class);
+        manager.load("Guns/halfheart_left.png",Texture.class);
+        manager.load("Guns/halfheart_right.png",Texture.class);
+        manager.load("Guns/hertbreaker.atlas",TextureAtlas.class);
 
         manager.finishLoading();
         setScreen(new GameScreen(this));

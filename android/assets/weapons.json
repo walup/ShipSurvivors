@@ -12,6 +12,14 @@
       "card": "Cards/football_card.png",
       "atlas": "Guns/football_cat.atlas",
       "bullet": "Guns/football.png"
+    },
+
+    "heartbreaker":{
+      "card":"Cards/halfheart_card.png",
+      "atlas": "Guns/hertbreaker.atlas",
+      "bullet1":"Guns/halfheart_left.png",
+      "bullet2":"Guns/halfheart_right.png"
+
     }
   }
 

@@ -28,12 +28,24 @@ public class Constantes {
     public final static float BULLET_WIDTH = 10;
     public final static float BULLET_HEIGHT = 10;
     public final static float BULLET_VELOCITY = 500;
+
+    /*Football cat constants*/
     public final static float FOOTBALL_CAT_WIDTH = 120;
     public final static float FOOTBALL_CAT_HEIGHT = 100;
     public final static float FOOTBALL_HEIGHT  = 40;
     public final static float FOOTBALL_WIDHT = 60;
     public final static float FOOTBALL_CAT_VELOCITY = 100;
     public final static float FOOTBALL_VELOCITY = 150;
+
+    /*HeartBreaker constants*/
+    public final static float HALFHEART_WIDTH = 40;
+    public final static float HALFHEART_HEIGHT = 40;
+    public final static float HEARTBREAKER_WIDTH = 120;
+    public final static float HEARTBREAKER_HEIGHT = 100;
+    public final static float HALFHEART_SPLASH_RADIUS = 0.1f;
+    public final static float HEARTBREAKER_VELOCITY = 100;
+    public final static float SPLIT_HEART_ANGLE = 45;
+
 
 
     //Rock managing things

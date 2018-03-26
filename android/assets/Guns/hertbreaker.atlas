@@ -1,0 +1,381 @@
+
+hertbreaker.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 1
+shooting
+  rotate: false
+  xy: 2, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 2
+shooting
+  rotate: false
+  xy: 354, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 3
+shooting
+  rotate: false
+  xy: 354, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 4
+
+hertbreaker2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 5
+shooting
+  rotate: false
+  xy: 2, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 6
+shooting
+  rotate: false
+  xy: 354, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 7
+shooting
+  rotate: false
+  xy: 354, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 8
+
+hertbreaker3.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 9
+shooting
+  rotate: false
+  xy: 2, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 10
+shooting
+  rotate: false
+  xy: 354, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 11
+shooting
+  rotate: false
+  xy: 354, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 12
+
+hertbreaker4.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 13
+shooting
+  rotate: false
+  xy: 2, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 14
+shooting
+  rotate: false
+  xy: 354, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 15
+shooting
+  rotate: false
+  xy: 354, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 16
+
+hertbreaker5.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 17
+shooting
+  rotate: false
+  xy: 2, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 18
+shooting
+  rotate: false
+  xy: 354, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 19
+shooting
+  rotate: false
+  xy: 354, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 20
+
+hertbreaker6.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 21
+shooting
+  rotate: false
+  xy: 2, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 22
+shooting
+  rotate: false
+  xy: 354, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 23
+shooting
+  rotate: false
+  xy: 354, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 24
+
+hertbreaker7.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 25
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 42
+shooting
+  rotate: false
+  xy: 2, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 26
+shooting
+  rotate: false
+  xy: 354, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 27
+shooting
+  rotate: false
+  xy: 354, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 28
+
+hertbreaker8.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 29
+shooting
+  rotate: false
+  xy: 2, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 30
+shooting
+  rotate: false
+  xy: 354, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 31
+shooting
+  rotate: false
+  xy: 354, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 32
+
+hertbreaker9.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 33
+shooting
+  rotate: false
+  xy: 2, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 34
+shooting
+  rotate: false
+  xy: 354, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 35
+shooting
+  rotate: false
+  xy: 354, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 36
+
+hertbreaker10.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 37
+shooting
+  rotate: false
+  xy: 2, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 38
+shooting
+  rotate: false
+  xy: 354, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 39
+shooting
+  rotate: false
+  xy: 354, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 40
+
+hertbreaker11.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shooting
+  rotate: false
+  xy: 2, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 41
+shooting
+  rotate: false
+  xy: 2, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 43
+shooting
+  rotate: false
+  xy: 354, 404
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 44
+shooting
+  rotate: false
+  xy: 354, 2
+  size: 350, 400
+  orig: 350, 400
+  offset: 0, 0
+  index: 45

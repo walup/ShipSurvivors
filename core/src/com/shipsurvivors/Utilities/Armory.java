@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.SerializationException;
 import com.shipsurvivors.Entities.Weapon;
 import com.shipsurvivors.Entities.Weapons.ArduinoPistol;
 import com.shipsurvivors.Entities.Weapons.FootballCat;
+import com.shipsurvivors.Entities.Weapons.HeartBreaker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,20 @@ public class Armory {
                 Texture bulletTexture = manager.get(urlBulletTexture,Texture.class);
 
                 return new FootballCat(atlas,cardTexture,bulletTexture,world);
+            }
+
+            else if(type.equals("heartbreaker")){
+                String urlTexture = jsonValue.get("weapon").get(type).getString("card");
+                Texture cardTexture = manager.get(urlTexture,Texture.class);
+                String urlAtlas = jsonValue.get("weapon").get(type).getString("atlas");
+                TextureAtlas atlas = manager.get(urlAtlas,TextureAtlas.class);
+                String urlBulletTexture1 = jsonValue.get("weapon").get(type).getString("bullet1");
+                Texture bulletTexture1 = manager.get(urlBulletTexture1,Texture.class);
+                String urlBulletTexture2 = jsonValue.get("weapon").get(type).getString("bullet2");
+                Texture bulletTexture2 = manager.get(urlBulletTexture2,Texture.class);
+
+                return new HeartBreaker(atlas,cardTexture,bulletTexture1,bulletTexture2,world);
+
             }
         }catch(Exception e){
             e.printStackTrace();
