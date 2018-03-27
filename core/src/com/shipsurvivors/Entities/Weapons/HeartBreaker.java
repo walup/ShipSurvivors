@@ -146,10 +146,10 @@ public class HeartBreaker extends Weapon {
     public void throwHalfHearts(float velocityX, float velocityY){
         float norm = CollisionGeometry.distanceBetween2Points(0,0,velocityX,velocityY);
         float angle = (float) Math.toRadians(Constantes.SPLIT_HEART_ANGLE);
-        setLeftHeartVelocityX((float) (velocityX + norm*Math.cos(angle)));
-        setLeftHeartVelocityY((float)(velocityY +norm*Math.sin(angle)));
-        setRightHeartVelocityX((float) (velocityX +norm*Math.cos(angle)));
-        setRightHeartVelocityY((float) (velocityY -norm*Math.sin(angle)));
+        setLeftHeartVelocityX((float) ((velocityX/norm)*Constantes.HALF_HEART_VEL + Constantes.HALF_HEART_VEL*Math.cos(angle)));
+        setLeftHeartVelocityY((float)((velocityY/norm)*Constantes.HALF_HEART_VEL +Constantes.HALF_HEART_VEL*Math.sin(angle)));
+        setRightHeartVelocityX((float) ((velocityX/norm)*Constantes.HALF_HEART_VEL +Constantes.HALF_HEART_VEL*Math.cos(angle)));
+        setRightHeartVelocityY((float) ((velocityY/norm)*Constantes.HALF_HEART_VEL -Constantes.HALF_HEART_VEL*Math.sin(angle)));
         leftHeartBody.setActive(true);
         leftHeartBody.setTransform(getLeftHeartX()/Constantes.PIXELS_IN_METER,getLeftHeartY()/Constantes.PIXELS_IN_METER,0);
         leftHeartBody.setLinearVelocity(getLeftHeartVelocityX()/Constantes.PIXELS_IN_METER,getLeftHeartVelocityY()/Constantes.PIXELS_IN_METER);

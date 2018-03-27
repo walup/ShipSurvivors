@@ -12,10 +12,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.shipsurvivors.Entities.Attachable;
 import com.shipsurvivors.Entities.CardContainer;
 import com.shipsurvivors.Entities.HeartContainer.HeartContainer;
+import com.shipsurvivors.Entities.Referee;
 import com.shipsurvivors.Entities.RockSpawner;
 import com.shipsurvivors.Entities.Ship;
 import com.shipsurvivors.UI.ShipControls;
@@ -50,16 +53,15 @@ public class GameScreen extends BaseScreen {
     private static int speedIte = 6, posIte = 2;
     private int count = 0;
     // The contact handler
-    WorldCollisions worldCollisions;
+    private WorldCollisions worldCollisions;
 
     //For Debugging
-    Box2DDebugRenderer renderer;
-    OrthographicCamera cameraForDebug;
+    private Box2DDebugRenderer renderer;
+    private OrthographicCamera cameraForDebug;
 
-
-
-
-
+    //Referee
+    private Referee referee;
+    private Label scoreLabel;
 
 
     public GameScreen(MainGame game) {
@@ -83,16 +85,25 @@ public class GameScreen extends BaseScreen {
         //Initialize the rock spawner
 
         rockSpawner = new RockSpawner(stage.getCamera(),game.getManager());
+        //Initialize the heart Container
+        heartContainer = new HeartContainer(game.getManager().get("hearts.atlas",TextureAtlas.class),Constantes.HEART_CONTAINER_X,Constantes.HEART_CONTAINER_Y);
+
+        //Initialize the Referee (remember that this interacts with the heart container, and then also world colissions
+        // needs the referee)
+
+        referee = new Referee(heartContainer);
+
         //Initilize WorldColissions
-        worldCollisions = new WorldCollisions(rockSpawner,ship);
+        worldCollisions = new WorldCollisions(rockSpawner,ship,referee);
+
+        //Initialize the label
+        initializeLabel();
 
         //Initialize DebugShit
 
         cameraForDebug = new OrthographicCamera(16,9);
         renderer = new Box2DDebugRenderer();
 
-        //Initialize the heart container
-        heartContainer = new HeartContainer(game.getManager().get("hearts.atlas",TextureAtlas.class),Constantes.HEART_CONTAINER_X,Constantes.HEART_CONTAINER_Y);
 
 
     }
@@ -119,6 +130,7 @@ public class GameScreen extends BaseScreen {
         stage.addActor(ship);
         stage.addActor(cardContainer);
         stage.addActor(heartContainer);
+        stage.addActor(scoreLabel);
         Gdx.input.setInputProcessor(new GestureDetector(shipControls));
         world.setContactListener(worldCollisions);
     }
@@ -135,6 +147,11 @@ public class GameScreen extends BaseScreen {
         rockSpawner.updateRockManagement(delta);
         box2DTimeStep(delta);
 
+        //Here change the score if neccesary
+        if(referee.isChangedScore()){
+            scoreLabel.setText(""+referee.getScore());
+            referee.setChangedScore(false);
+        }
         //Destroy bodies which need destroying
 
         rockSpawner.destroyOldBodies(world);
@@ -144,8 +161,6 @@ public class GameScreen extends BaseScreen {
         if(rockSpawner.isRockOrder()){
             rockSpawner.buildRock(world);
         }
-
-
         //Render the stage.
         stage.draw();
         //Draw the rocks
@@ -170,6 +185,11 @@ public class GameScreen extends BaseScreen {
             world.step(TIME_STEP, speedIte, posIte);
             accu -= TIME_STEP;
         }
+    }
+
+    private void initializeLabel(){
+        Skin skin = game.getManager().get("settings.json");
+        scoreLabel = new Label("Score "+0,skin,"label_style");
     }
 
 

@@ -51,6 +51,7 @@ public class MainGame extends Game {
         manager.load("Guns/halfheart_left.png",Texture.class);
         manager.load("Guns/halfheart_right.png",Texture.class);
         manager.load("Guns/hertbreaker.atlas",TextureAtlas.class);
+        manager.load("blueprint_ship.jpg",Texture.class);
 
         manager.finishLoading();
         setScreen(new GameScreen(this));

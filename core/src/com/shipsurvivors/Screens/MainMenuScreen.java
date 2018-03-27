@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
@@ -21,6 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.shipsurvivors.Utilities.Constantes;
+import com.shipsurvivors.Utilities.Icon;
+import com.shipsurvivors.Utilities.IconActor;
 
 import java.util.Random;
 
@@ -37,6 +40,8 @@ public class MainMenuScreen extends BaseScreen {
     Stage stage;
     FlameDance flameDance;
     Label title;
+    Texture blueprintTexture;
+    IconActor blueprint;
 
 
     public MainMenuScreen(MainGame game) {
@@ -58,6 +63,13 @@ public class MainMenuScreen extends BaseScreen {
         menuLayout.align(Align.center);
         //set the flame dance
         flameDance = new FlameDance();
+
+        //Set the blueprint
+        blueprintTexture = game.getManager().get("blueprint_ship.jpg",Texture.class);
+        blueprintTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        blueprint = new IconActor(blueprintTexture,Constantes.SCREEN_WIDTH,Constantes.SCREEN_HEIGHT);
+
+
     }
 
     @Override
@@ -71,6 +83,7 @@ public class MainMenuScreen extends BaseScreen {
         menuLayout.row();
         menuLayout.add(storyButton).padTop(Constantes.STANDARD_BUTTON_PADDING).padBottom(Constantes.STANDARD_BUTTON_PADDING);
         //Add the layout to the stage
+        stage.addActor(blueprint);
         stage.addActor(flameDance);
         stage.addActor(menuLayout);
 
@@ -89,6 +102,8 @@ public class MainMenuScreen extends BaseScreen {
         Gdx.gl.glClearColor(0,0,0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
 
         stage.act(delta);
         stage.draw();

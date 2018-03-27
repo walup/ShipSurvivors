@@ -7,6 +7,7 @@ public class UserData {
     public static final int BULLET = 0;
     public static final int ROCK = 1;
     public static final int BALL = 2;
+    public static final int SHIP = 3;
     public int type;
     public boolean mustDestroy = false;
     public boolean destroyed = false;

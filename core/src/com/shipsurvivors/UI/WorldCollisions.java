@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
+import com.shipsurvivors.Entities.Referee;
 import com.shipsurvivors.Entities.RockSpawner;
 import com.shipsurvivors.Entities.Ship;
 import com.shipsurvivors.Utilities.Constantes;
@@ -31,6 +32,7 @@ public class WorldCollisions implements ContactListener {
     private boolean clipped;
     private Ship ship;
     private final float CORRECTION_X = Constantes.SCREEN_WIDTH/Constantes.PIXELS_IN_METER;
+    private Referee referee;
 
 
 
@@ -38,9 +40,10 @@ public class WorldCollisions implements ContactListener {
         this.rockSpawner =rockSpawner;
     }
 
-    public WorldCollisions(RockSpawner rockSpawner,Ship ship){
+    public WorldCollisions(RockSpawner rockSpawner,Ship ship,Referee referee){
         this.rockSpawner = rockSpawner;
         this.ship = ship;
+        this.referee = referee;
     }
 
     @Override
@@ -76,10 +79,24 @@ public class WorldCollisions implements ContactListener {
         if(dataA instanceof UserData && dataA.getType() == UserData.ROCK && dataB instanceof UserData && dataB.getType() == UserData.BULLET){
 
             clippingRock(a, b, dataB);
+            referee.crushedRock();
         }else if(dataB instanceof UserData && dataB.getType() == UserData.ROCK && dataA instanceof UserData && dataA.getType() == UserData.BULLET){
             clippingRock(b, a,dataA);
+            referee.crushedRock();
         }
         clipped = false;
+
+
+        /*Ok so here we will handle the colissions between the rocks and the ship */
+        if(dataA instanceof UserData && dataA.getType() == UserData.ROCK && dataB instanceof UserData && dataB.getType() == UserData.SHIP){
+            referee.rockSplashedShip();
+            ship.setRestorePositionOrder(true);
+
+
+        }else if(dataB instanceof UserData && dataB.getType() == UserData.ROCK && dataA instanceof UserData && dataA.getType() == UserData.SHIP){
+            referee.rockSplashedShip();
+            ship.setRestorePositionOrder(true);
+        }
     }
 
     /**
@@ -164,8 +181,4 @@ public class WorldCollisions implements ContactListener {
         }
         return verts;
     }
-
-
-
-
 }

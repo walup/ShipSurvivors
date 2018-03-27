@@ -86,6 +86,12 @@ public class Constantes {
     public final static float HEART_HEIGHT = 40;
     public final static float HEART_CONTAINER_X = 0;
     public final static float HEART_CONTAINER_Y = SCREEN_HEIGHT-HEART_HEIGHT;
+    public final static float HALF_HEART_VEL = 100;
+
+    public final static float SCORE_X = HEART_WIDTH*NUMBER_OF_HEARTS +20;
+    public final static float SCORE_Y = SCREEN_HEIGHT-HEART_HEIGHT;
+
+
 
 
 

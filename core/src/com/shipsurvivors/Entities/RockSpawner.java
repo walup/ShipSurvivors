@@ -130,7 +130,7 @@ public class RockSpawner  {
                     fixtureDef.density = 10;
                     fixtureDef.friction = 0.8f;
                     fixtureDef.filter.categoryBits = Constantes.CATEGORY_ROCK;
-                    fixtureDef.filter.maskBits = Constantes.CATEGORY_BULLET;
+                    fixtureDef.filter.maskBits = Constantes.CATEGORY_BULLET|Constantes.CATEGORY_SHIP;
                     fixtures.add(rockBody.createFixture(fixtureDef));
                 }
             }

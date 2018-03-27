@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.shipsurvivors.Utilities.Constantes;
+import com.shipsurvivors.Utilities.SandBox.UserData;
 
 /**
  * Created by SEO on 25/09/2017.
@@ -23,6 +24,7 @@ public class Ship extends Actor {
     private Fixture fixture;
     private TextureRegion shipTexture;
     private Wheel wheel;
+    private Boolean restorePositionOrder;
 
 
 
@@ -40,7 +42,9 @@ public class Ship extends Actor {
         /*Create the body*/
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
+        UserData userData = new UserData(UserData.SHIP);
         body = world.createBody(bodyDef);
+        body.setUserData(userData);
 
         /*Create the fixture*/
 
@@ -49,17 +53,30 @@ public class Ship extends Actor {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.density = 5;
         fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = Constantes.CATEGORY_SHIP;
+        fixtureDef.filter.maskBits = Constantes.CATEGORY_ROCK;
         fixture = body.createFixture(fixtureDef);
+
+        /*Put the ship at x,y in the world*/
+        body.setTransform(x/Constantes.PIXELS_IN_METER+(getWidth())/(2*Constantes.PIXELS_IN_METER), y/Constantes.PIXELS_IN_METER +(getHeight()/(2*Constantes.PIXELS_IN_METER)),0);
+        setRestorePositionOrder(false);
     }
 
     @Override
     public void act(float delta) {
         wheel.act(delta);
+        if(getRestorePositionOrder()){
+            restoreBodyPosition();
+        }
     }
     @Override
     public void draw(Batch batch, float parentAlpha) {
         wheel.draw(batch,parentAlpha);
         batch.draw(shipTexture,getX(),getY(),getWidth(),getHeight());
+    }
+
+    public void restoreBodyPosition(){
+        body.setTransform(getX()/Constantes.PIXELS_IN_METER +(getWidth())/(2*Constantes.PIXELS_IN_METER),getY()/Constantes.PIXELS_IN_METER+ (getHeight()/(2*Constantes.PIXELS_IN_METER)),0);
     }
 
 
@@ -69,5 +86,13 @@ public class Ship extends Actor {
 
     public Wheel getWheel() {
         return wheel;
+    }
+
+    public Boolean getRestorePositionOrder() {
+        return restorePositionOrder;
+    }
+
+    public void setRestorePositionOrder(Boolean restorePositionOrder) {
+        this.restorePositionOrder = restorePositionOrder;
     }
 }
