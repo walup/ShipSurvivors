@@ -1,9 +1,13 @@
 package com.shipsurvivors.Entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -11,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.shipsurvivors.UI.ShipControls;
 import com.shipsurvivors.Utilities.Constantes;
 import com.shipsurvivors.Utilities.SandBox.UserData;
 
@@ -25,6 +30,14 @@ public class Ship extends Actor {
     private TextureRegion shipTexture;
     private Wheel wheel;
     private Boolean restorePositionOrder;
+
+
+    //Ok these are the variables needed to implement movement
+    private Rectangle moveUpRect;
+    private Rectangle moveDownRect;
+    private float velocityY;
+
+
 
 
 
@@ -60,6 +73,10 @@ public class Ship extends Actor {
         /*Put the ship at x,y in the world*/
         body.setTransform(x/Constantes.PIXELS_IN_METER+(getWidth())/(2*Constantes.PIXELS_IN_METER), y/Constantes.PIXELS_IN_METER +(getHeight()/(2*Constantes.PIXELS_IN_METER)),0);
         setRestorePositionOrder(false);
+
+        /*Set the moveUp, moveDown rectangles*/
+        moveUpRect = new Rectangle(wheel.getCenter().x-getWidth()/2,wheel.getCenter().y+wheel.getRadius()+Constantes.DOCK_HEIGHT,Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
+        moveDownRect = new Rectangle(wheel.getCenter().x-getWidth()/2,wheel.getCenter().y -wheel.getRadius()-Constantes.DOCK_HEIGHT -Constantes.SHIP_HEIGHT,Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
     }
 
     @Override
@@ -68,11 +85,14 @@ public class Ship extends Actor {
         if(getRestorePositionOrder()){
             restoreBodyPosition();
         }
+
+        updateMovement(delta);
     }
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        wheel.draw(batch,parentAlpha);
-        batch.draw(shipTexture,getX(),getY(),getWidth(),getHeight());
+        wheel.draw(batch, parentAlpha);
+        batch.draw(shipTexture, getX(), getY(), getWidth(), getHeight());
+
     }
 
     public void restoreBodyPosition(){
@@ -95,4 +115,26 @@ public class Ship extends Actor {
     public void setRestorePositionOrder(Boolean restorePositionOrder) {
         this.restorePositionOrder = restorePositionOrder;
     }
-}
+
+    public void updateMovement(float delta){
+        if(ShipControls.getTouchIntent()){
+            //Upward movement
+            if(moveUpRect.contains(ShipControls.getMouseStagePosition().x,ShipControls.getMouseStagePosition().y)){
+                velocityY = Constantes.SHIP_VELOCITY;
+                setPosition(getX(),getY()+velocityY*delta);
+                moveUpRect.setPosition(moveUpRect.getX(),moveUpRect.getY()+velocityY*delta);
+                moveDownRect.setPosition(moveDownRect.getX(),moveDownRect.getY()+velocityY*delta);
+                wheel.moveWheel(velocityY,delta);
+            }
+
+            //Downward movement
+            else if(moveDownRect.contains(ShipControls.getMouseStagePosition().x,ShipControls.getMouseStagePosition().y)){
+                velocityY = -Constantes.SHIP_VELOCITY;
+                setPosition(getX(),getY()+velocityY*delta);
+                moveDownRect.setPosition(moveDownRect.getX(),moveDownRect.getY()+velocityY*delta);
+                moveUpRect.setPosition(moveUpRect.getX(),moveUpRect.getY()+velocityY*delta);
+                wheel.moveWheel(velocityY,delta);
+                }
+            }
+        }
+    }

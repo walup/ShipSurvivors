@@ -72,7 +72,9 @@ public class RockCarrier  extends Actor {
         setCarrying(true);
         setRightDirection(false);
         setVelocityX(Constantes.ROCK_CARRIER_VELOCITY);
-        setPosition(startX + getRockBody().getPosition().x * Constantes.PIXELS_IN_METER + getWidth(), getRockBody().getPosition().y * Constantes.PIXELS_IN_METER);
+        setPosition(startX + getRockBody().getPosition().x * Constantes.PIXELS_IN_METER + getWidth(), getRockBody().getPosition().y*Constantes.PIXELS_IN_METER);
+        System.out.println("y "+getRockBody().getPosition().y*Constantes.PIXELS_IN_METER);
+        System.out.println("x"+getRockBody().getPosition().x*Constantes.PIXELS_IN_METER);
     }
 
     public float getDestinationX() {

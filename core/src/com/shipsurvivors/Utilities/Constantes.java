@@ -17,6 +17,7 @@ public class Constantes {
     public final static float SCROLL_ACCELERATION = 10;
     public final static float SHIP_HEIGHT = 154;
     public final static float SHIP_WIDTH = 260;
+    public final static float SHIP_VELOCITY = 50;
     public final static float WHEEL_WIDTH = 110;
     public final static float WHEEL_HEIGHT = 110;
     public final static float MAX_ROTATION_IMPULSE = 1;

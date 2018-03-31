@@ -271,7 +271,7 @@ public class RockSpawner  {
             time+=delta;
 
             if (time > Constantes.TIME_ROCK_SPAWINING) {
-                buildNewRock(Constantes.LITTLE_ROCK_SIZE/Constantes.PIXELS_IN_METER,Constantes.ROCK_INITIAL_POSITION_X/Constantes.PIXELS_IN_METER,100/Constantes.PIXELS_IN_METER);
+                buildNewRock(Constantes.LITTLE_ROCK_SIZE/Constantes.PIXELS_IN_METER,Constantes.ROCK_INITIAL_POSITION_X/Constantes.PIXELS_IN_METER,(50+random.nextFloat()*(200-50))/Constantes.PIXELS_IN_METER);
                 time = 0;
             }
 

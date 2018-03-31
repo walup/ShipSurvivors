@@ -64,8 +64,8 @@ public class Wheel extends Actor {
         fixture = body.createFixture(fixtureDef);
 
         /*Create the docks*/
-        center = new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
-        radius = (float) Math.sqrt(Math.pow(getHeight() / 2, 2) + Math.pow(getHeight() / 2, 2));
+        center = new Vector2(getX()+getWidth()/2, getY()+getHeight()/2);
+        radius = (float) Math.sqrt(Math.pow(getHeight()/2, 2) + Math.pow(getHeight()/2, 2));
         Texture dockTexture = new Texture(Gdx.files.internal("dock.png"));
         TextureRegion textureRegion = new TextureRegion();
         textureRegion.setTexture(dockTexture);
@@ -87,8 +87,6 @@ public class Wheel extends Actor {
             for (int i = 0; i < docks.length; i++) {
                 docks[i].rotate(center.x, center.y, radius, angle - previousAngle);
             }
-
-
             /*Here we check if the thing is still rotating, this is going to be given by a
             * lower angular velocity if the velocity is less than that we will  consider it has stopped*/
             setRotating(Math.abs(body.getAngularVelocity()) > LOWEST_ANGULAR_VELOCITY);
@@ -179,5 +177,29 @@ public class Wheel extends Actor {
             }
         }
         return false;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public Vector2 getCenter() {
+        return center;
+    }
+
+    public void setCenter(Vector2 center) {
+        this.center = center;
+    }
+
+
+
+    public void moveWheel(float velocityY,float delta){
+        setY(getY()+velocityY*delta);
+        center.set(center.x,center.y+velocityY*delta);
+
+        //Move the docks too!!
+        for(Dock dock: docks){
+            dock.moveDock(velocityY,delta);
+        }
     }
 }

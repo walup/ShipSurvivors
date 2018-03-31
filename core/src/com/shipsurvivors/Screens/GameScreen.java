@@ -1,6 +1,9 @@
 package com.shipsurvivors.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -62,6 +65,9 @@ public class GameScreen extends BaseScreen {
     //Referee
     private Referee referee;
     private Label scoreLabel;
+
+    //We'll need a multiplexer
+    InputMultiplexer inputMultiplexer;
 
 
     public GameScreen(MainGame game) {
@@ -131,7 +137,14 @@ public class GameScreen extends BaseScreen {
         stage.addActor(cardContainer);
         stage.addActor(heartContainer);
         stage.addActor(scoreLabel);
-        Gdx.input.setInputProcessor(new GestureDetector(shipControls));
+
+
+        inputMultiplexer = new InputMultiplexer();
+        /*We add to the multiplexer the ship controls as a GestureDetector, and the same object as an InputProcessor*/
+        inputMultiplexer.addProcessor(new GestureDetector(shipControls));
+        inputMultiplexer.addProcessor(shipControls);
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
         world.setContactListener(worldCollisions);
     }
 
@@ -174,7 +187,6 @@ public class GameScreen extends BaseScreen {
     @Override
     public void dispose() {
         heartContainer.dispose();
-
     }
 
 

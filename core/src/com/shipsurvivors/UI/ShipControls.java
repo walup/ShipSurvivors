@@ -1,6 +1,8 @@
 package com.shipsurvivors.UI;
 
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,7 +15,7 @@ import com.shipsurvivors.Utilities.Constantes;
 /**
  * Created by SEO on 02/10/2017.
  */
-public class ShipControls implements GestureDetector.GestureListener{
+public class ShipControls extends ApplicationAdapter implements GestureDetector.GestureListener, InputProcessor {
 
     private Ship ship;
     private CardContainer cardContainer;
@@ -21,9 +23,7 @@ public class ShipControls implements GestureDetector.GestureListener{
     private static Vector2 mouseStagePosition;
     private static Boolean flingIntent = false;
     private static float flingVelocityX, flingVelocityY;
-
-
-
+    private static Boolean touchIntent = false;
 
     public ShipControls(Ship ship, CardContainer cardContainer){
         this.ship = ship;
@@ -35,6 +35,9 @@ public class ShipControls implements GestureDetector.GestureListener{
 
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
+        //If it touched we put touchIntent as true
+        setTouchIntent(true);
+
         //We want to see where it touched
         mouseScreenPosition.x = x;
         mouseScreenPosition.y = y;
@@ -43,7 +46,6 @@ public class ShipControls implements GestureDetector.GestureListener{
         if(ship.getWheel().touchedDockToTrigger(mouseStagePosition)){
             ship.getWheel().triggerDock();
         }
-
 
         return false;
     }
@@ -129,6 +131,7 @@ public class ShipControls implements GestureDetector.GestureListener{
 
     }
 
+
     public static Boolean getFlingIntent() {
         return flingIntent;
     }
@@ -153,5 +156,55 @@ public class ShipControls implements GestureDetector.GestureListener{
         if(flingIntent = true){
             flingIntent = false;
         }
+    }
+
+    public static Boolean getTouchIntent() {
+        return touchIntent;
+    }
+
+    public static void setTouchIntent(Boolean touchIntent) {
+        ShipControls.touchIntent = touchIntent;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        setTouchIntent(false);
+        return false;
+
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }

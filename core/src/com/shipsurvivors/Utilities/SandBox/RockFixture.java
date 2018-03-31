@@ -31,6 +31,8 @@ public class RockFixture {
         float[] circleVertices = CollisionGeometry.approxCircle(centerX,centerY,radius, Constantes.ROCK_NUM_SEGMENTS);
         verts.add(circleVertices);
         this.setVertices(verts);
+        setY(centerY-radius);
+        System.out.println("y" +getY()*Constantes.PIXELS_IN_METER);
     }
 
     public List<Fixture> getFixtures() {

@@ -57,11 +57,10 @@ public class Dock extends Actor {
     }
 
     public void updateAttachablePosition(){
-        if(attachable!=null){
+        if(attachable!=null && !attachable.isShooting()){
             //We position the attachable in the middle.
             attachable.setPosition(getX()+(getWidth()-attachable.getWidth())/2,getY()+(getHeight()-attachable.getHeight())/2);
         }
-
     }
 
     public boolean isAvailable(){
@@ -133,6 +132,12 @@ public class Dock extends Actor {
            }
        }
         return false;
+    }
+
+    public void moveDock(float velocityY, float delta){
+        setPosition(getX(),getY()+velocityY*delta);
+        updateDockRect();
+        updateAttachablePosition();
     }
 
 }
