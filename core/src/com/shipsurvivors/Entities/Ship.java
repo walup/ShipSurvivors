@@ -37,11 +37,16 @@ public class Ship extends Actor {
     private Rectangle moveDownRect;
     private float velocityY;
 
+    //private ShapeRenderer shapeRenderer;
+
 
 
 
 
     public Ship(World world, TextureAtlas shipTextures, float x, float y,float width, float height ){
+        /*Shape renderer for debugging*/
+        //shapeRenderer = new ShapeRenderer();
+
         /*Extract the ship texture*/
         shipTexture = shipTextures.findRegion("ship_texture");
         shipTexture.getTexture().setFilter(Texture.TextureFilter.Linear,Texture.TextureFilter.Linear);
@@ -75,8 +80,8 @@ public class Ship extends Actor {
         setRestorePositionOrder(false);
 
         /*Set the moveUp, moveDown rectangles*/
-        moveUpRect = new Rectangle(wheel.getCenter().x-getWidth()/2,wheel.getCenter().y+wheel.getRadius()+Constantes.DOCK_HEIGHT,Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
-        moveDownRect = new Rectangle(wheel.getCenter().x-getWidth()/2,wheel.getCenter().y -wheel.getRadius()-Constantes.DOCK_HEIGHT -Constantes.SHIP_HEIGHT,Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
+        moveUpRect = new Rectangle(wheel.getCenter().x-getWidth()/2,wheel.getCenter().y+wheel.getRadius()+Constantes.DOCK_HEIGHT,Constantes.TOUCH_MOVEMENT_RECT_WIDTH,Constantes.TOUCH_MOVEMENT_RECT_HEIGHT);
+        moveDownRect = new Rectangle(wheel.getCenter().x-getWidth()/2,wheel.getCenter().y -wheel.getRadius()-Constantes.DOCK_HEIGHT -Constantes.SHIP_HEIGHT,Constantes.TOUCH_MOVEMENT_RECT_WIDTH,Constantes.TOUCH_MOVEMENT_RECT_HEIGHT);
     }
 
     @Override
@@ -92,6 +97,11 @@ public class Ship extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         wheel.draw(batch, parentAlpha);
         batch.draw(shipTexture, getX(), getY(), getWidth(), getHeight());
+
+        //shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        //shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        //shapeRenderer.rect(moveUpRect.getX(),moveUpRect.getY(),moveUpRect.getWidth(),moveUpRect.getHeight());
+        //shapeRenderer.end();
 
     }
 
@@ -122,6 +132,7 @@ public class Ship extends Actor {
             if(moveUpRect.contains(ShipControls.getMouseStagePosition().x,ShipControls.getMouseStagePosition().y)){
                 velocityY = Constantes.SHIP_VELOCITY;
                 setPosition(getX(),getY()+velocityY*delta);
+                body.setTransform(body.getPosition().x,body.getPosition().y+(velocityY*delta)/Constantes.PIXELS_IN_METER,0);
                 moveUpRect.setPosition(moveUpRect.getX(),moveUpRect.getY()+velocityY*delta);
                 moveDownRect.setPosition(moveDownRect.getX(),moveDownRect.getY()+velocityY*delta);
                 wheel.moveWheel(velocityY,delta);
@@ -131,6 +142,7 @@ public class Ship extends Actor {
             else if(moveDownRect.contains(ShipControls.getMouseStagePosition().x,ShipControls.getMouseStagePosition().y)){
                 velocityY = -Constantes.SHIP_VELOCITY;
                 setPosition(getX(),getY()+velocityY*delta);
+                body.setTransform(body.getPosition().x,body.getPosition().y+(velocityY*delta)/Constantes.PIXELS_IN_METER,0);
                 moveDownRect.setPosition(moveDownRect.getX(),moveDownRect.getY()+velocityY*delta);
                 moveUpRect.setPosition(moveUpRect.getX(),moveUpRect.getY()+velocityY*delta);
                 wheel.moveWheel(velocityY,delta);

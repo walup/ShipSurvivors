@@ -17,6 +17,8 @@ public class Constantes {
     public final static float SCROLL_ACCELERATION = 10;
     public final static float SHIP_HEIGHT = 154;
     public final static float SHIP_WIDTH = 260;
+    public final static float TOUCH_MOVEMENT_RECT_WIDTH = 200;
+    public final static float TOUCH_MOVEMENT_RECT_HEIGHT = 130;
     public final static float SHIP_VELOCITY = 50;
     public final static float WHEEL_WIDTH = 110;
     public final static float WHEEL_HEIGHT = 110;
@@ -55,8 +57,6 @@ public class Constantes {
     public final static float LITTLE_ROCK_SIZE = 50;
     public final static float TIME_ROCK_SPAWINING = 20;
 
-
-
     /*Colission codes*/
     public final static short CATEGORY_SHIP = 2;
     public final static short CATEGORY_BULLET = 4;
@@ -74,7 +74,7 @@ public class Constantes {
     public final static float CARRIER_HEIGHT = 100;
     public final static float ROCK_CARRIER_VELOCITY = (float) 200;
     public final static float ROCK_FINAL_POSITION_X = SCREEN_WIDTH-LITTLE_ROCK_SIZE-CARRIER_WIDTH;
-    public final static float ROCK_TRANSPORTATION_VELOCITY = 0.5f;
+    public final static float ROCK_TRANSPORTATION_VELOCITY = 1f;
 
 
     public final static float FLAME_VELOCITY = 200;

@@ -1,6 +1,8 @@
 package com.shipsurvivors.Screens;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
@@ -15,12 +17,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
  */
 public class MainGame extends Game {
     public AssetManager manager;
-    private float soundEffectsLevel = 0.5f;
-    private float musicVolumeLevel=0.5f;
+    private float soundEffectsLevel;
+    private float musicVolumeLevel;
 
     @Override
     public void create() {
         manager = new AssetManager();
+
+        //Get the music and effects volume
+        Preferences prefs = Gdx.app.getPreferences("My preferences");
+        soundEffectsLevel = prefs.getFloat("effectsVolume",0.5f);
+        musicVolumeLevel = prefs.getFloat("musicVolume",0.5f);
 
         //Load the menu Aassets
         manager.load("game_song.wav",Music.class);
@@ -52,9 +59,11 @@ public class MainGame extends Game {
         manager.load("Guns/halfheart_right.png",Texture.class);
         manager.load("Guns/hertbreaker.atlas",TextureAtlas.class);
         manager.load("blueprint_ship.jpg",Texture.class);
+        manager.load("song2.mp3",Music.class);
 
         manager.finishLoading();
         setScreen(new GameScreen(this));
+
     }
 
     public void setSoundEffectsLevel(float soundEffectsLevel) {

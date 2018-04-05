@@ -1,6 +1,7 @@
 package com.shipsurvivors.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,13 +26,13 @@ import com.shipsurvivors.Utilities.Icon;
  * Created by SEO on 25/09/2017.
  */
 public class SettingsScreen extends BaseScreen {
-    Table settingsLayout;
-    Slider musicVolumeSlider,specialEffectsSlider;
-    Label musicVolumeLabel, specialEffectsLabel;
-    Skin skin;
-    IconActor musicVolumeIcon,specialEffectsIcon;
-    Stage stage;
-    TextButton returnButton;
+    private Table settingsLayout;
+    private Slider musicVolumeSlider,specialEffectsSlider;
+    private Label musicVolumeLabel, specialEffectsLabel;
+    private Skin skin;
+    private IconActor musicVolumeIcon,specialEffectsIcon;
+    private Stage stage;
+    private TextButton returnButton;
 
     public SettingsScreen(MainGame game) {
         super(game);
@@ -55,6 +56,7 @@ public class SettingsScreen extends BaseScreen {
         musicVolumeIcon = new IconActor(game.getManager().get("settingsatlas.atlas",TextureAtlas.class).findRegion("musicicon"),Constantes.SETTINGS_ICON_WIDTH,Constantes.SETTINGS_ICON_HEIGHT);
         specialEffectsIcon = new IconActor(game.getManager().get("settingsatlas.atlas",TextureAtlas.class).findRegion("soundeffectsicon"),Constantes.SETTINGS_ICON_WIDTH, Constantes.SETTINGS_ICON_HEIGHT);
         settingsLayout = new Table();
+
     }
 
     @Override
@@ -121,7 +123,13 @@ public class SettingsScreen extends BaseScreen {
         returnButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //Store the new volumes in the Preferences
+                Preferences prefs = Gdx.app.getPreferences("My preferences");
+                prefs.putFloat("musicVolume",game.getMusicVolumeLevel());
+                prefs.putFloat("effectsVolume",game.getSoundEffectsLevel());
+                //Return to the main menu
                 game.setScreen(new MainMenuScreen(game));
+
             }
         });
     }

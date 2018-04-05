@@ -41,8 +41,6 @@ public class GameScreen extends BaseScreen {
     private Stage stage;
     private OrthographicCamera camera;
     private World world;
-    private Sound rotatingSound;
-    private Music gameMusic;
     public static  ShipControls shipControls;
     private Ship ship;
     private CardContainer cardContainer;
@@ -67,7 +65,10 @@ public class GameScreen extends BaseScreen {
     private Label scoreLabel;
 
     //We'll need a multiplexer
-    InputMultiplexer inputMultiplexer;
+    private InputMultiplexer inputMultiplexer;
+
+    //Finally the Dj
+    private Dj dj;
 
 
     public GameScreen(MainGame game) {
@@ -81,9 +82,8 @@ public class GameScreen extends BaseScreen {
         //Initialize the scrolling background
        background = new ScrollingBackground(game.getManager().get("background.png",Texture.class));
 
-
-        //Initialize the sounds and music
-
+        //Initialize the Dj
+        dj = new Dj(game.getManager().get("song2.mp3",Music.class));
 
         //We initialize the ship
         ship = new Ship(world,game.getManager().get("shipatlas.atlas",TextureAtlas.class),20,20, Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
@@ -146,6 +146,9 @@ public class GameScreen extends BaseScreen {
 
         Gdx.input.setInputProcessor(inputMultiplexer);
         world.setContactListener(worldCollisions);
+
+        //Play the music is hard to lose it, it's constantly on request cause you juice it.
+        dj.playMusic();
     }
 
 
@@ -155,6 +158,11 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        /*Check if the player is still alive */
+        if(heartContainer.heDead()){
+            game.setScreen(new GameOverScreen(game,referee.getScore()));
+        }
+
         //Update the world and the stage.
         stage.act(delta);
         rockSpawner.updateRockManagement(delta);
@@ -162,7 +170,7 @@ public class GameScreen extends BaseScreen {
 
         //Here change the score if neccesary
         if(referee.isChangedScore()){
-            scoreLabel.setText(""+referee.getScore());
+            scoreLabel.setText("Score "+referee.getScore());
             referee.setChangedScore(false);
         }
         //Destroy bodies which need destroying
@@ -202,6 +210,21 @@ public class GameScreen extends BaseScreen {
     private void initializeLabel(){
         Skin skin = game.getManager().get("settings.json");
         scoreLabel = new Label("Score "+0,skin,"label_style");
+    }
+
+
+    public class Dj{
+        private Music gameMusic;
+
+        public Dj(Music gameMusic){
+            gameMusic.setLooping(true);
+            gameMusic.setVolume(game.getMusicVolumeLevel());
+            this.gameMusic = gameMusic;
+        }
+
+        public void playMusic(){
+            gameMusic.play();
+        }
     }
 
 
