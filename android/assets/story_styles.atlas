@@ -1,0 +1,48 @@
+
+story_styles.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+next_button_off
+  rotate: false
+  xy: 444, 10
+  size: 212, 214
+  orig: 212, 214
+  offset: 0, 0
+  index: -1
+next_button_on
+  rotate: false
+  xy: 2, 226
+  size: 219, 222
+  orig: 219, 222
+  offset: 0, 0
+  index: -1
+previous_button_off
+  rotate: false
+  xy: 2, 2
+  size: 219, 222
+  orig: 219, 222
+  offset: 0, 0
+  index: -1
+previous_button_on
+  rotate: false
+  xy: 223, 226
+  size: 219, 222
+  orig: 219, 222
+  offset: 0, 0
+  index: -1
+skip_button_off
+  rotate: false
+  xy: 223, 2
+  size: 219, 222
+  orig: 219, 222
+  offset: 0, 0
+  index: -1
+skip_button_on
+  rotate: false
+  xy: 444, 226
+  size: 219, 222
+  orig: 219, 222
+  offset: 0, 0
+  index: -1

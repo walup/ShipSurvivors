@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -60,7 +61,7 @@ public class MainGame extends Game {
         manager.load("Guns/hertbreaker.atlas",TextureAtlas.class);
         manager.load("blueprint_ship.jpg",Texture.class);
         manager.load("song2.mp3",Music.class);
-
+        manager.load("story_styles.json", Skin.class,new SkinLoader.SkinParameter("story_styles.atlas"));
         manager.finishLoading();
         setScreen(new GameScreen(this));
 

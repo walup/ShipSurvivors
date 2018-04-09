@@ -92,6 +92,9 @@ public class Constantes {
     public final static float SCORE_X = HEART_WIDTH*NUMBER_OF_HEARTS +20;
     public final static float SCORE_Y = SCREEN_HEIGHT-HEART_HEIGHT;
 
+    public final static float PORTRAIT_WIDTH = 300;
+    public final static float PORTRAIT_HEIGHT = 280;
+
 
 
 

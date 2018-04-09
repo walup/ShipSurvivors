@@ -1,4 +1,20 @@
 {
+  "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
+    "next_button_style": {
+      "imageUp": "next_button_on",
+      "imageDown": "next_button_off"
+    },
+    "previous_buton_style":{
+      "imageUp":"previous_button_on",
+      "imageDown":"previous_button_off"
+
+    },
+    "skip_button_style":{
+      "imageUp":"skip_button_on",
+      "imageDown": "skip_buton_off"
+
+}
+  },
   "com.badlogic.gdx.graphics.Color":{
     "golden":{"r":255,"g":215,"b":0,"a":1},
     "black":{"r":0,"g":0,"b":0,"a":1},
@@ -7,15 +23,6 @@
   },
   "com.badlogic.gdx.graphics.g2d.BitmapFont": {
     "neuro":{"file":"neuro.fnt"}
-  },
-
-  "com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {
-    "slider_style": {
-      "background": "background",
-      "knob": "knob",
-      "knobOver": "knob",
-      "knobDown": "knob"
-    }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle":{
     "label_style":{
@@ -27,20 +34,5 @@
       "font":"neuro",
       "fontColor":"white"
     }
-  },
-  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle":{
-    "text_button_style":{
-      "font":"neuro",
-      "fontColor":"black",
-      "up":"unpressedtextbutton",
-      "down":"pressedtextbutton"
-    }
   }
-
-
-
-
-
-
-
 }
