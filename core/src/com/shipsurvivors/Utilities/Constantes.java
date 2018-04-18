@@ -13,6 +13,8 @@ public class Constantes {
     public final static float CARD_CONTAINER_HEIGHT = 5*CARD_HEIGHT +20;
     public final static float SCREEN_WIDTH = 640;
     public final static float SCREEN_HEIGHT = 360;
+    public final static float WORLD_WIDTH = 800;
+    public final static float WORLD_HEIGHT = 360;
     public final static float MAX_SCROLLING_SPEED = 20;
     public final static float SCROLL_ACCELERATION = 10;
     public final static float SHIP_HEIGHT = 154;
@@ -73,7 +75,7 @@ public class Constantes {
     public final static float CARRIER_WIDTH = 70;
     public final static float CARRIER_HEIGHT = 100;
     public final static float ROCK_CARRIER_VELOCITY = (float) 200;
-    public final static float ROCK_FINAL_POSITION_X = SCREEN_WIDTH-LITTLE_ROCK_SIZE-CARRIER_WIDTH;
+    public final static float ROCK_FINAL_POSITION_X = WORLD_WIDTH-LITTLE_ROCK_SIZE-CARRIER_WIDTH;
     public final static float ROCK_TRANSPORTATION_VELOCITY = 1f;
 
 
@@ -86,14 +88,18 @@ public class Constantes {
     public final static float HEART_WIDTH = 60;
     public final static float HEART_HEIGHT = 40;
     public final static float HEART_CONTAINER_X = 0;
-    public final static float HEART_CONTAINER_Y = SCREEN_HEIGHT-HEART_HEIGHT;
+    public final static float HEART_CONTAINER_Y = WORLD_HEIGHT-HEART_HEIGHT;
     public final static float HALF_HEART_VEL = 100;
 
     public final static float SCORE_X = HEART_WIDTH*NUMBER_OF_HEARTS +20;
     public final static float SCORE_Y = SCREEN_HEIGHT-HEART_HEIGHT;
 
-    public final static float PORTRAIT_WIDTH = 300;
-    public final static float PORTRAIT_HEIGHT = 280;
+    public final static float PORTRAIT_WIDTH = 400;
+    public final static float PORTRAIT_HEIGHT = 200;
+    public final static float TEXT_FRAME_WIDTH = PORTRAIT_WIDTH;
+    public final static float TEXT_FRAME_HEIGHT = 100;
+    public final static float BUTTON_HEIGHT = 50;
+    public final static float BUTTON_WIDTH = 50;
 
 
 

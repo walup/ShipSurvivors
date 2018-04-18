@@ -84,7 +84,7 @@ public class ArduinoPistol extends Weapon {
     public void actAccesory(float delta) {
 
         setBulletPosition(bulletBody.getPosition().x*Constantes.PIXELS_IN_METER,bulletBody.getPosition().y*Constantes.PIXELS_IN_METER);
-        setInRange(bulletX<Constantes.SCREEN_WIDTH);
+        setInRange(bulletX<Constantes.WORLD_WIDTH);
 
 
 

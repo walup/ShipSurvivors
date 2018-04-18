@@ -60,8 +60,13 @@ public class MainGame extends Game {
         manager.load("Guns/halfheart_right.png",Texture.class);
         manager.load("Guns/hertbreaker.atlas",TextureAtlas.class);
         manager.load("blueprint_ship.jpg",Texture.class);
-        manager.load("song2.mp3",Music.class);
+        manager.load("song2.wav",Music.class);
         manager.load("story_styles.json", Skin.class,new SkinLoader.SkinParameter("story_styles.atlas"));
+        //Load the story slides
+        manager.load("StorySlides/story_slide_1.png",Texture.class);
+        manager.load("StorySlides/story_slide_2.png",Texture.class);
+        manager.load("StorySlides/story_slide_3.png",Texture.class);
+        manager.load("StorySlides/story_slide_4.png",Texture.class);
         manager.finishLoading();
         setScreen(new GameScreen(this));
 

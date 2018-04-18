@@ -4,14 +4,14 @@
       "imageUp": "next_button_on",
       "imageDown": "next_button_off"
     },
-    "previous_buton_style":{
+    "previous_button_style":{
       "imageUp":"previous_button_on",
       "imageDown":"previous_button_off"
 
     },
     "skip_button_style":{
       "imageUp":"skip_button_on",
-      "imageDown": "skip_buton_off"
+      "imageDown": "skip_button_off"
 
 }
   },
@@ -34,5 +34,12 @@
       "font":"neuro",
       "fontColor":"white"
     }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
+    "scroller_style": {
+      "background": "background"
+    }
   }
+
+
 }

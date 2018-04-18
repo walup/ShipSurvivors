@@ -265,7 +265,7 @@ public class HeartBreaker extends Weapon {
 
 
     public boolean isCatOutOfBounds(){
-        return getCatX()>Constantes.SCREEN_WIDTH;
+        return getCatX()>Constantes.WORLD_WIDTH;
     }
 
 

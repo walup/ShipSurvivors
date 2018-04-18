@@ -74,7 +74,7 @@ public class GameScreen extends BaseScreen {
     public GameScreen(MainGame game) {
         super(game);
         //initialize the stage
-        stage = new Stage(new FitViewport(640,360));
+        stage = new Stage(new FitViewport(Constantes.WORLD_WIDTH,Constantes.WORLD_HEIGHT));
 
         //initialize the world
         world = new World(new Vector2(0,0),true);
@@ -83,7 +83,7 @@ public class GameScreen extends BaseScreen {
        background = new ScrollingBackground(game.getManager().get("background.png",Texture.class));
 
         //Initialize the Dj
-        dj = new Dj(game.getManager().get("song2.mp3",Music.class));
+        dj = new Dj(game.getManager().get("song2.wav",Music.class));
 
         //We initialize the ship
         ship = new Ship(world,game.getManager().get("shipatlas.atlas",TextureAtlas.class),20,20, Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
@@ -107,11 +107,8 @@ public class GameScreen extends BaseScreen {
 
         //Initialize DebugShit
 
-        cameraForDebug = new OrthographicCamera(16,9);
-        renderer = new Box2DDebugRenderer();
-
-
-
+        //cameraForDebug = new OrthographicCamera(16,9);
+        //renderer = new Box2DDebugRenderer();
     }
 
     @Override
@@ -186,7 +183,7 @@ public class GameScreen extends BaseScreen {
         stage.draw();
         //Draw the rocks
         rockSpawner.drawRocks(stage.getBatch(),1);
-        renderer.render(world,cameraForDebug.combined);
+//        renderer.render(world,cameraForDebug.combined);
 
         shipControls.renderShipControls();
 
@@ -227,6 +224,9 @@ public class GameScreen extends BaseScreen {
         }
     }
 
-
-
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width,height);
+        stage.getCamera().update();
+    }
 }

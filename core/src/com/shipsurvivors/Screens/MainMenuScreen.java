@@ -114,6 +114,12 @@ public class MainMenuScreen extends BaseScreen {
         super.dispose();
     }
 
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width,height);
+        stage.getViewport().getCamera().update();
+    }
+
     private void activateButtons(){
         startGameButton.addListener(new ClickListener(){
             @Override

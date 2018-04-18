@@ -115,7 +115,7 @@ public class FootballCat extends Weapon {
     public void updatePlayerPosition(){
         setPlayerPosition(playerBody.getPosition().x*Constantes.PIXELS_IN_METER,playerBody.getPosition().y*Constantes.PIXELS_IN_METER);
         rectangle.setPosition(playerX,playerY);
-        setPlayerOutOfRange(getPlayerX()>=Constantes.SCREEN_WIDTH);
+        setPlayerOutOfRange(getPlayerX()>=Constantes.WORLD_WIDTH);
         if(isPlayerOutOfRange()){
             playerBody.setActive(false);
             footballBody.setActive(false);
@@ -126,7 +126,7 @@ public class FootballCat extends Weapon {
     public void updateFootballPosition(){
         if(footballBody.isActive()){
             setFootballPosition(footballBody.getPosition().x*Constantes.PIXELS_IN_METER,footballBody.getPosition().y*Constantes.PIXELS_IN_METER);
-            setBallOutOfRange(CollisionGeometry.distanceBetween2Points(playerX,playerY,footballX,footballY)>Constantes.SCREEN_WIDTH);
+            setBallOutOfRange(CollisionGeometry.distanceBetween2Points(playerX,playerY,footballX,footballY)>Constantes.WORLD_WIDTH);
            // setBallCollided(footballBody.getLinearVelocity().epsilonEquals(footballVelocityX/Constantes.PIXELS_IN_METER,footballVelocityY/Constantes.PIXELS_IN_METER))
             if(isBallOutOfRange()||ballCollided){
                 footballBody.setActive(false);

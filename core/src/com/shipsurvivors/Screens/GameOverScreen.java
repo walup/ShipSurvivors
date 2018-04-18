@@ -91,6 +91,12 @@ public class GameOverScreen extends BaseScreen{
         }
     }
 
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width,height);
+        stage.getCamera().update();
+    }
+
     public class NameInputListener implements Input.TextInputListener{
 
         @Override

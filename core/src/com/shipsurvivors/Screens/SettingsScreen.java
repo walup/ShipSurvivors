@@ -100,6 +100,12 @@ public class SettingsScreen extends BaseScreen {
         super.dispose();
     }
 
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width,height);
+        stage.getCamera().update();
+    }
+
     /*We need a version of the Icon class that we can add to the table*/
     public class IconActor extends Actor{
         Icon icon;

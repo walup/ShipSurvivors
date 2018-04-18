@@ -38,7 +38,7 @@ public class CardContainer extends Actor {
 
         /*We apply filtering to the background, so that it looks pretty and also set its size*/
         this.background.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        setBounds(Constantes.SCREEN_WIDTH-Constantes.CARD_CONTAINER_WIDTH,(Constantes.SCREEN_HEIGHT-Constantes.CARD_CONTAINER_HEIGHT)/2,Constantes.CARD_CONTAINER_WIDTH,Constantes.CARD_CONTAINER_HEIGHT);
+        setBounds(Constantes.WORLD_WIDTH-Constantes.CARD_CONTAINER_WIDTH,(Constantes.WORLD_HEIGHT-Constantes.CARD_CONTAINER_HEIGHT)/2,Constantes.CARD_CONTAINER_WIDTH,Constantes.CARD_CONTAINER_HEIGHT);
 
         //Initialize the clock to zero.
         clock = 0;
