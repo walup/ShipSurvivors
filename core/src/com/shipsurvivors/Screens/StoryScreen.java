@@ -195,6 +195,10 @@ public class StoryScreen extends BaseScreen  {
         public String getLine() {
             return line;
         }
+
+        public void dispose(){
+            snapshot.dispose();
+        }
     }
 
     public class Portrait extends Actor {
@@ -210,6 +214,10 @@ public class StoryScreen extends BaseScreen  {
 
         public void setTexture(Texture texture) {
             this.texture = texture;
+        }
+
+        public void dispose(){
+            texture.dispose();
         }
     }
 
@@ -240,7 +248,6 @@ public class StoryScreen extends BaseScreen  {
             //Now fill them with the new ones
             String[] lines = newText.split("\n");
             for(int i = 0;i<lines.length;i++){
-                System.out.println(lines[i]);
                 Label label = new Label(lines[i],skin,"label_style");
                 label.setWrap(true);
                 add(label).size(width,height).padBottom(10).padTop(10);
@@ -248,4 +255,6 @@ public class StoryScreen extends BaseScreen  {
             }
         }
     }
+
+
 }

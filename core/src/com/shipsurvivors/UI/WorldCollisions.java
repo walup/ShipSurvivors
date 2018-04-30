@@ -133,7 +133,6 @@ public class WorldCollisions implements ContactListener {
                 for (int y = 0; y < rs.size(); y++) {
                     rs.get(y).circleContact(b.getPosition(), circRadius);
                     totalRS.add(rs.get(y));
-                    System.out.println(rs.get(y).toString());
                 }
             }
 

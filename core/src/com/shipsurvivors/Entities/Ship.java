@@ -30,6 +30,7 @@ public class Ship extends Actor {
     private TextureRegion shipTexture;
     private Wheel wheel;
     private Boolean restorePositionOrder;
+    private Boolean movingUp, movingDown;
 
 
     //Ok these are the variables needed to implement movement
@@ -82,6 +83,9 @@ public class Ship extends Actor {
         /*Set the moveUp, moveDown rectangles*/
         moveUpRect = new Rectangle(wheel.getCenter().x-getWidth()/2,wheel.getCenter().y+wheel.getRadius()+Constantes.DOCK_HEIGHT,Constantes.TOUCH_MOVEMENT_RECT_WIDTH,Constantes.TOUCH_MOVEMENT_RECT_HEIGHT);
         moveDownRect = new Rectangle(wheel.getCenter().x-getWidth()/2,wheel.getCenter().y -wheel.getRadius()-Constantes.DOCK_HEIGHT -Constantes.SHIP_HEIGHT,Constantes.TOUCH_MOVEMENT_RECT_WIDTH,Constantes.TOUCH_MOVEMENT_RECT_HEIGHT);
+
+        movingUp = false;
+        movingDown = false;
     }
 
     @Override
@@ -126,27 +130,58 @@ public class Ship extends Actor {
         this.restorePositionOrder = restorePositionOrder;
     }
 
-    public void updateMovement(float delta){
-        if(ShipControls.getTouchIntent()){
-            //Upward movement
-            if(moveUpRect.contains(ShipControls.getMouseStagePosition().x,ShipControls.getMouseStagePosition().y)){
-                velocityY = Constantes.SHIP_VELOCITY;
-                setPosition(getX(),getY()+velocityY*delta);
-                body.setTransform(body.getPosition().x,body.getPosition().y+(velocityY*delta)/Constantes.PIXELS_IN_METER,0);
-                moveUpRect.setPosition(moveUpRect.getX(),moveUpRect.getY()+velocityY*delta);
-                moveDownRect.setPosition(moveDownRect.getX(),moveDownRect.getY()+velocityY*delta);
-                wheel.moveWheel(velocityY,delta);
-            }
+    public void setMovingUp(Boolean movingUp) {
+        this.movingUp = movingUp;
+    }
+    public boolean isMovingUp(){
+        return movingUp;
+    }
 
-            //Downward movement
-            else if(moveDownRect.contains(ShipControls.getMouseStagePosition().x,ShipControls.getMouseStagePosition().y)){
-                velocityY = -Constantes.SHIP_VELOCITY;
-                setPosition(getX(),getY()+velocityY*delta);
-                body.setTransform(body.getPosition().x,body.getPosition().y+(velocityY*delta)/Constantes.PIXELS_IN_METER,0);
-                moveDownRect.setPosition(moveDownRect.getX(),moveDownRect.getY()+velocityY*delta);
-                moveUpRect.setPosition(moveUpRect.getX(),moveUpRect.getY()+velocityY*delta);
-                wheel.moveWheel(velocityY,delta);
+    public void setMovingDown(Boolean movingDown) {
+        this.movingDown = movingDown;
+    }
+    public boolean isMovingDown(){
+        return movingDown;
+    }
+
+    public boolean isMoving(){
+        return isMovingDown() || isMovingUp();
+    }
+
+    public void stopMovement(){
+        setMovingDown(false);
+        setMovingUp(false);
+        System.out.println("movement stopped");
+    }
+
+    public void updateMovement(float delta){
+        if(!isMoving() &&ShipControls.getTouchIntent()){
+                //Activate Upward movement
+                if(moveUpRect.contains(ShipControls.getMouseStagePosition().x,ShipControls.getMouseStagePosition().y)){
+                    setMovingUp(true);
+                    ShipControls.setTouchIntent(false);
+                }
+                //Downward movement
+                else if(moveDownRect.contains(ShipControls.getMouseStagePosition().x,ShipControls.getMouseStagePosition().y)){
+                   setMovingDown(true);
+                    ShipControls.setTouchIntent(false);
                 }
             }
+        else if(isMovingUp()){
+            velocityY = Constantes.SHIP_VELOCITY;
+            setPosition(getX(),getY()+velocityY*delta);
+            body.setTransform(body.getPosition().x,body.getPosition().y+(velocityY*delta)/Constantes.PIXELS_IN_METER,0);
+            moveUpRect.setPosition(moveUpRect.getX(),moveUpRect.getY()+velocityY*delta);
+            moveDownRect.setPosition(moveDownRect.getX(),moveDownRect.getY()+velocityY*delta);
+            wheel.moveWheel(velocityY,delta);
+        }
+        else if(isMovingDown()){
+            velocityY = -Constantes.SHIP_VELOCITY;
+            setPosition(getX(),getY()+velocityY*delta);
+            body.setTransform(body.getPosition().x,body.getPosition().y+(velocityY*delta)/Constantes.PIXELS_IN_METER,0);
+            moveDownRect.setPosition(moveDownRect.getX(),moveDownRect.getY()+velocityY*delta);
+            moveUpRect.setPosition(moveUpRect.getX(),moveUpRect.getY()+velocityY*delta);
+            wheel.moveWheel(velocityY,delta);
+        }
         }
     }

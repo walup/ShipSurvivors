@@ -29,7 +29,7 @@ public class CardContainer extends Actor {
     private boolean cardTaken;
     private Attachable grabbedCard;
     private Vector2[] cardIndexedPositions = new Vector2[Constantes.CONTAINER_CAPACITY];
-    TowerShelve container  = new TowerShelve(Constantes.CONTAINER_CAPACITY);
+    private TowerShelve container  = new TowerShelve(Constantes.CONTAINER_CAPACITY);
 
 
     public CardContainer(List<Attachable> attachables,Texture background){

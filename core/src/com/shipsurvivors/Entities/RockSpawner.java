@@ -140,7 +140,6 @@ public class RockSpawner  {
                 rockCarrier.assignOrder(rockBody,Constantes.ROCK_FINAL_POSITION_X);
                 setRockNew(false);
             }
-            System.out.println("number of bodies "+world.getBodyCount());
         }
         setRockOrder(false);
         polyVerts.clear();
@@ -285,6 +284,15 @@ public class RockSpawner  {
         RockFixture rockFixture = new RockFixture(rockSize,x,y);
         List<PolygonRegion> polygonRegions = polygonRegionExtractor(rockFixture);
         for (int i = 0;i<polygonPacks.length;i++){
+            if(polygonPacks[i].getBody()!=null && polygonPacks[i].getBody().getPosition().x*Constantes.PIXELS_IN_METER+Constantes.WORLD_WIDTH<0){
+                polygonPacks[i].setPolygonRegions(polygonRegions);
+                polygonPacks[i].setDestroyTagged(true);
+                polyVerts.add(rockFixture);
+                setRockOrder(true);
+                setRockNew(true);
+                System.out.println("restored");
+                return;
+            }
 
             if(polygonPacks[i].getBody()==null || polygonPacks[i].isDestroyed() ){
                 polygonPacks[i].setPolygonRegions(polygonRegions);

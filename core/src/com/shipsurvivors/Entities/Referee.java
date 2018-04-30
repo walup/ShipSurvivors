@@ -28,7 +28,6 @@ public class Referee {
     }
 
     public void rockSplashedShip(){
-        System.out.println("here");
         heartContainer.removePiece();
         setChangedScore(true);
     }

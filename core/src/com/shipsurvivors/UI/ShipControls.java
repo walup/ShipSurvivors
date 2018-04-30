@@ -16,7 +16,6 @@ import com.shipsurvivors.Utilities.Constantes;
  * Created by SEO on 02/10/2017.
  */
 public class ShipControls extends ApplicationAdapter implements GestureDetector.GestureListener, InputProcessor {
-
     private Ship ship;
     private CardContainer cardContainer;
     private Vector2 mouseScreenPosition;
@@ -37,7 +36,6 @@ public class ShipControls extends ApplicationAdapter implements GestureDetector.
     public boolean touchDown(float x, float y, int pointer, int button) {
         //If it touched we put touchIntent as true
         setTouchIntent(true);
-
         //We want to see where it touched
         mouseScreenPosition.x = x;
         mouseScreenPosition.y = y;
@@ -78,6 +76,8 @@ public class ShipControls extends ApplicationAdapter implements GestureDetector.
     public boolean pan(float x, float y, float deltaX, float deltaY) {
         if(cardContainer.getStage().hit(mouseStagePosition.x,mouseStagePosition.y,false) == cardContainer && !cardContainer.isCardTaken()){
             cardContainer.grabCard(mouseStagePosition);
+            cardContainer.getGrabbedCard().setPointer(mouseStagePosition);
+            setTouchIntent(false);
         }
         else if(cardContainer.isCardTaken()){
             /*If a card is taken then we will update its pointer so that it goes where we are dragging our finger*/
@@ -91,6 +91,12 @@ public class ShipControls extends ApplicationAdapter implements GestureDetector.
 
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
+        /*If the ship is moving we will stop it, this is sort of a complement
+        * to the touch up mechanism for stopping the ship. */
+        if(ship.isMoving()){
+            ship.stopMovement();
+        }
+
         /*Here when the pan stops we will check first if a card was being grabbed
         * and also if the final position is that of a dock.*/
        if(cardContainer.isCardTaken()){
@@ -188,7 +194,9 @@ public class ShipControls extends ApplicationAdapter implements GestureDetector.
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        setTouchIntent(false);
+        if(ship.isMoving()){
+            ship.stopMovement();
+        }
         return false;
 
     }
@@ -199,7 +207,7 @@ public class ShipControls extends ApplicationAdapter implements GestureDetector.
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
+    public boolean mouseMoved(int screenX, int screenY){
         return false;
     }
 
