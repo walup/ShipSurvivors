@@ -57,6 +57,9 @@ public class Constantes {
     public final static int ROCK_NUM_SEGMENTS = 10;
     public final static int MAX_NUM_OF_ROCKS = 5;
     public final static float LITTLE_ROCK_SIZE = 50;
+    public final static float MEDIUM_ROCK_SIZE = 70;
+    public final static float LARGE_ROCK_SIZE = 100;
+    public final static float MUTHERFUCKING_LARGE_ROCK = 200;
     public final static float TIME_ROCK_SPAWINING = 20;
 
     /*Colission codes*/
@@ -100,6 +103,17 @@ public class Constantes {
     public final static float TEXT_FRAME_HEIGHT = 100;
     public final static float BUTTON_HEIGHT = 50;
     public final static float BUTTON_WIDTH = 50;
+
+    /*Constants for the instructions screen.*/
+    public final static float INST_ARROW_UP_WIDTH = 50;
+    public final static float INST_ARROW_UP_HEIGHT = 80;
+    public final static float INST_ARROW_DOWN_WIDTH = 50;
+    public final static float INST_ARROW_DOWN_HEIGHT = 80;
+    public final static float INST_TURN_WIDTH = 80;
+    public final static float INST_TURN_HEIGHT = 80;
+    public final static float VELOCITY_CARD = 150;
+
+
 
 
 

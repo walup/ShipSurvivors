@@ -1,0 +1,11 @@
+This tutorial is not interactive, sorry....
+By touching above the ship you can move it up.
+*
+By touching below it you can move it down.
+*
+Drag cards to the docks so you can attach
+weapons to them.
+*
+Touch a weapon to shoot
+*
+That's it! destroy all the rocks you can.

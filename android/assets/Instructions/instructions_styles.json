@@ -1,0 +1,37 @@
+{
+  "com.badlogic.gdx.graphics.Color": {
+    "golden": {
+      "r": 255,
+      "g": 215,
+      "b": 0,
+      "a": 1
+    },
+    "black": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+    },
+    "white": {
+      "r": 1,
+      "g": 1,
+      "b": 1,
+      "a": 1
+    }
+  },
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "neuro": {
+      "file": "neuro.fnt"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+    "label_style": {
+      "font": "neuro",
+      "fontColor": "black"
+    },
+    "label_stule_2":{
+      "font":"neuro",
+      "fontColor": "white"
+    }
+  }
+}

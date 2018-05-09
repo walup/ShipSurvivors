@@ -67,8 +67,10 @@ public class MainGame extends Game {
         manager.load("StorySlides/story_slide_2.png",Texture.class);
         manager.load("StorySlides/story_slide_3.png",Texture.class);
         manager.load("StorySlides/story_slide_4.png",Texture.class);
+
+        manager.load("Instructions/instructions_styles.json",Skin.class,new SkinLoader.SkinParameter("Instructions/instructions.atlas"));
         manager.finishLoading();
-        setScreen(new GameScreen(this));
+        setScreen(new InstructionScreen(this));
 
     }
 

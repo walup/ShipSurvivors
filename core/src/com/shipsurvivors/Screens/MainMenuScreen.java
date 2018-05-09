@@ -36,6 +36,7 @@ public class MainMenuScreen extends BaseScreen {
     TextButton startGameButton;
     TextButton settingsButton;
     TextButton storyButton;
+    TextButton instructionsButton;
     Table menuLayout;
     Stage stage;
     FlameDance flameDance;
@@ -54,6 +55,7 @@ public class MainMenuScreen extends BaseScreen {
         startGameButton = new TextButton("Start",skin,"menu_text_button_style");
         settingsButton = new TextButton("Settings",skin,"menu_text_button_style");
         storyButton = new TextButton("Story",skin,"menu_text_button_style");
+        instructionsButton = new TextButton("Instructions",skin,"menu_text_button_style");
         //THe title
         title = new Label("Ship Survivors",skin,"label_style_title");
 
@@ -82,6 +84,8 @@ public class MainMenuScreen extends BaseScreen {
         menuLayout.add(settingsButton).padTop(Constantes.STANDARD_BUTTON_PADDING).padBottom(Constantes.STANDARD_BUTTON_PADDING);
         menuLayout.row();
         menuLayout.add(storyButton).padTop(Constantes.STANDARD_BUTTON_PADDING).padBottom(Constantes.STANDARD_BUTTON_PADDING);
+        menuLayout.row();
+        menuLayout.add(instructionsButton).padTop(Constantes.STANDARD_BUTTON_PADDING).padBottom(Constantes.STANDARD_BUTTON_PADDING);
         //Add the layout to the stage
         stage.addActor(blueprint);
         stage.addActor(flameDance);
@@ -102,9 +106,6 @@ public class MainMenuScreen extends BaseScreen {
         Gdx.gl.glClearColor(0,0,0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-
-
         stage.act(delta);
         stage.draw();
     }
@@ -139,7 +140,13 @@ public class MainMenuScreen extends BaseScreen {
         {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+                game.setScreen(new StoryScreen(game));
+            }
+        });
+        instructionsButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new InstructionScreen(game));
             }
         });
     }

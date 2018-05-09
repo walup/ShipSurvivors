@@ -113,7 +113,6 @@ public class SettingsScreen extends BaseScreen {
             icon = new Icon(textureRegion,width,height);
             setSize(width,height);
         }
-
         IconActor(Texture texture, float width,float height){
             icon = new Icon(texture,width,height);
             setSize(width,height);
