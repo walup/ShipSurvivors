@@ -8,4 +8,7 @@ weapons to them.
 *
 Touch a weapon to shoot
 *
+You have multiple docks!, rotate the wheel
+to change between them.
+*
 That's it! destroy all the rocks you can.
