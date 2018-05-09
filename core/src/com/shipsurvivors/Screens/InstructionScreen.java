@@ -152,9 +152,17 @@ public class InstructionScreen extends BaseScreen {
                 /*Finally if we get here we just display the last line.*/
                 weaponImage.setVisible(false);
                 arrowDownAnimation.setVisible(false);
+                turnAnimation.setVisible(true);
+                turnAnimation.setPosition(ship.getX() +(ship.getWidth()-turnAnimation.getWidth())/2, ship.getY()+(ship.getHeight()-turnAnimation.getHeight())/2);
                 instructionSquare.setText(instructions[counter]);
                 break;
+
             case 5:
+                /*Finally if we get here we just display the last line.*/
+                turnAnimation.setVisible(false);
+                instructionSquare.setText(instructions[counter]);
+                break;
+            case 6:
                 game.setScreen(new MainMenuScreen(game));
                 break;
         }
