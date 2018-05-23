@@ -112,7 +112,6 @@ public class Attachable extends Actor{
 
     public void drawAttachable(Batch batch, float parentAlpha) {
         /*This is a method that you should fill to draw your particular attachable. */
-
     }
 
     public void updateRect(){

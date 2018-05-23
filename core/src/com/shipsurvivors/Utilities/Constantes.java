@@ -33,6 +33,8 @@ public class Constantes {
     public final static float BULLET_WIDTH = 10;
     public final static float BULLET_HEIGHT = 10;
     public final static float BULLET_VELOCITY = 500;
+    public final static float MINI_WINDOW_WIDTH = 500;
+    public final static float MINI_WINDOW_HEIGHT = 300;
 
     /*Football cat constants*/
     public final static float FOOTBALL_CAT_WIDTH = 120;
@@ -56,6 +58,8 @@ public class Constantes {
     //Rock managing things
     public final static int ROCK_NUM_SEGMENTS = 10;
     public final static int MAX_NUM_OF_ROCKS = 5;
+
+    public final static float[] ROCK_SIZES = {50,70,100,200};
     public final static float LITTLE_ROCK_SIZE = 50;
     public final static float MEDIUM_ROCK_SIZE = 70;
     public final static float LARGE_ROCK_SIZE = 100;

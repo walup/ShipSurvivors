@@ -29,7 +29,6 @@ public class MainGame extends Game {
         Preferences prefs = Gdx.app.getPreferences("My preferences");
         soundEffectsLevel = prefs.getFloat("effectsVolume",0.5f);
         musicVolumeLevel = prefs.getFloat("musicVolume",0.5f);
-
         //Load the menu Aassets
         manager.load("game_song.wav",Music.class);
         manager.load("uistuff.atlas",TextureAtlas.class);
@@ -67,10 +66,12 @@ public class MainGame extends Game {
         manager.load("StorySlides/story_slide_2.png",Texture.class);
         manager.load("StorySlides/story_slide_3.png",Texture.class);
         manager.load("StorySlides/story_slide_4.png",Texture.class);
-
+        manager.load("game_styles.json",Skin.class,new SkinLoader.SkinParameter("game_styles.atlas"));
         manager.load("Instructions/instructions_styles.json",Skin.class,new SkinLoader.SkinParameter("Instructions/instructions.atlas"));
         manager.finishLoading();
-        setScreen(new InstructionScreen(this));
+
+
+        setScreen(new GameScreen(this));
 
     }
 

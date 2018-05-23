@@ -1,0 +1,46 @@
+{
+  "com.badlogic.gdx.graphics.Color":{
+    "golden":{"r":255,"g":215,"b":0,"a":1},
+    "black":{"r":0,"g":0,"b":0,"a":1},
+    "white":{"r":1,"g":1,"b":1,"a":1}
+  },
+
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "neuro":{"file":"neuro.fnt"}
+  },
+
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    "text_button_style": {
+      "font": "neuro",
+      "fontColor": "black",
+      "up": "text_button_not_pressed",
+      "down": "text_button_pressed"
+    }
+  },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
+      "pause_button_style": {
+        "imageUp": "pause_button",
+        "imageDown": "pause_button_pressed"
+      }
+      },
+    "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle":{
+      "label_style":{
+        "font":"neuro",
+        "fontColor":"black"
+      },
+
+      "label_style2":{
+        "font":"neuro",
+        "fontColor":"white"
+      }
+    },
+
+    "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+      "window_style": {
+        "background": "background",
+        "titleFont": "neuro",
+        "stageBackground":"back_stage"
+      }
+    }
+}

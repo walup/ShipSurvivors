@@ -1,0 +1,48 @@
+
+game_styles.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+back_stage
+  rotate: false
+  xy: 504, 465
+  size: 459, 281
+  orig: 459, 281
+  offset: 0, 0
+  index: -1
+background
+  rotate: false
+  xy: 504, 748
+  size: 501, 261
+  orig: 501, 261
+  offset: 0, 0
+  index: -1
+pause_button
+  rotate: false
+  xy: 2, 2
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+pause_button_pressed
+  rotate: false
+  xy: 2, 504
+  size: 500, 505
+  orig: 500, 505
+  offset: 0, 0
+  index: -1
+text_button_not_pressed
+  rotate: false
+  xy: 504, 333
+  size: 500, 130
+  orig: 500, 130
+  offset: 0, 0
+  index: -1
+text_button_pressed
+  rotate: false
+  xy: 504, 202
+  size: 500, 129
+  orig: 500, 129
+  offset: 0, 0
+  index: -1

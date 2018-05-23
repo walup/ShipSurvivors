@@ -73,6 +73,7 @@ public class RockSpawner  {
     private RockCarrier rockCarrier;
     private Random random;
     private boolean rockNew;
+    private AI sapien;
 
     public RockSpawner(){
         //Initialize the Rock Carrier
@@ -81,12 +82,15 @@ public class RockSpawner  {
         //initialize the Rnaodm
         random = new Random();
     }
-    public RockSpawner(Camera camera, AssetManager manager) {
+    public RockSpawner(Camera camera, AssetManager manager, AI sapien) {
         //Initialize the rock carrier
         rockCarrier = new RockCarrier(manager.get("cowboy_cat.png",Texture.class));
 
         //Initialize the Random
         random = new Random();
+
+        //Initialize the AI
+        this.sapien = sapien;
 
         polygonBatch.setProjectionMatrix(camera.combined);
 
@@ -270,7 +274,7 @@ public class RockSpawner  {
             time+=delta;
 
             if (time > Constantes.TIME_ROCK_SPAWINING) {
-                buildNewRock(Constantes.LITTLE_ROCK_SIZE/Constantes.PIXELS_IN_METER,Constantes.ROCK_INITIAL_POSITION_X/Constantes.PIXELS_IN_METER,(50+random.nextFloat()*(200-50))/Constantes.PIXELS_IN_METER);
+                buildNewRock(sapien.selectRockSize(),Constantes.ROCK_INITIAL_POSITION_X/Constantes.PIXELS_IN_METER,(50+random.nextFloat()*(200-50))/Constantes.PIXELS_IN_METER);
                 time = 0;
             }
 
