@@ -53,7 +53,6 @@ public class PolygonBox2DShape extends Polygon{
 
     public void ConstPolygonBox2DShape(ChainShape shape){
         float[] vertices = null;
-            System.out.println("shape looped");
             vertices = new float[shape.getVertexCount()*2 - 2];
             for(int i = 0, j = 0; i < shape.getVertexCount() - 1; i++){
                 Vector2 vector = new Vector2();

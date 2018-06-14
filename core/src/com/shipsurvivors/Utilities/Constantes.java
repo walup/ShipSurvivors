@@ -107,6 +107,8 @@ public class Constantes {
     public final static float TEXT_FRAME_HEIGHT = 100;
     public final static float BUTTON_HEIGHT = 50;
     public final static float BUTTON_WIDTH = 50;
+    public final static float MENU_BUTTON_WIDTH = 300;
+    public final static float MENU_BUTTON_HEIGHT = 60;
 
     /*Constants for the instructions screen.*/
     public final static float INST_ARROW_UP_WIDTH = 50;
@@ -116,6 +118,11 @@ public class Constantes {
     public final static float INST_TURN_WIDTH = 80;
     public final static float INST_TURN_HEIGHT = 80;
     public final static float VELOCITY_CARD = 150;
+
+    /*Some very important constants*/
+    public final static String PREFERENCES_KEY = "My preferences";
+    public final static String MUSIC_VOLUME_KEY = "musicVolume";
+    public final static String SPECIAL_EFFECTS_KEY  = "effectsVolume";
 
 
 

@@ -63,8 +63,6 @@ public class StoryScreen extends BaseScreen  {
             skin.getAtlas().getRegions().get(i).getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
 
-
-
         /*Initialize the buttons*/
         nextButton = new ImageButton(skin,"next_button_style");
         previousButton = new ImageButton(skin,"previous_button_style");

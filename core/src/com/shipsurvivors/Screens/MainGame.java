@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.shipsurvivors.Utilities.Constantes;
 
 /**
  * Created by SEO on 03/04/2017.
@@ -26,9 +27,9 @@ public class MainGame extends Game {
         manager = new AssetManager();
 
         //Get the music and effects volume
-        Preferences prefs = Gdx.app.getPreferences("My preferences");
-        soundEffectsLevel = prefs.getFloat("effectsVolume",0.5f);
-        musicVolumeLevel = prefs.getFloat("musicVolume",0.5f);
+        Preferences prefs = Gdx.app.getPreferences(Constantes.PREFERENCES_KEY);
+        soundEffectsLevel = prefs.getFloat(Constantes.SPECIAL_EFFECTS_KEY,0.5f);
+        musicVolumeLevel = prefs.getFloat(Constantes.MUSIC_VOLUME_KEY,0.5f);
         //Load the menu Aassets
         manager.load("game_song.wav",Music.class);
         manager.load("uistuff.atlas",TextureAtlas.class);

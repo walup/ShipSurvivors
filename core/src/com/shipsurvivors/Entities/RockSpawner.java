@@ -252,7 +252,6 @@ public class RockSpawner  {
             for (int i = 0; i < polygonPacks.length; i++) {
                 if(polygonPacks[i].getPolygonRegions()!=null) {
                     for (int j = 0; j < polygonPacks[i].getPolygonRegions().size(); j++) {
-                        //System.out.println(polygonPacks[i].getBody().getPosition().x*Constantes.PIXELS_IN_METER);
                         polygonBatch.draw(polygonPacks[i].getPolygonRegions().get(j), polygonPacks[i].getBody().getPosition().x * Constantes.PIXELS_IN_METER, polygonPacks[i].getBody().getPosition().y * Constantes.PIXELS_IN_METER);
                     }
                 }
@@ -274,12 +273,13 @@ public class RockSpawner  {
             time+=delta;
 
             if (time > Constantes.TIME_ROCK_SPAWINING) {
-                buildNewRock(sapien.selectRockSize(),Constantes.ROCK_INITIAL_POSITION_X/Constantes.PIXELS_IN_METER,(50+random.nextFloat()*(200-50))/Constantes.PIXELS_IN_METER);
+                buildNewRock(sapien.selectRockSize()/Constantes.PIXELS_IN_METER,Constantes.ROCK_INITIAL_POSITION_X/Constantes.PIXELS_IN_METER,(50+random.nextFloat()*(200-50))/Constantes.PIXELS_IN_METER);
                 time = 0;
             }
 
         }
             rockCarrier.act(delta);
+
 
     }
 
@@ -294,7 +294,6 @@ public class RockSpawner  {
                 polyVerts.add(rockFixture);
                 setRockOrder(true);
                 setRockNew(true);
-                System.out.println("restored");
                 return;
             }
 

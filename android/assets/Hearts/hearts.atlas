@@ -1,0 +1,41 @@
+
+hearts.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+heart
+  rotate: false
+  xy: 2, 230
+  size: 248, 235
+  orig: 248, 235
+  offset: 0, 0
+  index: 4
+heart
+  rotate: false
+  xy: 2, 2
+  size: 243, 226
+  orig: 243, 226
+  offset: 0, 0
+  index: 0
+heart
+  rotate: false
+  xy: 252, 239
+  size: 243, 226
+  orig: 243, 226
+  offset: 0, 0
+  index: 1
+heart
+  rotate: false
+  xy: 497, 239
+  size: 243, 226
+  orig: 243, 226
+  offset: 0, 0
+  index: 2
+heart
+  rotate: false
+  xy: 742, 239
+  size: 243, 226
+  orig: 243, 226
+  offset: 0, 0
+  index: 3

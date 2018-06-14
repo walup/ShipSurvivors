@@ -4,21 +4,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -80,8 +86,9 @@ public class GameScreen extends BaseScreen {
 
     //The pause window and stuff it needs.
     private ImageButton pauseButton;
-    private Window pauseWindow;
+    private MyPauseWindow pauseWindow;
     private TextButton goToMenuButton;
+    private TextButton settingsButton;
     private TextButton continueButton;
 
 
@@ -139,6 +146,7 @@ public class GameScreen extends BaseScreen {
         stage.addActor(heartContainer);
         stage.addActor(scoreLabel);
         stage.addActor(pauseWindow);
+        stage.addActor(pauseWindow.changeVolWindow);
         inputMultiplexer = new InputMultiplexer();
         /*We add to the multiplexer the ship controls as a GestureDetector, and the same object as an InputProcessor*/
         inputMultiplexer.addProcessor(new GestureDetector(shipControls));
@@ -180,6 +188,7 @@ public class GameScreen extends BaseScreen {
         if(rockSpawner.isRockOrder()){
             rockSpawner.buildRock(world);
         }
+        sapien.updateAI(delta,referee.getScore());
         //Render the stage.
         stage.draw();
         //Draw the rocks
@@ -223,8 +232,116 @@ public class GameScreen extends BaseScreen {
         public void playMusic(){
             gameMusic.play();
         }
+
+        public void changeSfxVolume(float volume){
+
+        }
     }
 
+
+    public class MyPauseWindow extends Window{
+
+        /*My Pause window will have another inside Window, which will allow the player to change to volume of the music
+        * from inside the game*/
+
+        private Window changeVolWindow;
+        private Slider musicVolumeSlider;
+        private Slider specialEffectsSlider;
+        private Label musicVolumeLabel;
+        private Label specialEffectsVolumeLabel;
+        private Image musicImage;
+        private Image specialEffectsImage;
+        private TextButton returnButton;
+
+
+        public MyPauseWindow(String title, Skin skin) {
+            super(title, skin);
+        }
+
+        public MyPauseWindow(String title, Skin skin, String styleName){
+            super(title,skin,styleName);
+            changeVolWindow = new Window("Settings",skin,styleName);
+            Skin settingsSkin = game.getManager().get("settings.json",Skin.class);
+
+            /*Initialize the sliders*/
+            musicVolumeSlider = new Slider(0,1, (float) 0.01,false,settingsSkin,"slider_style");
+            musicVolumeSlider.setValue(game.getMusicVolumeLevel());
+            specialEffectsSlider = new Slider(0,1,0.01f,false,settingsSkin,"slider_style");
+            specialEffectsSlider.setValue(game.getSoundEffectsLevel());
+
+
+            /*Initialize the labels*/
+            musicVolumeLabel = new Label("Music Volume",settingsSkin,"label_style");
+            specialEffectsVolumeLabel = new Label("Sfx Volume",settingsSkin,"label_style");
+
+            /*Initialize the return button*/
+            returnButton = new TextButton("Return",settingsSkin,"text_button_style");
+
+            /*Initialize the images*/
+            TextureRegion musicTexture = settingsSkin.getAtlas().findRegion("musicicon");
+            musicTexture.getTexture().setFilter(Texture.TextureFilter.Linear,Texture.TextureFilter.Linear);
+            musicImage = new Image(musicTexture);
+            musicImage.setSize(Constantes.SETTINGS_ICON_WIDTH,Constantes.SETTINGS_ICON_HEIGHT);
+
+            TextureRegion specialEffectsTexture = settingsSkin.getAtlas().findRegion("soundeffectsicon");
+            specialEffectsTexture.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            specialEffectsImage = new Image(specialEffectsTexture);
+            specialEffectsImage.setSize(Constantes.SETTINGS_ICON_WIDTH,Constantes.SETTINGS_ICON_HEIGHT);
+
+            /*Add everything to the Window*/
+            changeVolWindow.setSize(Constantes.MINI_WINDOW_WIDTH,Constantes.MINI_WINDOW_HEIGHT);
+            changeVolWindow.setPosition((Constantes.SCREEN_WIDTH-changeVolWindow.getWidth())/2,(Constantes.SCREEN_HEIGHT-changeVolWindow.getHeight())/2);
+            changeVolWindow.align(Align.center);
+            changeVolWindow.add(specialEffectsSlider);
+            changeVolWindow.add(specialEffectsVolumeLabel).pad(Constantes.STANDARD_BUTTON_PADDING);
+            changeVolWindow.add(specialEffectsImage).pad(Constantes.STANDARD_BUTTON_PADDING);
+            changeVolWindow.row();
+            changeVolWindow.add(musicVolumeSlider);
+            changeVolWindow.add(musicVolumeLabel).pad(Constantes.STANDARD_BUTTON_PADDING);
+            changeVolWindow.add(musicImage).pad(Constantes.STANDARD_BUTTON_PADDING);
+            changeVolWindow.row();
+            changeVolWindow.add(returnButton).colspan(3);
+
+            changeVolWindow.setVisible(false);
+
+            /*Here we set the listener for the button*/
+            returnButton.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Preferences prefs = Gdx.app.getPreferences(Constantes.PREFERENCES_KEY);
+                    prefs.putFloat(Constantes.MUSIC_VOLUME_KEY,musicVolumeSlider.getValue());
+                    prefs.putFloat(Constantes.SPECIAL_EFFECTS_KEY,specialEffectsSlider.getValue());
+                    game.setMusicVolumeLevel(musicVolumeSlider.getValue());
+                    game.setSoundEffectsLevel(specialEffectsSlider.getValue());
+                    changeVolWindow.setVisible(false);
+                    setVisible(true);
+                }
+            });
+
+            /*Here we set the listeners for the sliders. */
+            musicVolumeSlider.addListener(new EventListener() {
+                @Override
+                public boolean handle(Event event) {
+                    dj.gameMusic.setVolume(musicVolumeSlider.getValue());
+                    return true;
+                }
+            });
+
+            specialEffectsSlider.addListener(new EventListener() {
+                @Override
+                public boolean handle(Event event) {
+                    dj.changeSfxVolume(specialEffectsSlider.getValue());
+                    return true;
+                }
+            });
+
+        }
+
+        public void activateSettings(){
+            setVisible(false);
+            changeVolWindow.setVisible(true);
+        }
+    }
     //In this method we add the buttons to the Pause Screen
     public void configurePauseScreen(){
         pauseButton = new ImageButton(game.getManager().get("game_styles.json",Skin.class),"pause_button_style");
@@ -234,7 +351,6 @@ public class GameScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 pauseWindow.setVisible(true);
-                System.out.println("clicked");
             }
         });
 
@@ -242,17 +358,20 @@ public class GameScreen extends BaseScreen {
 
         goToMenuButton = new TextButton("Return to menu",game.getManager().get("game_styles.json",Skin.class),"text_button_style");
         continueButton = new TextButton("Continue",game.getManager().get("game_styles.json",Skin.class),"text_button_style");
+        settingsButton = new TextButton("Settings",game.getManager().get("game_styles.json",Skin.class),"text_button_style");
 
-        pauseWindow = new Window("Pause",game.getManager().get("game_styles.json",Skin.class),"window_style");
+        pauseWindow = new MyPauseWindow("Pause",game.getManager().get("game_styles.json",Skin.class),"window_style");
         pauseWindow.setSize(Constantes.MINI_WINDOW_WIDTH,Constantes.MINI_WINDOW_HEIGHT);
         pauseWindow.setPosition((Constantes.SCREEN_WIDTH-pauseWindow.getWidth())/2,(Constantes.SCREEN_HEIGHT-pauseWindow.getHeight())/2);
         pauseWindow.align(Align.center);
         pauseWindow.setResizable(false);
         pauseWindow.setMovable(false);
         pauseWindow.row();
-        pauseWindow.add(continueButton);
+        pauseWindow.add(continueButton).size(Constantes.MENU_BUTTON_WIDTH,Constantes.MENU_BUTTON_HEIGHT).pad(Constantes.STANDARD_BUTTON_PADDING);
         pauseWindow.row();
-        pauseWindow.add(goToMenuButton);
+        pauseWindow.add(settingsButton).size(Constantes.MENU_BUTTON_WIDTH,Constantes.MENU_BUTTON_HEIGHT).pad(Constantes.STANDARD_BUTTON_PADDING);
+        pauseWindow.row();
+        pauseWindow.add(goToMenuButton).size(Constantes.MENU_BUTTON_WIDTH,Constantes.MENU_BUTTON_HEIGHT).pad(Constantes.STANDARD_BUTTON_PADDING);
         pauseWindow.setVisible(false);
 
         /*Configure the buttons*/
@@ -269,6 +388,12 @@ public class GameScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 pauseWindow.setVisible(false);
+            }
+        });
+        settingsButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                pauseWindow.activateSettings();
             }
         });
     }

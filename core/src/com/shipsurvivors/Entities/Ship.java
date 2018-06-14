@@ -151,7 +151,6 @@ public class Ship extends Actor {
     public void stopMovement(){
         setMovingDown(false);
         setMovingUp(false);
-        System.out.println("movement stopped");
     }
 
     public void updateMovement(float delta){
@@ -167,7 +166,8 @@ public class Ship extends Actor {
                     ShipControls.setTouchIntent(false);
                 }
             }
-        else if(isMovingUp()){
+
+        else if(isMovingUp() && !isOutOfBoundsTop()){
             velocityY = Constantes.SHIP_VELOCITY;
             setPosition(getX(),getY()+velocityY*delta);
             body.setTransform(body.getPosition().x,body.getPosition().y+(velocityY*delta)/Constantes.PIXELS_IN_METER,0);
@@ -175,7 +175,7 @@ public class Ship extends Actor {
             moveDownRect.setPosition(moveDownRect.getX(),moveDownRect.getY()+velocityY*delta);
             wheel.moveWheel(velocityY,delta);
         }
-        else if(isMovingDown()){
+        else if(isMovingDown() && !isOutOfBoundsBottom()){
             velocityY = -Constantes.SHIP_VELOCITY;
             setPosition(getX(),getY()+velocityY*delta);
             body.setTransform(body.getPosition().x,body.getPosition().y+(velocityY*delta)/Constantes.PIXELS_IN_METER,0);
@@ -183,5 +183,17 @@ public class Ship extends Actor {
             moveUpRect.setPosition(moveUpRect.getX(),moveUpRect.getY()+velocityY*delta);
             wheel.moveWheel(velocityY,delta);
         }
+        }
+
+        public boolean isOutOfBoundsBottom(){
+        return getY()<0;
+        }
+
+        public boolean isOutOfBoundsTop(){
+        return getY()+getHeight()>Constantes.WORLD_HEIGHT;
+        }
+
+        public boolean isOutOfBounds(){
+        return isOutOfBoundsBottom() && isOutOfBoundsTop();
         }
     }

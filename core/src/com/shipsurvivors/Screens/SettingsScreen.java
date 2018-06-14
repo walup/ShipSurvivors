@@ -129,9 +129,9 @@ public class SettingsScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Store the new volumes in the Preferences
-                Preferences prefs = Gdx.app.getPreferences("My preferences");
-                prefs.putFloat("musicVolume",game.getMusicVolumeLevel());
-                prefs.putFloat("effectsVolume",game.getSoundEffectsLevel());
+                Preferences prefs = Gdx.app.getPreferences(Constantes.PREFERENCES_KEY);
+                prefs.putFloat(Constantes.MUSIC_VOLUME_KEY,game.getMusicVolumeLevel());
+                prefs.putFloat(Constantes.SPECIAL_EFFECTS_KEY,game.getSoundEffectsLevel());
                 //Return to the main menu
                 game.setScreen(new MainMenuScreen(game));
 
