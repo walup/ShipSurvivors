@@ -95,6 +95,8 @@ public class HeartBreaker extends Weapon {
         * that itself will tell the dock to call the detach method*/
         if(isCatOutOfBounds()){
             setShooting(false);
+            /*This will guarantee that we stop drawing the cat when it's out of bounds*/
+            setAttached(false);
         }
     }
 
@@ -344,8 +346,10 @@ public class HeartBreaker extends Weapon {
         return leftHeartBody.isActive() && rightHeartBody.isActive();
     }
 
-
-
-
-
+    @Override
+    public void dispose() {
+        super.dispose();
+        halfHeartLeftTexture.dispose();
+        halfHeartRightTexture.dispose();
+    }
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -61,6 +62,9 @@ public class MainGame extends Game {
         manager.load("Guns/hertbreaker.atlas",TextureAtlas.class);
         manager.load("blueprint_ship.jpg",Texture.class);
         manager.load("song2.wav",Music.class);
+        manager.load("click.wav",Sound.class);
+        manager.load("teleport.wav",Sound.class);
+        manager.load("bite.wav",Sound.class);
         manager.load("story_styles.json", Skin.class,new SkinLoader.SkinParameter("story_styles.atlas"));
         //Load the story slides
         manager.load("StorySlides/story_slide_1.png",Texture.class);
@@ -72,7 +76,7 @@ public class MainGame extends Game {
         manager.finishLoading();
 
 
-        setScreen(new GameScreen(this));
+        setScreen(new MainMenuScreen(this));
 
     }
 
@@ -94,5 +98,10 @@ public class MainGame extends Game {
 
     public AssetManager getManager() {
         return manager;
+    }
+
+    @Override
+    public void dispose() {
+        manager.dispose();
     }
 }

@@ -47,6 +47,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
         return iconTexture;
     }
 
+    public void dispose(){
+        iconTexture.getTexture().dispose();
+    }
+
 }
 
 

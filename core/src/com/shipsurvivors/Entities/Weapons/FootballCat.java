@@ -120,6 +120,7 @@ public class FootballCat extends Weapon {
             playerBody.setActive(false);
             footballBody.setActive(false);
             setShooting(false);
+            setAttached(false);
         }
     }
 
@@ -271,5 +272,11 @@ public class FootballCat extends Weapon {
         setFootballTurnedOff(false);
         footballBody.setActive(false);
         playerBody.setActive(false);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        footballTexture.getTexture().dispose();
     }
 }

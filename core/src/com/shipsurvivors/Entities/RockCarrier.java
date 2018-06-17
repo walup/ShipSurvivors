@@ -126,4 +126,8 @@ public class RockCarrier  extends Actor {
     public void setReachTurnPoint(boolean reachTurnPoint) {
         this.reachTurnPoint = reachTurnPoint;
     }
+
+    public void dispose(){
+        texture.dispose();
+    }
 }

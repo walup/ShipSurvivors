@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.shipsurvivors.Entities.CardContainer;
 import com.shipsurvivors.Entities.Ship;
+import com.shipsurvivors.Screens.GameScreen;
 import com.shipsurvivors.Utilities.Constantes;
 
 /**
@@ -23,13 +24,14 @@ public class ShipControls extends ApplicationAdapter implements GestureDetector.
     private static Boolean flingIntent = false;
     private static float flingVelocityX, flingVelocityY;
     private static Boolean touchIntent = false;
+    private GameScreen.Dj dj;
 
-    public ShipControls(Ship ship, CardContainer cardContainer){
+    public ShipControls(Ship ship, GameScreen.Dj dj, CardContainer cardContainer){
         this.ship = ship;
         this.cardContainer = cardContainer;
         mouseScreenPosition = new Vector2();
         mouseStagePosition = new Vector2();
-
+        this.dj = dj;
     }
 
     @Override
@@ -43,6 +45,7 @@ public class ShipControls extends ApplicationAdapter implements GestureDetector.
 
         if(ship.getWheel().touchedDockToTrigger(mouseStagePosition)){
             ship.getWheel().triggerDock();
+            dj.playSummonSound();
         }
 
         return false;
@@ -76,7 +79,9 @@ public class ShipControls extends ApplicationAdapter implements GestureDetector.
     public boolean pan(float x, float y, float deltaX, float deltaY) {
         if(cardContainer.getStage().hit(mouseStagePosition.x,mouseStagePosition.y,false) == cardContainer && !cardContainer.isCardTaken()){
             cardContainer.grabCard(mouseStagePosition);
-            cardContainer.getGrabbedCard().setPointer(mouseStagePosition);
+            if(cardContainer.getGrabbedCard()!= null) {
+                cardContainer.getGrabbedCard().setPointer(mouseStagePosition);
+            }
             setTouchIntent(false);
         }
         else if(cardContainer.isCardTaken()){
@@ -214,5 +219,11 @@ public class ShipControls extends ApplicationAdapter implements GestureDetector.
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    public void dispose(){
+        ship.dispose();
+        dj.dispose();
+        cardContainer.dispose();
     }
 }

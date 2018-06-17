@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import com.shipsurvivors.Entities.Referee;
 import com.shipsurvivors.Entities.RockSpawner;
 import com.shipsurvivors.Entities.Ship;
+import com.shipsurvivors.Screens.GameScreen;
 import com.shipsurvivors.Utilities.Constantes;
 import com.shipsurvivors.Utilities.SandBox.CollisionGeometry;
 import com.shipsurvivors.Utilities.SandBox.PolygonBox2DShape;
@@ -33,17 +34,17 @@ public class WorldCollisions implements ContactListener {
     private Ship ship;
     private final float CORRECTION_X = Constantes.SCREEN_WIDTH/Constantes.PIXELS_IN_METER;
     private Referee referee;
-
-
+    private GameScreen.Dj dj;
 
     public WorldCollisions(RockSpawner rockSpawner){
         this.rockSpawner =rockSpawner;
     }
 
-    public WorldCollisions(RockSpawner rockSpawner,Ship ship,Referee referee){
+    public WorldCollisions(RockSpawner rockSpawner, GameScreen.Dj dj, Ship ship, Referee referee){
         this.rockSpawner = rockSpawner;
         this.ship = ship;
         this.referee = referee;
+        this.dj = dj;
     }
 
     @Override
@@ -80,9 +81,11 @@ public class WorldCollisions implements ContactListener {
 
             clippingRock(a, b, dataB);
             referee.crushedRock();
+            dj.playBoulderBreakSound();
         }else if(dataB instanceof UserData && dataB.getType() == UserData.ROCK && dataA instanceof UserData && dataA.getType() == UserData.BULLET){
             clippingRock(b, a,dataA);
             referee.crushedRock();
+            dj.playBoulderBreakSound();
         }
         clipped = false;
 
@@ -180,4 +183,6 @@ public class WorldCollisions implements ContactListener {
         }
         return verts;
     }
+
+
 }

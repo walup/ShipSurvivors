@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.shipsurvivors.Screens.GameScreen;
 import com.shipsurvivors.UI.ShipControls;
 import com.shipsurvivors.Utilities.Constantes;
 import com.shipsurvivors.Utilities.SandBox.UserData;
@@ -40,11 +41,7 @@ public class Ship extends Actor {
 
     //private ShapeRenderer shapeRenderer;
 
-
-
-
-
-    public Ship(World world, TextureAtlas shipTextures, float x, float y,float width, float height ){
+    public Ship(World world, GameScreen.Dj dj, TextureAtlas shipTextures, float x, float y, float width, float height ){
         /*Shape renderer for debugging*/
         //shapeRenderer = new ShapeRenderer();
 
@@ -56,7 +53,7 @@ public class Ship extends Actor {
         setBounds(x,y,width,height);
 
         /*Set the band, it has to have a radius equal to the width of the ship*/
-        wheel = new Wheel(world,shipTextures,getX()+(Constantes.SHIP_WIDTH -Constantes.WHEEL_WIDTH)/2,getY()+(Constantes.SHIP_HEIGHT -Constantes.WHEEL_HEIGHT)/2,Constantes.WHEEL_WIDTH,Constantes.WHEEL_HEIGHT);
+        wheel = new Wheel(world,dj,shipTextures,getX()+(Constantes.SHIP_WIDTH -Constantes.WHEEL_WIDTH)/2,getY()+(Constantes.SHIP_HEIGHT -Constantes.WHEEL_HEIGHT)/2,Constantes.WHEEL_WIDTH,Constantes.WHEEL_HEIGHT);
 
         /*Create the body*/
         BodyDef bodyDef = new BodyDef();
@@ -116,6 +113,9 @@ public class Ship extends Actor {
 
 
     public void dispose(){
+        shipTexture.getTexture().dispose();
+        wheel.dispose();
+
     }
 
     public Wheel getWheel() {

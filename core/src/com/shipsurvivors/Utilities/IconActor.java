@@ -29,4 +29,9 @@ public class IconActor extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(iconTexture.getTexture(),getX(),getY(),getWidth(),getHeight());
     }
+
+    public void dispose(){
+            iconTexture.getTexture().dispose();
+    }
+
 }

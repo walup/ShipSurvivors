@@ -98,6 +98,11 @@ public class SettingsScreen extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
+        skin.dispose();
+        musicVolumeIcon.icon.dispose();
+        specialEffectsIcon.icon.dispose();
+        stage.dispose();
+
     }
 
     @Override
@@ -132,6 +137,7 @@ public class SettingsScreen extends BaseScreen {
                 Preferences prefs = Gdx.app.getPreferences(Constantes.PREFERENCES_KEY);
                 prefs.putFloat(Constantes.MUSIC_VOLUME_KEY,game.getMusicVolumeLevel());
                 prefs.putFloat(Constantes.SPECIAL_EFFECTS_KEY,game.getSoundEffectsLevel());
+                prefs.flush();
                 //Return to the main menu
                 game.setScreen(new MainMenuScreen(game));
 

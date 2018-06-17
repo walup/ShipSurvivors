@@ -9,8 +9,6 @@ public class AI {
     * this will control the flow of the game. will be able to change the rock size and maybe
     * make things a little harder as the time goes by i still haven't figured out
     * all the details of what how this class will work exactly. */
-
-    private float gameTime;
     private float score;
     private final float[] START_PROBABILITIES = {0.7f,0.2f,0.09f,0.01f};
     private float[] probRockSizes = {0.7f,0.2f,0.09f,0.01f};
@@ -26,7 +24,6 @@ public class AI {
     private final float STEP_TIME = 10;
     private final float STEP_TOP = 10;
     private float increment = 0;
-    private float decrement = 0;
 
     /*I don't know anything about AI , but let's try to make some kind of probabiliistic thing. What i'm thinking is i should make some
      * sort of probability distribution that will be modified, according to the players points.*/

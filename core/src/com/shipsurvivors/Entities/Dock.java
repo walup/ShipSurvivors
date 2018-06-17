@@ -30,18 +30,17 @@ public class Dock extends Actor {
         available = true;
         triggered = false;
         dockRect = new Rectangle(x,y,width,height);
-
     }
 
     /*So all of our angles, will be handled in degrees, which means we have to do the proper conversions when calculating
     * the new position of them when the docks rotate*/
+
     public void rotate(float centerX, float centerY, float radius, float angleDelta){
         angle = (angle+angleDelta)%360;
         setPosition(centerX+radius*(float)Math.cos(Math.toRadians(angle)),centerY+radius*(float)Math.sin(Math.toRadians(angle)));
         updateDockRect();
         updateAttachablePosition();
     }
-
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -110,7 +109,6 @@ public class Dock extends Actor {
 
     @Override
     public void act(float delta) {
-
         if(isTriggered()){
             if(!attachable.isActivated() && !attachable.isShooting()){
                 attachable.detach();
@@ -121,6 +119,7 @@ public class Dock extends Actor {
             }
         }
     }
+
 
     public boolean bulletStrike(Fixture fixture){
        if(!isAvailable() && isTriggered()){
@@ -138,6 +137,10 @@ public class Dock extends Actor {
         setPosition(getX(),getY()+velocityY*delta);
         updateDockRect();
         updateAttachablePosition();
+    }
+
+    public void dispose(){
+        dockTexture.getTexture().dispose();
     }
 
 }

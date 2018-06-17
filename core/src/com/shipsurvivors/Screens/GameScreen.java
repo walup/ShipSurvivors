@@ -52,7 +52,6 @@ import java.util.List;
 
 public class GameScreen extends BaseScreen {
     private Stage stage;
-    private OrthographicCamera camera;
     private World world;
     public static  ShipControls shipControls;
     private Ship ship;
@@ -65,7 +64,6 @@ public class GameScreen extends BaseScreen {
     private float accu;
     private static final float TIME_STEP = 1 / 60f;
     private static int speedIte = 6, posIte = 2;
-    private int count = 0;
     // The contact handler
     private WorldCollisions worldCollisions;
 
@@ -102,20 +100,20 @@ public class GameScreen extends BaseScreen {
         //Initialize the scrolling background
        background = new ScrollingBackground(game.getManager().get("background.png",Texture.class));
         //Initialize the Dj
-        dj = new Dj(game.getManager().get("song2.wav",Music.class));
+        dj = new Dj(game.getManager().get("song2.wav",Music.class),game.getManager().get("click.wav",Sound.class),game.getManager().get("teleport.wav",Sound.class),game.getManager().get("bite.wav",Sound.class));
         //We initialize the ship
-        ship = new Ship(world,game.getManager().get("shipatlas.atlas",TextureAtlas.class),20,20, Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
+        ship = new Ship(world,dj,game.getManager().get("shipatlas.atlas",TextureAtlas.class),20,20, Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
         //Initialize the AI
         sapien = new AI();
         //Initialize the rock spawner
-        rockSpawner = new RockSpawner(stage.getCamera(),game.getManager(),sapien);
+        rockSpawner = new RockSpawner(stage.getCamera(),game.getManager(),sapien,world);
         //Initialize the heart Container
         heartContainer = new HeartContainer(game.getManager().get("hearts.atlas",TextureAtlas.class),Constantes.HEART_CONTAINER_X,Constantes.HEART_CONTAINER_Y);
         //Initialize the Referee (remember that this interacts with the heart container, and then also world colissions
         // needs the referee)
         referee = new Referee(heartContainer);
         //Initilize WorldColissions
-        worldCollisions = new WorldCollisions(rockSpawner,ship,referee);
+        worldCollisions = new WorldCollisions(rockSpawner,dj,ship,referee);
         //Initialize the label
         initializeLabel();
         //Here we initialize everything we need for the pause window.
@@ -137,9 +135,10 @@ public class GameScreen extends BaseScreen {
         attachables.addAll(armory.weaponsRequest("heartbreaker",game.getManager(),3));
         cardContainer = new CardContainer(attachables,game.getManager().get("card_container_background.png",Texture.class));
         //Initialize the controls
-        shipControls = new ShipControls(ship,cardContainer);
+        shipControls = new ShipControls(ship,dj,cardContainer);
         //Add everything to the stage
         stage.addActor(background);
+        stage.addActor(rockSpawner);
         stage.addActor(pauseButton);
         stage.addActor(ship);
         stage.addActor(cardContainer);
@@ -174,7 +173,7 @@ public class GameScreen extends BaseScreen {
 
         //Update the world and the stage.
         stage.act(delta);
-        rockSpawner.updateRockManagement(delta);
+        //rockSpawner.updateRockManagement(delta);
         box2DTimeStep(delta);
 
         //Here change the score if neccesary
@@ -182,17 +181,18 @@ public class GameScreen extends BaseScreen {
             scoreLabel.setText("Score "+referee.getScore());
             referee.setChangedScore(false);
         }
-        //Destroy bodies which need destroying
+        /*Destroy bodies which need destroying
         rockSpawner.destroyOldBodies(world);
         //if needed build the new bodies
         if(rockSpawner.isRockOrder()){
             rockSpawner.buildRock(world);
         }
+        */
         sapien.updateAI(delta,referee.getScore());
         //Render the stage.
         stage.draw();
-        //Draw the rocks
-        rockSpawner.drawRocks(stage.getBatch(),1);
+        /*Draw the rocks
+        rockSpawner.drawRocks(stage.getBatch(),1);*/
 //        renderer.render(world,cameraForDebug.combined);
 
         shipControls.renderShipControls();
@@ -202,6 +202,12 @@ public class GameScreen extends BaseScreen {
     @Override
     public void dispose() {
         heartContainer.dispose();
+        dj.dispose();
+        stage.dispose();
+        ship.dispose();
+        cardContainer.dispose();
+        background.dispose();
+        rockSpawner.dispose();
     }
 
 
@@ -222,19 +228,50 @@ public class GameScreen extends BaseScreen {
 
     public class Dj{
         private Music gameMusic;
+        public Sound clickSound;
+        private Sound boulderBreakSound;
+        private Sound summonSound;
+        private final float ANGLE_TOP =360.0f/4;
+        private float angleAccumulated =0;
 
-        public Dj(Music gameMusic){
+        public Dj(Music gameMusic,Sound clickSound,Sound summonSound,Sound boulderBreakSound){
             gameMusic.setLooping(true);
             gameMusic.setVolume(game.getMusicVolumeLevel());
             this.gameMusic = gameMusic;
+            this.clickSound = clickSound;
+            this.summonSound = summonSound;
+            this.boulderBreakSound = boulderBreakSound;
         }
 
         public void playMusic(){
             gameMusic.play();
         }
 
-        public void changeSfxVolume(float volume){
+        public void playClickSound(){
+            clickSound.play(game.getSoundEffectsLevel());
+        }
 
+        public void playRoulette(float angleDelta){
+            angleAccumulated +=angleDelta;
+            if(angleAccumulated>ANGLE_TOP){
+                angleAccumulated= 0;
+                playClickSound();
+            }
+        }
+
+        public void playSummonSound(){
+            summonSound.play(game.getSoundEffectsLevel());
+        }
+
+        public void playBoulderBreakSound(){
+            boulderBreakSound.play(game.getSoundEffectsLevel());
+        }
+
+        public void dispose(){
+            gameMusic.dispose();
+            boulderBreakSound.dispose();
+            summonSound.dispose();
+            clickSound.dispose();
         }
     }
 
@@ -311,6 +348,7 @@ public class GameScreen extends BaseScreen {
                     Preferences prefs = Gdx.app.getPreferences(Constantes.PREFERENCES_KEY);
                     prefs.putFloat(Constantes.MUSIC_VOLUME_KEY,musicVolumeSlider.getValue());
                     prefs.putFloat(Constantes.SPECIAL_EFFECTS_KEY,specialEffectsSlider.getValue());
+                    prefs.flush();
                     game.setMusicVolumeLevel(musicVolumeSlider.getValue());
                     game.setSoundEffectsLevel(specialEffectsSlider.getValue());
                     changeVolWindow.setVisible(false);
@@ -323,14 +361,6 @@ public class GameScreen extends BaseScreen {
                 @Override
                 public boolean handle(Event event) {
                     dj.gameMusic.setVolume(musicVolumeSlider.getValue());
-                    return true;
-                }
-            });
-
-            specialEffectsSlider.addListener(new EventListener() {
-                @Override
-                public boolean handle(Event event) {
-                    dj.changeSfxVolume(specialEffectsSlider.getValue());
                     return true;
                 }
             });
@@ -353,9 +383,6 @@ public class GameScreen extends BaseScreen {
                 pauseWindow.setVisible(true);
             }
         });
-
-
-
         goToMenuButton = new TextButton("Return to menu",game.getManager().get("game_styles.json",Skin.class),"text_button_style");
         continueButton = new TextButton("Continue",game.getManager().get("game_styles.json",Skin.class),"text_button_style");
         settingsButton = new TextButton("Settings",game.getManager().get("game_styles.json",Skin.class),"text_button_style");

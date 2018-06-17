@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.shipsurvivors.Utilities.Constantes;
@@ -61,7 +62,7 @@ import java.util.Random;
 * PolygonPack's. The Polygon Regions inside the PolygonPack is what we'll be drawing.
 * */
 
-public class RockSpawner  {
+public class RockSpawner  extends Actor {
     /*The polyVerts will contain the info of a rock , the intention is to be able to create many but fordbugging onee will suffice*/
     private List<RockFixture> polyVerts = new ArrayList<RockFixture>();
     private PolygonPack[] polygonPacks = new PolygonPack[Constantes.MAX_NUM_OF_ROCKS];
@@ -74,6 +75,7 @@ public class RockSpawner  {
     private Random random;
     private boolean rockNew;
     private AI sapien;
+    private World world;
 
     public RockSpawner(){
         //Initialize the Rock Carrier
@@ -82,7 +84,7 @@ public class RockSpawner  {
         //initialize the Rnaodm
         random = new Random();
     }
-    public RockSpawner(Camera camera, AssetManager manager, AI sapien) {
+    public RockSpawner(Camera camera, AssetManager manager, AI sapien,World world) {
         //Initialize the rock carrier
         rockCarrier = new RockCarrier(manager.get("cowboy_cat.png",Texture.class));
 
@@ -100,6 +102,9 @@ public class RockSpawner  {
 
         //initialize rocks
         initRocks();
+
+        //Set the world
+        this.world = world;
     }
 
 
@@ -243,11 +248,12 @@ public class RockSpawner  {
 
     public void drawRocks(Batch batch,float parentAlpha){
         if(rockCarrier.isCarrying() || rockCarrier.isReachTurnPoint()){
-            batch.begin();
+            //batch.begin();
             rockCarrier.draw(batch,parentAlpha);
-            batch.end();
+            //batch.end();
         }
 
+        batch.end();
         polygonBatch.begin();
             for (int i = 0; i < polygonPacks.length; i++) {
                 if(polygonPacks[i].getPolygonRegions()!=null) {
@@ -258,6 +264,7 @@ public class RockSpawner  {
             }
 
         polygonBatch.end();
+            batch.begin();
     }
 
     public void initRocks(){
@@ -327,5 +334,29 @@ public class RockSpawner  {
 
     public boolean isRockNew() {
         return rockNew;
+    }
+
+    /*Here goes the acting oif the thing*/
+
+    @Override
+    public void act(float delta) {
+        updateRockManagement(delta);
+
+        //Destroy bodies which need destroying
+        destroyOldBodies(world);
+        //if needed build the new bodies
+        if(isRockOrder()){
+            buildRock(world);
+        }
+    }
+
+    @Override
+    public void draw(Batch batch, float a) {
+        drawRocks(batch,a);
+
+    }
+
+    public void dispose(){
+        rockCarrier.dispose();
     }
 }

@@ -170,4 +170,9 @@ public class Attachable extends Actor{
     public void detach(){
 
     };
+
+    public void dispose(){
+        card.dispose();
+
+    }
 }

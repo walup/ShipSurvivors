@@ -2,6 +2,7 @@ package com.shipsurvivors.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
@@ -32,6 +33,8 @@ public class GameOverScreen extends BaseScreen{
     private Stage stage;
     private Boolean isChanging;
     private Table layout;
+    private MyListener myListener;
+    private Skin skin;
 
 
     public GameOverScreen(MainGame game,float score) {
@@ -40,15 +43,16 @@ public class GameOverScreen extends BaseScreen{
         stage = new Stage(new FitViewport(Constantes.SCREEN_WIDTH,Constantes.SCREEN_HEIGHT));
         this.score = score;
         isChanging = false;
+        myListener = new MyListener();
 
     }
 
     @Override
     public void show() {
-        prefs = Gdx.app.getPreferences("My Preferences");
-        float highscore = prefs.getFloat("highscore",0);
-        name  = prefs.getString("name","2pac");
-        Skin skin = game.getManager().get("settings.json");
+        prefs = Gdx.app.getPreferences(Constantes.PREFERENCES_KEY);
+        float highscore = prefs.getFloat(Constantes.HIGHSCORE_KEY,0);
+        name  = prefs.getString(Constantes.PLAYER_NAME_KEY,"2pac");
+        skin = game.getManager().get("settings.json");
         //Initiate the labels
         gameOverLabel = new Label("Game Over",skin,"label_style2");
         highScoreLabel = new Label("dummy text",skin,"label_style2");
@@ -70,12 +74,13 @@ public class GameOverScreen extends BaseScreen{
         }
         else{
             //If the new score isn't higher get the last ones.
-            name  = prefs.getString("name","2pac");
+            name  = prefs.getString(Constantes.PLAYER_NAME_KEY,"2pac");
             score = highscore;
             highScoreLabel.setText("Highscore "+name +":   "+score);
         }
 
         stage.addActor(layout);
+        Gdx.input.setInputProcessor(myListener);
     }
 
     @Override
@@ -86,9 +91,16 @@ public class GameOverScreen extends BaseScreen{
 
         stage.act(delta);
         if(!isChanging) {
-            System.out.println("actt");
             stage.draw();
+
         }
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        skin.dispose();
+
     }
 
     @Override
@@ -102,8 +114,8 @@ public class GameOverScreen extends BaseScreen{
         @Override
         public void input(String text) {
             name = text;
-            prefs.putFloat("highscore",score);
-            prefs.putString("name",name);
+            prefs.putFloat(Constantes.HIGHSCORE_KEY,score);
+            prefs.putString(Constantes.PLAYER_NAME_KEY,name);
             prefs.flush();
             isChanging = false;
             highScoreLabel.setText("Highscore "+name +":   "+score);
@@ -113,6 +125,54 @@ public class GameOverScreen extends BaseScreen{
         @Override
         public void canceled() {
 
+        }
+    }
+
+
+    public class MyListener implements InputProcessor{
+
+        @Override
+        public boolean keyDown(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyUp(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyTyped(char character) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            return false;
+        }
+
+
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            if(!isChanging) {
+                game.setScreen(new MainMenuScreen(game));
+            }
+            return false;
+        }
+
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            return false;
+        }
+
+        @Override
+        public boolean mouseMoved(int screenX, int screenY) {
+            return false;
+        }
+
+        @Override
+        public boolean scrolled(int amount) {
+            return false;
         }
     }
 }

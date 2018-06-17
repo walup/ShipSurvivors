@@ -109,4 +109,10 @@ public class ArduinoPistol extends Weapon {
     public boolean isInRange() {
         return inRange;
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        bulletTexture.dispose();
+    }
 }

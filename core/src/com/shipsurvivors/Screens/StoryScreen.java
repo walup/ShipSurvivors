@@ -254,5 +254,16 @@ public class StoryScreen extends BaseScreen  {
         }
     }
 
+    @Override
+    public void dispose() {
+        stage.dispose();
+        skin.dispose();
 
+        for(int i = 0;i<textSnapshots.length;i++){
+            textSnapshots[i].dispose();
+        }
+        portrait.dispose();
+
+
+    }
 }

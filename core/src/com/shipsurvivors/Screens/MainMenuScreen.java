@@ -1,6 +1,7 @@
 package com.shipsurvivors.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
@@ -32,17 +33,19 @@ import java.util.Random;
  * Created by SEO on 25/09/2017.
  */
 public class MainMenuScreen extends BaseScreen {
-    Skin skin;
-    TextButton startGameButton;
-    TextButton settingsButton;
-    TextButton storyButton;
-    TextButton instructionsButton;
-    Table menuLayout;
-    Stage stage;
-    FlameDance flameDance;
-    Label title;
-    Texture blueprintTexture;
-    IconActor blueprint;
+    private Skin skin;
+    private TextButton startGameButton;
+    private TextButton settingsButton;
+    private TextButton storyButton;
+    private TextButton instructionsButton;
+    private Table menuLayout;
+    private Stage stage;
+    private FlameDance flameDance;
+    private Label title;
+    private Texture blueprintTexture;
+    private IconActor blueprint;
+    private Label highScore;
+
 
 
     public MainMenuScreen(MainGame game) {
@@ -58,6 +61,11 @@ public class MainMenuScreen extends BaseScreen {
         instructionsButton = new TextButton("Instructions",skin,"menu_text_button_style");
         //THe title
         title = new Label("Ship Survivors",skin,"label_style_title");
+
+        //The highscore
+        Preferences prefs = Gdx.app.getPreferences(Constantes.PREFERENCES_KEY);
+        highScore = new Label("HighScore "+ prefs.getString(Constantes.PLAYER_NAME_KEY)+" "+ prefs.getFloat(Constantes.HIGHSCORE_KEY),skin,"label_style_title");
+        highScore.setPosition(0,0);
 
         //Initilalize the table
         menuLayout = new Table();
@@ -86,6 +94,8 @@ public class MainMenuScreen extends BaseScreen {
         menuLayout.add(storyButton).padTop(Constantes.STANDARD_BUTTON_PADDING).padBottom(Constantes.STANDARD_BUTTON_PADDING);
         menuLayout.row();
         menuLayout.add(instructionsButton).padTop(Constantes.STANDARD_BUTTON_PADDING).padBottom(Constantes.STANDARD_BUTTON_PADDING);
+        menuLayout.row();
+        menuLayout.add(highScore);
         //Add the layout to the stage
         stage.addActor(blueprint);
         stage.addActor(flameDance);
@@ -113,6 +123,12 @@ public class MainMenuScreen extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
+        skin.dispose();
+        stage.dispose();
+        flameDance.dispose();
+        blueprintTexture.dispose();
+
+
     }
 
     @Override
@@ -169,6 +185,7 @@ public class MainMenuScreen extends BaseScreen {
             redFlameEffect = game.getManager().get("red_flame", ParticleEffect.class);
             redFlameEffect.getEmitters().first().setPosition(redFlame.getX(),redFlame.getY());
             redFlameEffect.start();
+
         }
 
         @Override
@@ -209,6 +226,11 @@ public class MainMenuScreen extends BaseScreen {
             if(flame.getY()<0){
                 flame.setVelocityY(Constantes.FLAME_VELOCITY);
             }
+        }
+
+        public void dispose(){
+            greenFlameEffect.dispose();
+            redFlameEffect.dispose();
         }
     }
 

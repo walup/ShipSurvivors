@@ -147,6 +147,14 @@ public class CardContainer extends Actor {
         //By this time the card is already in mode attached so no need to modidy its booleans.
         setCardTaken(false);
         container.pop();
+
     }
 
+    public void dispose(){
+        background.dispose();
+        for(Attachable at :attachables){
+            at.dispose();
+        }
+
+    }
 }

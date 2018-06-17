@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.shipsurvivors.Screens.GameScreen;
 import com.shipsurvivors.Utilities.Constantes;
 
 import java.util.ArrayList;
@@ -33,11 +34,12 @@ public class Wheel extends Actor {
     private final float LOWEST_ANGULAR_VELOCITY = (float) 0.5;
     private TextureRegion bandTexture;
     private Vector2 center;
+    private GameScreen.Dj dj;
 
     /*These are some extra variables needed to attach the dock*/
     private Dock dockToAttach;
 
-    public Wheel(World world, TextureAtlas shipAtlas, float x, float y, float width, float height) {
+    public Wheel(World world, GameScreen.Dj dj, TextureAtlas shipAtlas, float x, float y, float width, float height) {
         //Set Bounds
         setBounds(x, y, width, height);
 
@@ -73,6 +75,9 @@ public class Wheel extends Actor {
         for (int i = 0; i < docks.length; i++) {
             docks[i] = new Dock(textureRegion, center.x + radius * (float) Math.cos(i * (Math.toRadians(angleOfSeparation))), center.y + radius * (float) Math.sin(i * (Math.toRadians(angleOfSeparation))), Constantes.DOCK_WIDTH, Constantes.DOCK_HEIGHT, i * angleOfSeparation);
         }
+
+        //Initialize the Dj
+        this.dj  = dj;
     }
 
     @Override
@@ -82,6 +87,8 @@ public class Wheel extends Actor {
         if (rotating) {
             previousAngle = angle;
             angle = (float) Math.toDegrees(body.getAngle());
+
+            dj.playRoulette(Math.abs(angle-previousAngle));
 
             /*Here we rotate the docks*/
             for (int i = 0; i < docks.length; i++) {
@@ -200,6 +207,14 @@ public class Wheel extends Actor {
         //Move the docks too!!
         for(Dock dock: docks){
             dock.moveDock(velocityY,delta);
+        }
+    }
+
+    public void dispose(){
+        dj.dispose();
+        bandTexture.getTexture().dispose();
+        for(Dock d: docks){
+            d.dispose();
         }
     }
 }

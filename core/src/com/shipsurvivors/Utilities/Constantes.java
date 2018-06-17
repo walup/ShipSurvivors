@@ -72,7 +72,7 @@ public class Constantes {
     public final static short CATEGORY_ROCK = 8;
 
     /*Constants for the spacing in the menu */
-    public final static float STANDARD_BUTTON_PADDING = 20;
+    public final static float STANDARD_BUTTON_PADDING = 10;
     public final static float SETTINGS_ICON_WIDTH = 50;
     public final static float SETTINGS_ICON_HEIGHT = 50;
     public final static float STANDARD_ICON_PADDING = 10;
@@ -123,6 +123,8 @@ public class Constantes {
     public final static String PREFERENCES_KEY = "My preferences";
     public final static String MUSIC_VOLUME_KEY = "musicVolume";
     public final static String SPECIAL_EFFECTS_KEY  = "effectsVolume";
+    public final static String HIGHSCORE_KEY = "highscore";
+    public final static String PLAYER_NAME_KEY = "name";
 
 
 

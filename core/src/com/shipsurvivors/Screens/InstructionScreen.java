@@ -38,6 +38,7 @@ public class InstructionScreen extends BaseScreen {
     private Label instructionSquare;
     private String[] instructions;
     private MyTouchListener myTouchListener;
+    private GameScreen.Dj dj;
 
     public InstructionScreen(MainGame game) {
         super(game);
@@ -77,7 +78,7 @@ public class InstructionScreen extends BaseScreen {
     @Override
     public void show() {
         //Initialize the ship
-        ship = new Ship(world,game.getManager().get("shipatlas.atlas",TextureAtlas.class),200,85,Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
+        ship = new Ship(world,dj,game.getManager().get("shipatlas.atlas",TextureAtlas.class),200,85,Constantes.SHIP_WIDTH,Constantes.SHIP_HEIGHT);
         /*Vamos a agregar las cosas al Stage*/
         stage.addActor(background);
         stage.addActor(ship);
@@ -105,6 +106,10 @@ public class InstructionScreen extends BaseScreen {
 
     @Override
     public void dispose() {
+        stage.dispose();
+        instructionsSkin.dispose();
+        ship.dispose();
+
     }
 
     public void setActors(int counter){
